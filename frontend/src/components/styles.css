@@ -1,7 +1,28 @@
-.misteryBox
-{
-    background: white;
-    width: 300px;
-    height: 300px;
-    border: 2px solid #000;
+.constructor {
+  display: grid;
+  grid-template-columns: auto 1.8fr 0.7fr;
+  grid-template-rows: 1.4fr 0.6fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "c-menu c-registerViewer c-registerEditor"
+    "c-menu c-answerEditor c-registerEditor";
+  height: 97vh;
+}
+
+.c-registerEditor {
+  grid-area: c-registerEditor;
+}
+
+.c-registerViewer {
+  grid-area: c-registerViewer;
+}
+
+.c-answerEditor {
+  grid-area: c-answerEditor;
+}
+
+.c-menu {
+  grid-area: c-menu;
+  width: auto;
 }

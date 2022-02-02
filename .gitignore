@@ -2,3 +2,4 @@
 */__pycache__
 docker-compose example.yml
 db.sqlite3
+main.js.LICENSE.txt
