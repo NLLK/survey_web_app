@@ -1,7 +1,7 @@
 .constructor {
   display: grid;
   grid-template-columns: 0.1fr 1fr 0.7fr;
-  grid-template-rows: 1.4fr;
+  grid-template-rows: 1fr;
   gap: 0px 0px;
   grid-template-areas: "c-menu c-main c-main";
   height: 100%;

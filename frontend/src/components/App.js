@@ -21,9 +21,9 @@ class App extends Component {
             <SideBar app_name={this.props.app_name} />
           </div>
           <div className="c-main">
-            <SplitterLayout>
+            <SplitterLayout percentage={true} primaryMinSize={75}>
               <div className="c-viewerAndAnswerField"> 
-                <SplitterLayout vertical={true}>
+                <SplitterLayout vertical={true} percentage={true} primaryMinSize={75}>
                   <div>Pane 1</div>
                   <div>Pane 2</div>
                 </SplitterLayout>
