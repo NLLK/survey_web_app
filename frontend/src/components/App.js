@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import './styles.css'
 import SideBar from "./SideBar"
-import { } from '@mui/material/styles';
+import SplitterLayout from 'react-splitter-layout';
+import 'react-splitter-layout/lib/index.css';
+
 
 class App extends Component {
   constructor(props) {
@@ -14,14 +16,26 @@ class App extends Component {
     return (
       <div>
         <div className="constructor">
+          
           <div className="c-menu">
-            <SideBar app_name={this.props.app_name}/>
+            <SideBar app_name={this.props.app_name} />
           </div>
-          <div className="c-registerEditor" style={{ backgroundColor: "#bebebe" }}></div>
-          <div className="c-registerViewer" style={{ backgroundColor: "#bebeb1" }}></div>
-          <div className="c-answerEditor" style={{ backgroundColor: "#bebeeb" }}></div>
+          <div className="c-main">
+            <SplitterLayout>
+              <div className="c-viewerAndAnswerField"> 
+                <SplitterLayout vertical={true}>
+                  <div>Pane 1</div>
+                  <div>Pane 2</div>
+                </SplitterLayout>
+              </div>
+
+              <div className="c-registerEditorField">Pane3</div>
+            </SplitterLayout>
+
+          </div>
 
         </div>
+
       </div>
     );
   }
