@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-import './styles.css'
-import SideBar from "./SideBar"
-import SplitterLayout from 'react-splitter-layout';
-import 'react-splitter-layout/lib/index.css';
-
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+class NotFound extends React.Component {
+  render() {
+    return <h2>{this.props.text}</h2>;
+  }
+}
 
 class App extends Component {
   constructor(props) {
@@ -14,33 +19,16 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
-        <div className="constructor">
-          
-          <div className="c-menu">
-            <SideBar app_name={this.props.app_name} />
-          </div>
-          <div className="c-main">
-            <SplitterLayout percentage={true} primaryMinSize={75}>
-              <div className="c-viewerAndAnswerField"> 
-                <SplitterLayout vertical={true} percentage={true} primaryMinSize={75}>
-                  <div>Pane 1</div>
-                  <div>Pane 2</div>
-                </SplitterLayout>
-              </div>
-
-              <div className="c-registerEditorField">Pane3</div>
-            </SplitterLayout>
-
-          </div>
-
-        </div>
-
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/constructor" element={<NotFound text="c" />} />
+          <Route path="/account" element={<NotFound text="acc" />}/>
+          <Route path="/account/login" element={<NotFound text="log" />}/>
+        </Routes>
+      </BrowserRouter>
     );
   }
 }
-
 
 export default App;
 
