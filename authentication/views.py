@@ -1,28 +1,15 @@
-from django.contrib.auth import authenticate, login
-from django.views import View
-from django.shortcuts import render, redirect
-from .forms import UserCreationForm
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-class Register(View):
-    template_name = 'registration/register.html'
+class ExampleView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        context = {
-            'form': UserCreationForm()
+    def get(self, request, format=None):
+        content = {
+            'user': str(request.user),  # `django.contrib.auth.User` instance.
+            'auth': str(request.auth),  # None
         }
-        return render(request, self.template_name, context)
-
-    def post(self, request):
-        form = UserCreationForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password) 
-            login(request, user)
-            return redirect('/')
-        context = {
-            'form': form
-        }
-        return render(request, self.template_name, context)
+        return Response(content)

@@ -5,12 +5,8 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-class NotFound extends React.Component {
-  render() {
-    return <h2>{this.props.text}</h2>;
-  }
-}
-
+import ConstructorPage from "./pages/Constructor/ConstructorPage"
+import LoginPage from "./pages/Login/LoginPage"
 class App extends Component {
   constructor(props) {
     super(props);
@@ -21,9 +17,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Routes>
-          <Route path="/constructor" element={<NotFound text="c" />} />
-          <Route path="/account" element={<NotFound text="acc" />}/>
-          <Route path="/account/login" element={<NotFound text="log" />}/>
+          <Route path="/constructor" element={<ConstructorPage/>} />
+          <Route path="/account" element={<h1>acc</h1>}/>
+          <Route path="/account/login" element={<LoginPage/>}/>
         </Routes>
       </BrowserRouter>
     );
@@ -31,5 +27,3 @@ class App extends Component {
 }
 
 export default App;
-
-render(<App app_name="App_name" />, document.getElementById("app"));
