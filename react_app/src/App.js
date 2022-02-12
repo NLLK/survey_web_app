@@ -5,8 +5,14 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import axios from "axios";
+
 import ConstructorPage from "./pages/Constructor/ConstructorPage"
 import LoginPage from "./pages/Login/LoginPage"
+
+import Root from "./redux/Root"
+
+axios.defaults.baseURL = "http://localhost:8000";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -15,13 +21,17 @@ class App extends Component {
   }
   render() {
     return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/constructor" element={<ConstructorPage/>} />
-          <Route path="/account" element={<h1>acc</h1>}/>
-          <Route path="/account/login" element={<LoginPage/>}/>
-        </Routes>
-      </BrowserRouter>
+      <React.StrictMode>
+        <Root>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/constructor" element={<ConstructorPage />} />
+              <Route exact path="/account" element={<h1>acc</h1>} />
+              <Route path="/account/login" element={<LoginPage />} />
+            </Routes>
+          </BrowserRouter>
+        </Root>
+      </React.StrictMode>
     );
   }
 }

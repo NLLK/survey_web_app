@@ -2,14 +2,20 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from .models import User
 
 class ExampleView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
+        current_user = User.objects.get(username = request.user)
+        token = request.headers['Authorization'][6:]
+        print(token)
         content = {
-            'user': str(request.user),  # `django.contrib.auth.User` instance.
-            'auth': str(request.auth),  # None
+            'last_name': current_user.last_name,
+            'first_name': current_user.first_name,
+            'personnel_id': current_user.personnel_id,
+            'username': current_user.username
         }
         return Response(content)
