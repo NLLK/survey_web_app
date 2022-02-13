@@ -6,7 +6,7 @@ import { applyMiddleware, createStore } from "redux";
 import { routerMiddleware, ConnectedRouter } from "connected-react-router";
 
 import rootReducer from "./Reducer";
-import { setCurrentUser, setToken } from "../pages/Login/LoginActions";
+import { setCurrentUser, setToken } from "../pages/Account/Login/LoginActions";
 import { isEmpty } from "../utils/Utils";
 
 import { composeWithDevTools } from 'redux-devtools-extension';

@@ -8,8 +8,8 @@ import {
 import axios from "axios";
 
 import ConstructorPage from "./pages/Constructor/ConstructorPage"
-import LoginPage from "./pages/Login/LoginPage"
-import LoginSwitch from "./pages/Login/LoginSwitch"
+import LoginPage from "./pages/Account/Login/LoginPage"
+import LoginSwitch from "./pages/Account/Login/LoginSwitch"
 import Root from "./redux/Root"
 
 axios.defaults.baseURL = "http://localhost:8000";

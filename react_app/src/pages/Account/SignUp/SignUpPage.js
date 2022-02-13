@@ -2,21 +2,12 @@ import React, { Component } from "react";
 import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
-import './styles.css'
-import { login, getCurrentUser } from "./LoginActions";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { withRouter } from "./withRouter";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 
-function LoginPage() {
+function SignUpPage() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const state = {
-        username: "",
-        password: ""
-    };
 
     const onLoginClick = () => {
         console.log("Login button clicked")
@@ -25,7 +16,7 @@ function LoginPage() {
             password: document.getElementById("password_field").value
         };
 
-        login(userData,"/account/manage" ,dispatch, navigate)
+        //login(userData,"/account/manage" ,dispatch, navigate)
 
         console.log(userData)
     };
@@ -35,7 +26,7 @@ function LoginPage() {
     return (
         <form className="center">
             <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
-                <h1>Вход в аккаунт: {user.username}</h1>
+                <h1>Регистрация:</h1>
                 <TextField
                     id="username_field"
                     label="Имя пользователя / ИН"
@@ -56,16 +47,4 @@ function LoginPage() {
     );
 }
 
-
-// LoginPage.propTypes = {
-//     login: PropTypes.func.isRequired,
-//     auth: PropTypes.object.isRequired
-// };
-
-// const mapStateToProps = state => ({
-//     auth: state.auth
-// });
-
-// export default withRouter(connect(mapStateToProps, { login })(LoginPage));
-//export default withRouter(connect(mapStateToProps)(EggComponent));
-export default LoginPage;
+export default SignUpPage;
