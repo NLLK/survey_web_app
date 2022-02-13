@@ -26,8 +26,10 @@ class App extends Component {
           <BrowserRouter>
             <Routes>
               <Route path="/constructor" element={<ConstructorPage />} />
-              <Route exact path="/account/manage" element={<h1>acc</h1>} />
-              <Route path="/account/login" element={<LoginPage />} />
+              <Route path="/account">
+                <Route path="manage" element={<h1>acc</h1>} />
+                <Route path="login" element={<LoginPage />} />
+              </Route>
             </Routes>
           </BrowserRouter>
         </Root>
