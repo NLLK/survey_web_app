@@ -4,6 +4,8 @@ import { push } from "connected-react-router";
 import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER } from "./LoginTypes";
 import { setAxiosAuthToken, toastOnError } from "../../utils/Utils";
 
+import { useNavigate } from "react-router-dom";
+
 export const login = (userData, redirectTo) => dispatch => {
   axios
     .post("/api/auth/api-token-auth/", userData)
@@ -24,7 +26,6 @@ export const getCurrentUser = redirectTo => dispatch => {
   axios
     .get("/api/auth/who-am-i/")
     .then(response => {
-      console.log(response.data)
       const user = {
         username: response.data.username,
         email: response.data.email
@@ -35,6 +36,7 @@ export const getCurrentUser = redirectTo => dispatch => {
       dispatch(unsetCurrentUser());
       toastOnError(error);
     });
+  console.log(localStorage.getItem("user"))
 };
 
 export const setCurrentUser = (user, redirectTo) => dispatch => {
