@@ -6,52 +6,49 @@ import { setAxiosAuthToken, toastOnError } from "../../utils/Utils";
 
 import { useNavigate } from "react-router-dom";
 
-export const login = (userData, redirectTo) => dispatch => {
+export const login = (userData, redirectTo, dispatch) => {
   axios
     .post("/api/auth/api-token-auth/", userData)
     .then(response => {
-      const auth_token  = response.data.token;
+      const auth_token = response.data.token;
       setAxiosAuthToken(auth_token);
-      dispatch(setToken(auth_token));
-      dispatch(getCurrentUser(redirectTo));
+      setToken(auth_token, dispatch)
+      getCurrentUser(redirectTo, dispatch);
     })
     .catch(error => {
-      dispatch(unsetCurrentUser());
+      unsetCurrentUser(dispatch);
       toastOnError(error);
     });
 };
 
-export const getCurrentUser = redirectTo => dispatch => {
+export const getCurrentUser = (redirectTo, dispatch) => {
   setAxiosAuthToken(localStorage.token);
   axios
     .get("/api/auth/who-am-i/")
     .then(response => {
-      const user = {
-        username: response.data.username,
-        email: response.data.email
-      };
-      dispatch(setCurrentUser(user, redirectTo));
+      const user = response.data;
+      setCurrentUser(user, redirectTo, dispatch);
     })
     .catch(error => {
-      dispatch(unsetCurrentUser());
+      unsetCurrentUser(dispatch);
       toastOnError(error);
     });
-  console.log(localStorage.getItem("user"))
+  console.log(localStorage.user)
 };
 
-export const setCurrentUser = (user, redirectTo) => dispatch => {
+export const setCurrentUser = (user, redirectTo, dispatch) => {
   dispatch({
     type: SET_CURRENT_USER,
     payload: user
   });
 
   if (redirectTo !== "") {
-      console.log("Trying to redirect to: ", redirectTo)
-      dispatch(push(redirectTo));
+    console.log("Trying to redirect to: ", redirectTo)
+    dispatch(push(redirectTo));
   }
 };
 
-export const setToken = token => dispatch => {
+export const setToken = (token, dispatch) => {
   setAxiosAuthToken(token);
   //localStorage.setItem("token", token);
   localStorage.token = token
@@ -61,7 +58,8 @@ export const setToken = token => dispatch => {
   });
 };
 
-export const unsetCurrentUser = () => dispatch => {
+export const unsetCurrentUser = (dispatch) => {
+  console.log('deleting')
   setAxiosAuthToken("");
   localStorage.removeItem("token");
   localStorage.removeItem("user");
@@ -76,7 +74,7 @@ export const logout = () => dispatch => {
     .then(response => {
       dispatch(unsetCurrentUser());
       dispatch(push("/"));
-      alert("За*бись. В натуре четко")
+      alert("Bye bye")
       //toast.success("Logout successful.");
     })
     .catch(error => {

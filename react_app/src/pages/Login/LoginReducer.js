@@ -1,8 +1,8 @@
-import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER } from "./LoginTypes";
-
+import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER, LOGIN } from "./LoginTypes";
+import {login} from './LoginActions'
 const initialState = {
   isAuthenticated: false,
-  user: {},
+  user: {username: ""},
   token: ""
 };
 
@@ -21,6 +21,7 @@ export const loginReducer = (state = initialState, action) => {
       };
     case UNSET_CURRENT_USER:
       return initialState;
+
     default:
       return state;
   }
