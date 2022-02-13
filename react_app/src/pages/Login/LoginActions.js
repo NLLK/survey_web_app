@@ -6,14 +6,14 @@ import { setAxiosAuthToken, toastOnError } from "../../utils/Utils";
 
 import { useNavigate } from "react-router-dom";
 
-export const login = (userData, redirectTo, dispatch) => {
+export const login = (userData, redirectTo, dispatch, navigate) => {
   axios
     .post("/api/auth/api-token-auth/", userData)
     .then(response => {
       const auth_token = response.data.token;
       setAxiosAuthToken(auth_token);
       setToken(auth_token, dispatch)
-      getCurrentUser(redirectTo, dispatch);
+      getCurrentUser(redirectTo, dispatch, navigate);
     })
     .catch(error => {
       unsetCurrentUser(dispatch);
@@ -21,13 +21,13 @@ export const login = (userData, redirectTo, dispatch) => {
     });
 };
 
-export const getCurrentUser = (redirectTo, dispatch) => {
+export const getCurrentUser = (redirectTo, dispatch, navigate) => {
   setAxiosAuthToken(localStorage.token);
   axios
     .get("/api/auth/who-am-i/")
     .then(response => {
       const user = response.data;
-      setCurrentUser(user, redirectTo, dispatch);
+      setCurrentUser(user, redirectTo, dispatch, navigate);
     })
     .catch(error => {
       unsetCurrentUser(dispatch);
@@ -36,7 +36,7 @@ export const getCurrentUser = (redirectTo, dispatch) => {
   console.log(localStorage.user)
 };
 
-export const setCurrentUser = (user, redirectTo, dispatch) => {
+export const setCurrentUser = (user, redirectTo, dispatch, navigate) => {
   dispatch({
     type: SET_CURRENT_USER,
     payload: user
@@ -44,7 +44,7 @@ export const setCurrentUser = (user, redirectTo, dispatch) => {
 
   if (redirectTo !== "") {
     console.log("Trying to redirect to: ", redirectTo)
-    dispatch(push(redirectTo));
+    navigate(redirectTo)
   }
 };
 

@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
 import './styles.css'
-import { login } from "./LoginActions";
+import { login, getCurrentUser } from "./LoginActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "./withRouter";
@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 function LoginPage() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const state = {
         username: "",
         password: ""
@@ -24,7 +25,7 @@ function LoginPage() {
             password: document.getElementById("password_field").value
         };
 
-        login(userData, "/acccount", dispatch)
+        login(userData,"/account/manage" ,dispatch, navigate)
 
         console.log(userData)
     };
