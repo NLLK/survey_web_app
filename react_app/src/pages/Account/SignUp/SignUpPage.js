@@ -4,24 +4,23 @@ import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
+import {signUp} from './SignUpActions'
 
 function SignUpPage() {
-    const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const onLoginClick = () => {
-        console.log("Login button clicked")
+    const onSignUpClick = () => {
+        console.log("SignUp button clicked")
         const userData = {
             username: document.getElementById("username_field").value,
-            password: document.getElementById("password_field").value
+            password: document.getElementById("password_field").value,
+            last_name: document.getElementById("last_name_field").value,
+            first_name: document.getElementById("first_name_field").value,
+            personnel_id: document.getElementById("personnel_id_field").value
         };
 
-        //login(userData,"/account/manage" ,dispatch, navigate)
-
-        console.log(userData)
+        signUp(userData,"/account/login", navigate)
     };
-
-    const user = useSelector(state => state.login.user)
 
     return (
         <form className="center">
@@ -29,7 +28,7 @@ function SignUpPage() {
                 <h1>Регистрация:</h1>
                 <TextField
                     id="username_field"
-                    label="Имя пользователя / ИН"
+                    label="Имя пользователя"
                     variant="standard"
                     type="text"
                 />
@@ -39,7 +38,32 @@ function SignUpPage() {
                     variant="standard"
                     type="password"
                 />
-                <Button variant="contained" onClick={onLoginClick}>Войти</Button>
+                <TextField
+                    id="password_field_repeat"
+                    label="Повторите пароль"
+                    variant="standard"
+                    type="password"
+                />
+                {/*Добавить проверку одинаковости паролей*/}
+                <TextField
+                    id="last_name_field"
+                    label="Фамилия"
+                    variant="standard"
+                    type="text"
+                />
+                <TextField
+                    id="first_name_field"
+                    label="Имя (Отчетсво по желанию)"
+                    variant="standard"
+                    type="text"
+                />
+                <TextField
+                    id="personnel_id_field"
+                    label="Личный номер ???(не обязательно)"
+                    variant="standard"
+                    type="text"
+                />
+                <Button variant="contained" onClick={onSignUpClick}>Войти</Button>
             </Stack>
 
         </form>

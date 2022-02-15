@@ -19,8 +19,6 @@ function LoginPage() {
         };
 
         login(userData,"/account/manage" ,dispatch, navigate)
-
-        console.log(userData)
     };
 
     const user = useSelector(state => state.login.user)

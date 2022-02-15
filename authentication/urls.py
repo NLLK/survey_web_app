@@ -12,6 +12,7 @@ urlpatterns = [
     # URLs that do not require a session or valid token\
     # path('login', )
     path('api-token-auth/', auth_views.obtain_auth_token, name = 'api-token-auth'),
-    path('who-am-i/', views.GetUserView.as_view())
+    path('who-am-i/', views.GetUserView.as_view()),
+    path('signUp/', views.CreateUserView.as_view())
 
 ]
