@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import axios from "axios";
-
+import PasswordFields from "../../Common/PasswordFields";
 
 
 function SetPasswordPage() {
@@ -13,8 +13,6 @@ function SetPasswordPage() {
 
     const [usernameError, setUsernameError] = useState(false)
     const [usernameHelperText, setUsernameHelperText] = useState("")
-    const [passwordConfirmError, setpasswordConfirmError] = useState(false)
-    const [passwordConfirmHelperText, setpasswordConfirmHelperText] = useState("")
 
     const onSetPasswordClick = () => {
         console.log("SetPassword button clicked")
@@ -42,25 +40,20 @@ function SetPasswordPage() {
             });
     };
 
-    const checkPasswordConfirm = () => {
-        const data = {
-            password: document.getElementById("password_field").value,
-            passwordRepeat: document.getElementById("password_repeat_field").value
-        };
-
-        if (data.password !== data.passwordRepeat){
-            setpasswordConfirmError(true)
-            setpasswordConfirmHelperText("Пароли не совпадают!") 
-        }
-        else {
-            setpasswordConfirmError(false)
-            setpasswordConfirmHelperText("") 
-        }
+    let props = {
+        direction: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        spacing: 2
     }
 
     return (
         <form className="center">
-            <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+            <Stack direction={props.direction}
+                justifyContent={props.justifyContent}
+                alignItems={props.alignItems}
+                spacing={props.spacing}
+            >
                 <h1>Сброс пароля:</h1>
                 <TextField
                     id="username_field"
@@ -74,24 +67,11 @@ function SetPasswordPage() {
                         setUsernameHelperText("")
                     }}
                 />
-                <TextField
-                    id="password_field"
-                    label="Пароль"
-                    variant="standard"
-                    type="password"
-                />
-                <TextField
-                    id="password_repeat_field"
-                    label="Повторите пароль"
-                    variant="standard"
-                    type="password"
-                    error={passwordConfirmError}
-                    helperText={passwordConfirmHelperText === "" ? "" : passwordConfirmHelperText}
-                    onChange={checkPasswordConfirm}
-                />
-                {/*Добавить проверку одинаковости паролей*/}
-
+                <PasswordFields styles={props}/>
                 <Button variant="contained" onClick={onSetPasswordClick}>Сброс</Button>
+                <p>Вспомнили пароль?</p>
+                <Button variant="contained" onClick={()=>{navigate("/account/login")}}>Вход в аккаунт</Button>
+
             </Stack>
 
         </form>

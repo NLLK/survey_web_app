@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { signUp } from './SignUpActions'
 import axios from "axios";
+import PasswordFields from "../../Common/PasswordFields";
 function SignUpPage() {
     const navigate = useNavigate()
 
@@ -34,7 +35,7 @@ function SignUpPage() {
             .catch(error => {
                 let response = error.response.data
                 if (response['username'] !== undefined)
-                    if (response['username'] == 'A user with that username already exists.'){
+                    if (response['username'] == 'A user with that username already exists.') {
                         setUsernameError(true)
                         setUsernameHelperText("Данный пользователь уже существует!")
                     }
@@ -43,34 +44,35 @@ function SignUpPage() {
             });
     };
 
+
+    let props = {
+        direction: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        spacing: 2
+    }
+
     return (
         <form className="center">
-            <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+            <Stack direction={props.direction}
+                justifyContent={props.justifyContent}
+                alignItems={props.alignItems}
+                spacing={props.spacing}
+            >
                 <h1>Регистрация:</h1>
                 <TextField
                     id="username_field"
                     label="Имя пользователя"
                     variant="standard"
                     type="text"
-                    error = {usernameError}
-                    helperText={usernameHelperText === ""? "": usernameHelperText}
-                    onChange = {()=> {
+                    error={usernameError}
+                    helperText={usernameHelperText === "" ? "" : usernameHelperText}
+                    onChange={() => {
                         setUsernameError(false)
                         setUsernameHelperText("")
                     }}
                 />
-                <TextField
-                    id="password_field"
-                    label="Пароль"
-                    variant="standard"
-                    type="password"
-                />
-                <TextField
-                    id="password_field_repeat"
-                    label="Повторите пароль"
-                    variant="standard"
-                    type="password"
-                />
+                <PasswordFields styles = {props}/>
                 {/*Добавить проверку одинаковости паролей*/}
                 <TextField
                     id="last_name_field"
@@ -91,6 +93,8 @@ function SignUpPage() {
                     type="text"
                 />
                 <Button variant="contained" onClick={onSignUpClick}>Регистрация</Button>
+                <p>Уже есть аккаунт?</p>
+                <Button variant="contained" onClick={()=>{navigate("/account/login")}}>Войти</Button>
             </Stack>
 
         </form>

@@ -40,6 +40,11 @@ function LoginPage() {
                     type="password"
                 />
                 <Button variant="contained" onClick={onLoginClick}>Войти</Button>
+                <p>Забыли пароль?</p>
+                <Button variant="contained" onClick={()=>{navigate("/account/setPassword")}}>Сброс пароля</Button>
+                <p>Нет аккаунта?</p>
+                <Button variant="contained" onClick={()=>{navigate("/account/signUp")}}>Зарегистрироваться</Button>
+                
             </Stack>
 
         </form>
