@@ -1,3 +1,5 @@
+from cmath import exp
+from pstats import Stats
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -11,7 +13,7 @@ class Error:
     error = {'Error': "Error"}
 
     def __init__(self, string):
-        return {'Error': string}
+        self.error = {'Error': string}
 
 
 class GetUserView(APIView):
@@ -39,7 +41,7 @@ class CreateUserView(APIView):
         data = request.data
 
         serializer = UserSerializer(data=data)
-        print("got data", data)
+        #print("got data", data)
         if (serializer.is_valid()):
 
             data = serializer.validated_data
@@ -57,3 +59,21 @@ class CreateUserView(APIView):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+class SetPassword(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request, *args, **kwargs):
+        password = request.data['password']
+        username = request.data['username']
+        try:
+            uid = User.objects.get(username = username)
+            print(uid.username)
+        except Exception:
+            return Response(Error('Error').error, status = status.HTTP_400_BAD_REQUEST)
+        else:
+            uid.set_password(password)
+            uid.save()
+            return Response(status.HTTP_200_OK)
+
+
+        

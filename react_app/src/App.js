@@ -12,7 +12,7 @@ import LoginPage from "./pages/Account/Login/LoginPage"
 import LoginSwitch from "./pages/Account/Login/LoginSwitch"
 import Root from "./redux/Root"
 import SignUpPage from "./pages/Account/SignUp/SignUpPage";
-
+import SetPasswordPage from "./pages/Account/SetPassword/SetPasswordPage"
 axios.defaults.baseURL = "http://localhost:8000";
 class App extends Component {
   constructor(props) {
@@ -31,6 +31,7 @@ class App extends Component {
                 <Route path="manage" element={<h1>acc</h1>} />
                 <Route path="login" element={<LoginPage />} />
                 <Route path="signUp" element = {<SignUpPage/>} />
+                <Route path="setPassword" element = {<SetPasswordPage/>}/>
               </Route>
             </Routes>
           </BrowserRouter>

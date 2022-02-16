@@ -7,9 +7,11 @@ export const signUp = (userData, redirectTo, navigate) => {
     .then(response => {
       console.log(response.data)
       navigate(redirectTo)
+      return ""
     })
     .catch(error => {
       toastOnError(error);
       console.log(error.response.data)
+      return error.response.data
     });
 };

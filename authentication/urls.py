@@ -13,6 +13,6 @@ urlpatterns = [
     # path('login', )
     path('api-token-auth/', auth_views.obtain_auth_token, name = 'api-token-auth'),
     path('who-am-i/', views.GetUserView.as_view()),
-    path('signUp/', views.CreateUserView.as_view())
-
+    path('signUp/', views.CreateUserView.as_view()),
+    path('setPassword/', views.SetPassword.as_view())
 ]

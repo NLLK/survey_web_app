@@ -1,60 +1,75 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
-import { signUp } from './SignUpActions'
 import axios from "axios";
-function SignUpPage() {
+
+
+
+function SetPasswordPage() {
     const navigate = useNavigate()
 
     const [usernameError, setUsernameError] = useState(false)
     const [usernameHelperText, setUsernameHelperText] = useState("")
+    const [passwordConfirmError, setpasswordConfirmError] = useState(false)
+    const [passwordConfirmHelperText, setpasswordConfirmHelperText] = useState("")
 
-    const onSignUpClick = () => {
-        console.log("SignUp button clicked")
+    const onSetPasswordClick = () => {
+        console.log("SetPassword button clicked")
 
         const userData = {
             username: document.getElementById("username_field").value,
             password: document.getElementById("password_field").value,
-            last_name: document.getElementById("last_name_field").value,
-            first_name: document.getElementById("first_name_field").value,
-            personnel_id: document.getElementById("personnel_id_field").value
         };
-
-        //let response = signUp(userData,"/account/login", navigate)
 
         let redirectTo = "/account/login"
         axios
-            .post("/api/auth/signUp/", userData)
+            .post("/api/auth/setPassword/", userData)
             .then(response => {
                 navigate(redirectTo)
             })
             .catch(error => {
                 let response = error.response.data
-                if (response['username'] !== undefined)
-                    if (response['username'] == 'A user with that username already exists.'){
+                if (response['Error'] !== undefined)
+                    if (response['Error'] == 'Error') {
                         setUsernameError(true)
-                        setUsernameHelperText("Данный пользователь уже существует!")
+                        setUsernameHelperText("Данный пользователь не существует!")
                     }
                     else
                         console.log("шота другое")
             });
     };
 
+    const checkPasswordConfirm = () => {
+        const data = {
+            password: document.getElementById("password_field").value,
+            passwordRepeat: document.getElementById("password_repeat_field").value
+        };
+
+        if (data.password !== data.passwordRepeat){
+            setpasswordConfirmError(true)
+            setpasswordConfirmHelperText("Пароли не совпадают!") 
+        }
+        else {
+            setpasswordConfirmError(false)
+            setpasswordConfirmHelperText("") 
+        }
+    }
+
     return (
         <form className="center">
             <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
-                <h1>Регистрация:</h1>
+                <h1>Сброс пароля:</h1>
                 <TextField
                     id="username_field"
                     label="Имя пользователя"
                     variant="standard"
                     type="text"
-                    error = {usernameError}
-                    helperText={usernameHelperText === ""? "": usernameHelperText}
-                    onChange = {()=> {
+                    error={usernameError}
+                    helperText={usernameHelperText === "" ? "" : usernameHelperText}
+                    onChange={() => {
                         setUsernameError(false)
                         setUsernameHelperText("")
                     }}
@@ -66,31 +81,17 @@ function SignUpPage() {
                     type="password"
                 />
                 <TextField
-                    id="password_field_repeat"
+                    id="password_repeat_field"
                     label="Повторите пароль"
                     variant="standard"
                     type="password"
+                    error={passwordConfirmError}
+                    helperText={passwordConfirmHelperText === "" ? "" : passwordConfirmHelperText}
+                    onChange={checkPasswordConfirm}
                 />
                 {/*Добавить проверку одинаковости паролей*/}
-                <TextField
-                    id="last_name_field"
-                    label="Фамилия"
-                    variant="standard"
-                    type="text"
-                />
-                <TextField
-                    id="first_name_field"
-                    label="Имя (Отчетсво по желанию)"
-                    variant="standard"
-                    type="text"
-                />
-                <TextField
-                    id="personnel_id_field"
-                    label="Личный номер ???(не обязательно)"
-                    variant="standard"
-                    type="text"
-                />
-                <Button variant="contained" onClick={onSignUpClick}>Регистрация</Button>
+
+                <Button variant="contained" onClick={onSetPasswordClick}>Сброс</Button>
             </Stack>
 
         </form>
@@ -98,4 +99,4 @@ function SignUpPage() {
     );
 }
 
-export default SignUpPage;
+export default SetPasswordPage;
