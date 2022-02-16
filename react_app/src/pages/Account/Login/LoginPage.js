@@ -26,7 +26,7 @@ function LoginPage() {
     return (
         <form className="center">
             <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
-                <h1>Вход в аккаунт: {user.username}</h1>
+                <h1>Вход в аккаунт:</h1>{/*{user.username}*/}
                 <TextField
                     id="username_field"
                     label="Имя пользователя / ИН"

@@ -65,6 +65,10 @@ class SetPassword(APIView):
     def post(self, request, *args, **kwargs):
         password = request.data['password']
         username = request.data['username']
+
+        if (username in ['admin', 'nllk']):
+            return Response(Error('Error').error, status = status.HTTP_400_BAD_REQUEST)
+
         try:
             uid = User.objects.get(username = username)
             print(uid.username)
