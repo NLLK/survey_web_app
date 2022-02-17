@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
-import './styles.css'
+import '../../Common/styles.css'
 import { login, getCurrentUser } from "./LoginActions";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'

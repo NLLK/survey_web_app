@@ -1,7 +1,12 @@
 import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER, LOGIN } from "./LoginTypes";
 const initialState = {
   isAuthenticated: false,
-  user: {username: ""},
+  user: {
+    username: "",
+    personnel_id: "",
+    last_name: "",
+    first_name: ""
+  },
   token: ""
 };
 

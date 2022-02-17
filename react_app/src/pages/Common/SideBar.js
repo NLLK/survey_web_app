@@ -16,6 +16,9 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Stack from '@mui/material/Stack';
+
+import {useSelector} from 'react-redux'
+
 const drawerWidth = 250;
 
 const openedMixin = (theme) => ({
@@ -79,6 +82,9 @@ export default function MiniDrawer(props) {
         setOpen(false);
     };
 
+
+    const app_name = useSelector(state => state.main.app_name)
+
     return (
         <Box sx={{ display: 'flex'}}>
             <CssBaseline />
@@ -96,7 +102,7 @@ export default function MiniDrawer(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div" style={{ display: open ? "block" : "none", width: "auto" }}>
-                        {props.app_name}
+                        {app_name}
                     </Typography>
 
                 </DrawerHeader>

@@ -30,7 +30,6 @@ export const getCurrentUser = (redirectTo, dispatch, navigate) => {
       unsetCurrentUser(dispatch);
       toastOnError(error);
     });
-  console.log(localStorage.user)
 };
 
 export const setCurrentUser = (user, redirectTo, dispatch, navigate) => {

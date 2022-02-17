@@ -6,27 +6,20 @@ import {
   Route
 } from "react-router-dom";
 import LoginPage from "./LoginPage"
+import { useSelector, useDispatch } from 'react-redux'
+import ManagePage from "../Manage/ManagePage"
+function LoginSwitch(props) {
 
-class LoginSwitch extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-      };
+  return (
+    <React.StrictMode>{
+      localStorage.token !== null ?
+        <ManagePage />
+        :
+        <LoginPage />
     }
-    render() {
-      return (
-        <React.StrictMode>
-            <BrowserRouter>
-              <Routes>
-                  {
+    </React.StrictMode>
+  );
+}
 
-                  }
-                <Route path="/account/login" element={<LoginPage />} />
-              </Routes>
-            </BrowserRouter>
-        </React.StrictMode>
-      );
-    }
-  }
-  
-  export default LoginSwitch;
+
+export default LoginSwitch;

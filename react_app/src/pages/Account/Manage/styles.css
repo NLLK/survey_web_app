@@ -1,0 +1,27 @@
+.manage {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr 0.7fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "m-menu m-main m-main";
+  height: 100%;
+}
+
+.m-menu {
+  grid-area: m-menu;
+}
+
+.m-main {
+  grid-area: m-main;
+}
+
+.card {
+  /* float: left; Задаем обтекание */
+  padding: 10px;
+  width: 450px; /*Фиксируем ширину блока*/
+  margin: 5px;
+  /* text-align: left; Центрируем текст по горизонтали */
+}
+.card-item{
+  margin-left: 10px;
+}
