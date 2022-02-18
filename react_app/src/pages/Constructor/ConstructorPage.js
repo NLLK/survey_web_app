@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
 import './styles.css'
 import SideBar from "../Common/SideBar"
 import SplitterLayout from 'react-splitter-layout';

@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
 import axios from "axios";
 import PasswordFields from "../../Common/PasswordFields";
 
@@ -31,7 +30,7 @@ function SetPasswordPage() {
             .catch(error => {
                 let response = error.response.data
                 if (response['Error'] !== undefined)
-                    if (response['Error'] == 'Error') {
+                    if (response['Error'] === 'Error') {
                         setUsernameError(true)
                         setUsernameHelperText("Данный пользователь не существует!")
                     }

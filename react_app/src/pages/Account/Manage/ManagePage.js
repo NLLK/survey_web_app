@@ -1,34 +1,19 @@
-import React, { Component, useEffect } from "react";
-import TextField from '@mui/material/TextField';
-import { Stack } from "@mui/material";
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper'
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
+import React from "react";
+
+import { useSelector} from 'react-redux'
 import './styles.css'
 import '../../Common/styles.css'
-import { getCurrentUser } from '../Login/LoginActions'
 
 import SideBar from "../../Common/SideBar.js"
+import UserPermissionsWrapper from "../../Common/UserPermissionsWrapper.js"
 import SimpleCard from "./SimpleCard"
 
-let gotUser = false;
-function LoginPage(props) {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        if (gotUser == false) {
-            getCurrentUser("", dispatch, navigate)
-            gotUser = true
-        }
-
-    })
+export default function ManagePage(props) {
 
     const user = useSelector(state => state.login.user)
     
     return (
-        <div>
+        <UserPermissionsWrapper permission={1}>
             <div className="manage">
                 <div className="m-menu">
                     <SideBar />
@@ -41,8 +26,6 @@ function LoginPage(props) {
                 </div>
 
             </div>
-        </div>
+        </UserPermissionsWrapper>
     );
 }
-
-export default LoginPage;

@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
-import { connectRouter } from "connected-react-router";
 
 import { loginReducer } from "../pages/Account/Login/LoginReducer";
-
 
 const defaultState ={
   app_name: "App_name"

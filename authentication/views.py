@@ -28,7 +28,8 @@ class GetUserView(APIView):
             'last_name': current_user.last_name,
             'first_name': current_user.first_name,
             'personnel_id': current_user.personnel_id,
-            'username': current_user.username
+            'username': current_user.username,
+            'permissions': current_user.permissions
         }
         return Response(content)
 

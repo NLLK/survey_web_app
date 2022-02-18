@@ -3,8 +3,6 @@ import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
-import { signUp } from './SignUpActions'
 import axios from "axios";
 import PasswordFields from "../../Common/PasswordFields";
 function SignUpPage() {
@@ -35,7 +33,7 @@ function SignUpPage() {
             .catch(error => {
                 let response = error.response.data
                 if (response['username'] !== undefined)
-                    if (response['username'] == 'A user with that username already exists.') {
+                    if (response['username'] === 'A user with that username already exists.') {
                         setUsernameError(true)
                         setUsernameHelperText("Данный пользователь уже существует!")
                     }

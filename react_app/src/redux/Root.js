@@ -1,15 +1,9 @@
 import React from "react";
-import thunk from "redux-thunk";
 import { Provider } from "react-redux";
-import { createBrowserHistory } from "history";
-import { applyMiddleware, createStore } from "redux";
-import { routerMiddleware, ConnectedRouter } from "connected-react-router";
+import { createStore } from "redux";
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import rootReducer from "./Reducer";
-import { setCurrentUser, setToken } from "../pages/Account/Login/LoginActions";
-import { isEmpty } from "../utils/Utils";
-
-import { composeWithDevTools } from 'redux-devtools-extension';
 
 const Root = ({ children}) => {
   const store = createStore(
