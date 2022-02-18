@@ -1,9 +1,6 @@
-from xml.etree.ElementInclude import include
-from django import urls
 from django.contrib.auth import views
-from django.urls import path, include, re_path
+from django.urls import path
 from . import views
-from django.views.generic import TemplateView
 from django.urls import path, re_path
 from rest_framework.authtoken import views as auth_views
 urlpatterns = [
