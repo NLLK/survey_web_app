@@ -27,7 +27,7 @@ export default function SelectQuestionnairePage(props) {
                 <SideBar name="Выбор анкеты" menu_type = {SELECT_QUESTIONNAIRE_MENU}>
                     <div className="questionnaire_view"> {
                         questionnaires.map((questionnaire, index) =>
-                            <div key={index} style={{ display: 'inline-block' }}>
+                            <div key={index} style={{ display: 'inline-block', marginRight: 15+"px" }}>
                                 <QuestionnaireCard cardInfo={questionnaire} />
                             </div>
                         )}
