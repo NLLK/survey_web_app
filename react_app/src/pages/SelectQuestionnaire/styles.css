@@ -1,0 +1,24 @@
+.select_questionnaire {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr 0.7fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "c-menu c-main c-main";
+  height: 100%;
+}
+
+.s-menu {
+  grid-area: s-menu;
+}
+
+.s-main {
+  display: grid;
+  grid-template-columns: 1.5fr 0.5fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-area: s-main;
+}
+
+.questionnaire_view{
+  display: inline;
+}

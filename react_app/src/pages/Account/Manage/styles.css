@@ -14,14 +14,3 @@
 .m-main {
   grid-area: m-main;
 }
-
-.card {
-  /* float: left; Задаем обтекание */
-  padding: 10px;
-  width: 450px; /*Фиксируем ширину блока*/
-  margin: 5px;
-  /* text-align: left; Центрируем текст по горизонтали */
-}
-.card-item{
-  margin-left: 10px;
-}

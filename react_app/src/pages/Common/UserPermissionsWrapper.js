@@ -12,13 +12,11 @@ export default function UserPermissionsWrapper(props) {
     const navigate = useNavigate()
     const user = useSelector(state => state.login.user)
     useEffect(() => {
-        if (gotUser === false) {
-            gotUser = true
             getCurrentUser("", dispatch, navigate)
             if (user.permissions < props.permission)
                 navigate('/account/login')
-        }
-    })
+        
+    },[dispatch])
 
     return (props.children);
 
