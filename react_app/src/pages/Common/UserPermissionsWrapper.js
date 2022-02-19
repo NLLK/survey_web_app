@@ -5,18 +5,19 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { getCurrentUser } from '../Account/Login/LoginActions'
 
-let gotUser = false;
-
 export default function UserPermissionsWrapper(props) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const user = useSelector(state => state.login.user)
+    const token = useSelector(state => state.login.token)
+
     useEffect(() => {
             getCurrentUser("", dispatch, navigate)
+            console.log(user.permissions, props.permission, token)
             if (user.permissions < props.permission)
                 navigate('/account/login')
         
-    },[dispatch])
+    },[dispatch, navigate, props.permission, user.permissions])
 
     return (props.children);
 

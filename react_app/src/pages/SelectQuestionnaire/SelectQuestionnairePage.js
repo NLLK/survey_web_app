@@ -8,12 +8,14 @@ import QuestionnaireCard from "./QuestionnaireCard"
 import './styles.css'
 
 import { getQuestionnaireList } from "./SelectQuestionnaireActions";
+import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
+import {SELECT_QUESTIONNAIRE_MENU} from "../Common/SideBarList";
 
 export default function SelectQuestionnairePage(props) {
 
     const dispatch = useDispatch()
 
-    useEffect(()=>{
+    useEffect(() => {
         getQuestionnaireList(dispatch);
     }, [dispatch])
 
@@ -21,20 +23,18 @@ export default function SelectQuestionnairePage(props) {
 
     return (
         <div>
-            <div >
-                <div>
-                    {/* <SideBar/> */}
-                </div>
-                <div className="questionnaire_view"> {
-                        questionnaires.map((questionnaire,index)=>
-                            <div key={index} style={{display: 'inline-block'}}>
+            <UserPermissionsWrapper permission={0}>
+                <SideBar name="Выбор анкеты" menu_type = {SELECT_QUESTIONNAIRE_MENU}>
+                    <div className="questionnaire_view"> {
+                        questionnaires.map((questionnaire, index) =>
+                            <div key={index} style={{ display: 'inline-block' }}>
                                 <QuestionnaireCard cardInfo={questionnaire} />
                             </div>
                         )}
-                </div>
+                    </div>
 
-            </div>
-
+                </SideBar>
+            </UserPermissionsWrapper>
         </div>
     );
 
