@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useState } from "react";
 import 'react-splitter-layout/lib/index.css';
-
+import axios from "axios";
 
 import UserPermissionsWrapper from "../../Common/UserPermissionsWrapper";
 import { Button } from "@mui/material";
@@ -16,6 +15,54 @@ import "../../Common/styles.css";
 
 export default function CreateQuestionnairePage() {
 
+    const navigate = useNavigate()
+
+
+    const [nameError, setNameError] = useState(false)
+    const [nameHelperText, setNameHelperText] = useState(false)
+    const [commentError, setCommentError] = useState("")
+    const [commentHelperText, setCommentHelperText] = useState("")
+
+    const postQuestionnaire = () => {
+        console.log("posting new questionnaire...")
+
+        const data = {
+            name: document.getElementById("name_field").value,
+            comment: document.getElementById("comment_field").value,
+        };
+
+        let redirectTo = "/constructor/selectQuestionnaire"
+        axios
+            .post("/api/constructor/createQuestionnaire/", data)
+            .then(response => {
+                navigate(redirectTo)
+            })
+            .catch(error => {
+                let response = error.response.data
+
+                const overfillError = "Ensure this field has no more than 150 characters."
+                const blankError = "This field may not be blank."
+
+                console.log(response)
+                if (response['name'] !== undefined) {
+                    if (response['name'] == overfillError) {
+                        setNameError(true)
+                        setNameHelperText("Текст слишком длинный!")
+                    }
+                    else if (response['name'] == blankError) {
+                        setNameError(true)
+                        setNameHelperText("Поле не может быть пустым!")
+                    }
+                }
+                if (response['comment'] !== undefined) {
+                    if (response['comment'] == overfillError) {
+                        setCommentError(true)
+                        setCommentHelperText("Текст слишком длинный!")
+                    }
+                    else console.log("щота пошло не так")
+                }
+            });
+    }
 
     const buttonStyle = {
         marginRight: '5px'
@@ -29,14 +76,26 @@ export default function CreateQuestionnairePage() {
                     <Stack direction="column" justifyContent="center" spacing={2}>
                         <h1>Создание анкеты: </h1>
                         <TextField
-                            id="username_field"
+                            id="name_field"
                             label="Название анкеты: "
                             type="text"
+                            error={nameError}
+                            helperText={nameHelperText === "" ? "" : nameHelperText}
+                            onChange={() => {
+                                setNameError(false)
+                                setNameHelperText("")
+                            }}
                         />
                         <TextField
-                            id="password_field"
+                            id="comment_field"
                             label="Описание: "
                             multiline
+                            error={commentError}
+                            helperText={commentHelperText === "" ? "" : commentHelperText}
+                            onChange={() => {
+                                setCommentError(false)
+                                setCommentHelperText("")
+                            }}
                         />
                         <Stack
                             direction="row"
@@ -44,8 +103,16 @@ export default function CreateQuestionnairePage() {
                             alignItems="center"
                             spacing={2}
                         >
-                            <Button variant="outlined" style={buttonStyle}>Отмена</Button>
-                            <Button variant="contained" style={buttonStyle}>Создать</Button>
+                            <Button
+                                variant="outlined"
+                                style={buttonStyle}
+                                onClick={() => { navigate(-1) }}
+                            >Отмена</Button>
+                            <Button
+                                variant="contained"
+                                style={buttonStyle}
+                                onClick={postQuestionnaire}
+                            >Создать</Button>
                         </Stack>
                     </Stack>
                 </div>

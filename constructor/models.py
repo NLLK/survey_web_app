@@ -13,7 +13,7 @@ class Questionnaire(models.Model):
     name = models.CharField(max_length=150)
     author = models.ForeignKey(
         User, on_delete=models.SET_DEFAULT, default=AUTHOR_PLACEHOLDER)
-    comment = models.CharField(max_length=150, blank=True)
+    comment = models.CharField(max_length=300, blank=True)
     fields = models.TextField()
     createdDate = models.DateField(editable=False)
     lastEdited = models.DateTimeField()
