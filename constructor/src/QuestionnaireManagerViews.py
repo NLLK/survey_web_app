@@ -35,3 +35,10 @@ class CreateQuestionnaire(APIView):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteQuestionnaire(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format = None):
+        Questionnaire.objects.filter(id=request.data['id']).delete()
+        return Response(status.HTTP_200_OK)

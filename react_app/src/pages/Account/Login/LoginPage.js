@@ -37,7 +37,7 @@ function LoginPage() {
                     variant="standard"
                     type="password"
                 />
-                <Button variant="contained" onClick={onLoginClick}>Войти</Button>
+                <Button variant="contained" onClick={onLoginClick} autoFocus>Войти</Button>
                 <p>Забыли пароль?</p>
                 <Button variant="contained" onClick={()=>{navigate("/account/setPassword")}}>Сброс пароля</Button>
                 <p>Нет аккаунта?</p>
