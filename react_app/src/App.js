@@ -29,8 +29,10 @@ function App() {
             <Route path="signUp" element={<SignUpPage />} />
             <Route path="setPassword" element={<SetPasswordPage />} />
           </Route>
-          <Route path="/constructor" element={<ConstructorPage />} />
-          <Route path="/selectQuestionnaire" element={<SelectQuestionnairePage/>} />
+          <Route path="constructor" element={<ConstructorPage />} />
+          <Route path="constructor/selectQuestionnaire" element={<SelectQuestionnairePage />} />
+          <Route path="/quetionnaireViewer" element={<h1>aboba</h1>} />
+          <Route path="/dataAnalysis" element={<h1>abiba</h1>} />
         </Routes>
       </BrowserRouter>
     </Root>

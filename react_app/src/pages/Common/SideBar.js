@@ -21,10 +21,11 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import SideBarList from './SideBarList';
+import { useNavigate } from 'react-router-dom';
 const drawerWidth = 240;
 
-const openedMixin = (theme) => ({
-  width: drawerWidth,
+const openedMixin = (theme, width) => ({
+  width: width,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -55,15 +56,15 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
+})(({ theme, open, width }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: width,
+    width: `calc(100% - ${width}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -72,14 +73,14 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
+  ({ theme, open, width }) => ({
+    width: width,
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
     ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
+      ...openedMixin(theme, width),
+      '& .MuiDrawer-paper': openedMixin(theme, width),
     }),
     ...(!open && {
       ...closedMixin(theme),
@@ -89,6 +90,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer(props) {
+
+  const navigate = useNavigate();
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -100,21 +104,10 @@ export default function MiniDrawer(props) {
     setOpen(false);
   };
 
-  const getIconById = (index) => {
-    switch (index) {
-      case 0:
-        return <ConstructionIcon />
-      case 1:
-        return <QuestionAnswerIcon />
-      case 2:
-        return <AnalyticsIcon/> 
-    }
-  }
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} width = {props.width}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -133,7 +126,7 @@ export default function MiniDrawer(props) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} width={props.width}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -141,19 +134,29 @@ export default function MiniDrawer(props) {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Конструктор анкет', 'Анкетирование', 'Анализ данных'].map((text, index) => (
-            <ListItem button key={text}>
+          <List>
+            <ListItem button onClick={() => navigate('/constructor')}>
               <ListItemIcon>
-                {
-                  getIconById(index)
-                }
+                <ConstructionIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Конструктор анкет" />
             </ListItem>
-          ))}
+            <ListItem button onClick={() => navigate('/quetionnaireViewer')}>
+              <ListItemIcon>
+                <QuestionAnswerIcon />
+              </ListItemIcon>
+              <ListItemText primary="Анкетирование" />
+            </ListItem>
+            <ListItem button onClick={() => navigate('/dataAnalysis')}>
+              <ListItemIcon>
+                <AnalyticsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Анализ данных" />
+            </ListItem>
+          </List>
         </List>
         <Divider />
-        <SideBarList menu_type = {props.menu_type}/>
+        <SideBarList menu_type={props.menu_type} />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
@@ -161,4 +164,9 @@ export default function MiniDrawer(props) {
       </Box>
     </Box>
   );
+}
+
+MiniDrawer.defaultProps = {
+  name: "Название страницы",
+  width: 240,
 }
