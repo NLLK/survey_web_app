@@ -22,6 +22,9 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import SideBarList from './SideBarList';
 import { useNavigate } from 'react-router-dom';
+
+import {BLANK_MENU} from './SideBarList';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme, width) => ({
@@ -169,4 +172,5 @@ export default function MiniDrawer(props) {
 MiniDrawer.defaultProps = {
   name: "Название страницы",
   width: 240,
+  menu_type: BLANK_MENU
 }

@@ -14,6 +14,8 @@ import SignUpPage from "./pages/Account/SignUp/SignUpPage";
 import SetPasswordPage from "./pages/Account/SetPassword/SetPasswordPage"
 import ManagePage from "./pages/Account/Manage/ManagePage"
 import SelectQuestionnairePage from "./pages/SelectQuestionnaire/SelectQuestionnairePage"
+import CreateQuestionnairePage from  "./pages/SelectQuestionnaire/CreateQuestionnaire/CreateQuestionnairePage"
+
 
 axios.defaults.baseURL = "http://localhost:8000";
 function App() {
@@ -31,7 +33,8 @@ function App() {
           </Route>
           <Route path="constructor" element={<ConstructorPage />} />
           <Route path="constructor/selectQuestionnaire" element={<SelectQuestionnairePage />} />
-          <Route path="/quetionnaireViewer" element={<h1>aboba</h1>} />
+          <Route path="constructor/selectQuestionnaire/create" element={<CreateQuestionnairePage/>}/>
+          <Route path="/questionnaireViewer" element={<h1>aboba</h1>} />
           <Route path="/dataAnalysis" element={<h1>abiba</h1>} />
         </Routes>
       </BrowserRouter>

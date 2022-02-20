@@ -10,11 +10,11 @@ import SaveIcon from '@mui/icons-material/Save';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import { useNavigate } from 'react-router-dom';
 
-export const SELECT_QUESTIONNAIRE_MENU = 0
-export const CONSTRUCTOR_MENU = 1
-export const QUESTIONNAIRE_VIEWER_MENU = 2
-export const ACCOUNT_MANAGE_MENU = 3
-
+export const SELECT_QUESTIONNAIRE_MENU = "SELECT_QUESTIONNAIRE_MENU"
+export const CONSTRUCTOR_MENU = "CONSTRUCTOR_MENU"
+export const QUESTIONNAIRE_VIEWER_MENU = "QUESTIONNAIRE_VIEWER_MENU"
+export const ACCOUNT_MANAGE_MENU = "ACCOUNT_MANAGE_MENU"
+export const BLANK_MENU = "BLANK_MENU"
 
 export default function SideBarList(props) {
     const navigate = useNavigate()
@@ -22,13 +22,13 @@ export default function SideBarList(props) {
         case SELECT_QUESTIONNAIRE_MENU:
             return (
                 <List>
-                    <ListItem button>
+                    <ListItem button onClick={() => navigate('create')}>
                         <ListItemIcon>
                             <CreateIcon />
                         </ListItemIcon>
                         <ListItemText primary="Создать" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button onClick={() => navigate('import')}>
                         <ListItemIcon>
                             <ImportExportIcon />
                         </ListItemIcon>
@@ -81,6 +81,10 @@ export default function SideBarList(props) {
                         <ListItemText primary="Импорт" />
                     </ListItem>
                 </List>
+            );
+        case BLANK_MENU:
+            return(
+                <div></div>
             );
         default: return (<h1>Somesthing went wrong</h1>)
     }

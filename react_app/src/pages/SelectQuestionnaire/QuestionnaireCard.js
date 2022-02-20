@@ -12,7 +12,7 @@ export default function QuestionnaireCard(props) {
     return (
         <Card className="card" sx={{ width: 300 }}> {/*maxWidth: 345, minWidth: 200 */}
             <CardActionArea onClick={() => {
-                console.log('card clicked');
+                console.log('card clicked', props.cardInfo.id);
             }}>
                 <CardContent>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
