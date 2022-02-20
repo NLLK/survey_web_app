@@ -10,7 +10,7 @@ class GetQuestionnaireList(APIView):
     permission_classes = [AllowAny]#IsAuthenticated
 
     def get(self, request, format=None):
-        objects = Questionnaire.objects.values('id', 'name', 'comment')
+        objects = Questionnaire.objects.values('id', 'name', 'comment').order_by('-lastEdited')
         content = objects
         return Response(content)
 
