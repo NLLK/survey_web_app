@@ -39,7 +39,7 @@ export default function SideBarList(props) {
         case CONSTRUCTOR_MENU:
             return (
                 <List>
-                    <ListItem button onClick={() => navigate('selectQuestionnaire')}>
+                    <ListItem button onClick={() => navigate('constructor/selectQuestionnaire')}>
                         <ListItemIcon>
                             <CreateIcon />
                         </ListItemIcon>

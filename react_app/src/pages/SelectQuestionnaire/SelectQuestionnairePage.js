@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import 'react-splitter-layout/lib/index.css';
 
-import SideBar from "../Common/SideBar"
 import QuestionnaireCard from "./QuestionnaireCard"
 
 import './styles.css'
 
 import { getQuestionnaireList } from "./SelectQuestionnaireActions";
 import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
-import { SELECT_QUESTIONNAIRE_MENU } from "../Common/SideBarList";
+import { SELECT_QUESTIONNAIRE_MENU } from "../Common/SideBar/SideBarList";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import SideBarHandler from "../Common/SideBar/SideBarHandler";
 
 export default function SelectQuestionnairePage(props) {
 
@@ -29,8 +29,8 @@ export default function SelectQuestionnairePage(props) {
 
     return (
         <div>
-            <UserPermissionsWrapper permission={2}>
-                <SideBar name="Выбор анкеты" menu_type={SELECT_QUESTIONNAIRE_MENU}>
+            {/* <UserPermissionsWrapper permission={2}> */}
+                <SideBarHandler page_name="Выбор анкеты" menu_type={SELECT_QUESTIONNAIRE_MENU}>
                     <div style={{ marginBottom: "5px" }}>
                         <div style={{ display: "inline" }}>
                             <Button
@@ -53,8 +53,8 @@ export default function SelectQuestionnairePage(props) {
                         )}
                     </div>
 
-                </SideBar>
-            </UserPermissionsWrapper>
+                </SideBarHandler>
+            {/* </UserPermissionsWrapper> */}
         </div>
     );
 

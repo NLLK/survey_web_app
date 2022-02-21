@@ -22,6 +22,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import SideBarList from './SideBarList';
 import { useNavigate } from 'react-router-dom';
+import {useSelector} from 'react-redux'
 
 import {BLANK_MENU} from './SideBarList';
 
@@ -107,10 +108,14 @@ export default function MiniDrawer(props) {
     setOpen(false);
   };
 
+  const page_name = useSelector(state => state.sideBar.page_name)
+  const width = useSelector(state => state.sideBar.width)
+  const menu_type = useSelector(state => state.sideBar.menu_type)
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} width = {props.width}>
+      <AppBar position="fixed" open={open} width = {width}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -125,11 +130,11 @@ export default function MiniDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            {props.name}
+            {page_name}
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} width={props.width}>
+      <Drawer variant="permanent" open={open} width={width}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -159,7 +164,7 @@ export default function MiniDrawer(props) {
           </List>
         </List>
         <Divider />
-        <SideBarList menu_type={props.menu_type} />
+        <SideBarList menu_type={menu_type} />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
@@ -167,10 +172,4 @@ export default function MiniDrawer(props) {
       </Box>
     </Box>
   );
-}
-
-MiniDrawer.defaultProps = {
-  name: "Название страницы",
-  width: 240,
-  menu_type: BLANK_MENU
 }

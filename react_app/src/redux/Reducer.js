@@ -2,21 +2,14 @@ import { combineReducers } from "redux";
 
 import { loginReducer } from "../pages/Account/Login/LoginReducer";
 import { SelectQuestionnaireReducer } from "../pages/SelectQuestionnaire/SelectQuestionnaireReducer";
-
-
-const defaultState ={
-  app_name: "App_name"
-}
-
-const mainReducer = (state = defaultState, action) =>
-{
-  return state;
-}
+import {mainReducer} from "../main/MainReducer"
+import { SideBarReducer } from "../pages/Common/SideBar/Reducer/SideBarReducer";
 
 const createRootReducer = combineReducers({
     login: loginReducer,
     main: mainReducer,
     selectQuestionnaire: SelectQuestionnaireReducer,
+    sideBar: SideBarReducer,
   });
 
 export default createRootReducer;

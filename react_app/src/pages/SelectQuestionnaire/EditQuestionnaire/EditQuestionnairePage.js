@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 
-import SideBar from "../../Common/SideBar";
-import { BLANK_MENU } from "../../Common/SideBarList";
+import SideBar from "../../Common/SideBar/SideBar";
+import { BLANK_MENU } from "../../Common/SideBar/SideBarList";
 
 import "../../Common/styles.css";
 

@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux'
 import './styles.css'
 import '../../Common/styles.css'
 
-import SideBar from "../../Common/SideBar.js"
-import {ACCOUNT_MANAGE_MENU} from "../../Common/SideBarList" 
+import SideBar from "../../Common/SideBar/SideBar.js"
+import {ACCOUNT_MANAGE_MENU} from "../../Common/SideBar/SideBarList" 
 import UserPermissionsWrapper from "../../Common/UserPermissionsWrapper.js"
 import SimpleCard from "./SimpleCard"
 

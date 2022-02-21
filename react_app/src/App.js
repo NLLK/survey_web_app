@@ -17,6 +17,10 @@ import SelectQuestionnairePage from "./pages/SelectQuestionnaire/SelectQuestionn
 import CreateQuestionnairePage from "./pages/SelectQuestionnaire/CreateQuestionnaire/CreateQuestionnairePage"
 import EditQuestionnairePage from "./pages/SelectQuestionnaire/EditQuestionnaire/EditQuestionnairePage"
 
+
+
+import Layout from "./main/Layout"
+
 axios.defaults.baseURL = "http://localhost:8000";
 function App() {
 
@@ -24,7 +28,18 @@ function App() {
     <Root>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<LoginSwitch />} />
+          <Route path="/account">
+            <Route path="manage" element={<ManagePage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signUp" element={<SignUpPage />} />
+            <Route path="setPassword" element={<SetPasswordPage />} />
+          </Route>
+          <Route path="/" element={<Layout />}>
+            <Route path="constructor" element={<ConstructorPage />} />
+            <Route path="constructor/selectQuestionnaire" element={<SelectQuestionnairePage />} />
+          </Route>
+
+          {/* <Route exact path="/" element={<LoginSwitch />} />
           <Route path="/account">
             <Route path="manage" element={<ManagePage />} />
             <Route path="login" element={<LoginPage />} />
@@ -38,7 +53,7 @@ function App() {
             <Route path=":id" element={<EditQuestionnairePage />} />
           </Route>
           <Route path="/questionnaireViewer" element={<h1>aboba</h1>} />
-          <Route path="/dataAnalysis" element={<h1>abiba</h1>} />
+          <Route path="/dataAnalysis" element={<h1>abiba</h1>} /> */}
         </Routes>
       </BrowserRouter>
     </Root>
