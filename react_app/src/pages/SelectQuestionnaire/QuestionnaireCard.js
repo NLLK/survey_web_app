@@ -17,17 +17,19 @@ import './questionnaireCard.css'
 import '../Common/styles.css'
 
 import { getQuestionnaireList } from './SelectQuestionnaireActions'
+import { useNavigate } from "react-router-dom";
+import ButtonEnter from "../Common/ButtonEnter";
 
 export default function QuestionnaireCard(props) {
 
     const dispatch = useDispatch()
-
+    const navigate = useNavigate()
 
     const [open, setOpen] = React.useState(false);
 
     const handleClose = () => {
         setOpen(false);
-      };
+    };
 
     const handleDelete = () => {
         setOpen(false);
@@ -49,7 +51,11 @@ export default function QuestionnaireCard(props) {
 
     const handleDeleteAction = () => {
         setOpen(true);
-      };
+    };
+
+    const handleEditAction = () => {
+        navigate('edit/' + props.cardInfo.id)
+    }
 
     return (
         <div>
@@ -73,7 +79,7 @@ export default function QuestionnaireCard(props) {
                 </CardActionArea>
                 <CardActions>
                     <Button size="small" onClick={handleDeleteAction}>Удалить</Button>
-                    <Button size="small">Изменить</Button>
+                    <Button size="small" onClick={handleEditAction}>Изменить</Button>
                 </CardActions>
             </Card>
             <Dialog
@@ -94,7 +100,9 @@ export default function QuestionnaireCard(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Отмена</Button>
-                    <Button onClick={handleDelete} autoFocus>Удалить</Button>
+                    <ButtonEnter>
+                        <Button onClick={handleDelete} autoFocus>Удалить</Button>
+                    </ButtonEnter>
                 </DialogActions>
             </Dialog>
         </div>

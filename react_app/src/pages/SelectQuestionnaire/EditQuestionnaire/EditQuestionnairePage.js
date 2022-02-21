@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import 'react-splitter-layout/lib/index.css';
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 import UserPermissionsWrapper from "../../Common/UserPermissionsWrapper";
 import { Button } from "@mui/material";
@@ -13,10 +14,11 @@ import { BLANK_MENU } from "../../Common/SideBarList";
 
 import "../../Common/styles.css";
 
-export default function CreateQuestionnairePage() {
+export default function EditQuestionnairePage() {
 
+
+    let params = useParams();
     const navigate = useNavigate()
-
 
     const [nameError, setNameError] = useState(false)
     const [nameHelperText, setNameHelperText] = useState(false)
@@ -25,43 +27,46 @@ export default function CreateQuestionnairePage() {
 
     const postQuestionnaire = () => {
         console.log("posting new questionnaire...")
-
+        console.log(params.id)
         const data = {
             name: document.getElementById("name_field").value,
             comment: document.getElementById("comment_field").value,
         };
 
         let redirectTo = "/constructor/selectQuestionnaire"
-        axios
-            .post("/api/constructor/createQuestionnaire/", data)
-            .then(response => {
-                navigate(redirectTo)
-            })
-            .catch(error => {
-                let response = error.response.data
+        // axios
+        //     .post("/api/constructor/createQuestionnaire/", data)
+        //     .then(response => {
+        //         navigate(redirectTo)
+        //     })
+        //     .catch(error => {
+        //         let response = error.response.data
 
-                const overfillError = "Ensure this field has no more than 150 characters."
-                const blankError = "This field may not be blank."
+        //         const overfillError = "Ensure this field has no more than 150 characters."
+        //         const blankError = "This field may not be blank."
 
-                console.log(response)
-                if (response['name'] !== undefined) {
-                    if (response['name'][0] === overfillError) {
-                        setNameError(true)
-                        setNameHelperText("Текст слишком длинный!")
-                    }
-                    else if (response['name'][0] === blankError) {
-                        setNameError(true)
-                        setNameHelperText("Поле не может быть пустым!")
-                    }
-                }
-                if (response['comment'] !== undefined) {
-                    if (response['comment'][0] === overfillError) {
-                        setCommentError(true)
-                        setCommentHelperText("Текст слишком длинный!")
-                    }
-                    else console.log("щота пошло не так")
-                }
-            });
+        //         console.log(response)
+
+        //         console.log(typeof(response['name']), typeof(overfillError))
+
+        //         if (response['name'] !== undefined) {
+        //             if (response['name'][0] === overfillError) {
+        //                 setNameError(true)
+        //                 setNameHelperText("Текст слишком длинный!")
+        //             }
+        //             else if (response['name'][0] === blankError) {
+        //                 setNameError(true)
+        //                 setNameHelperText("Поле не может быть пустым!")
+        //             }
+        //         }
+        //         if (response['comment'] !== undefined) {
+        //             if (response['comment'][0] === overfillError) {
+        //                 setCommentError(true)
+        //                 setCommentHelperText("Текст слишком длинный!")
+        //             }
+        //             else console.log("щота пошло не так")
+        //         }
+        //     });
     }
 
     const buttonStyle = {

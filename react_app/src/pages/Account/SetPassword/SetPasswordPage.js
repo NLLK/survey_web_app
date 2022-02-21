@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PasswordFields from "../../Common/PasswordFields";
-
+import ButtonEnter from "../../Common/ButtonEnter";
 
 function SetPasswordPage() {
     const navigate = useNavigate()
@@ -66,10 +66,13 @@ function SetPasswordPage() {
                         setUsernameHelperText("")
                     }}
                 />
-                <PasswordFields styles={props}/>
-                <Button variant="contained" onClick={onSetPasswordClick}>Сброс</Button>
+                <PasswordFields styles={props} />
+                <ButtonEnter action={onSetPasswordClick}>
+                    <Button variant="contained" onClick={onSetPasswordClick}>Сброс</Button>
+                </ButtonEnter>
+
                 <p>Вспомнили пароль?</p>
-                <Button variant="contained" onClick={()=>{navigate("/account/login")}}>Вход в аккаунт</Button>
+                <Button variant="contained" onClick={() => { navigate("/account/login") }}>Вход в аккаунт</Button>
 
             </Stack>
 

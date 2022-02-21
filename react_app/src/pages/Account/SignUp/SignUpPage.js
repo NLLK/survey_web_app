@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PasswordFields from "../../Common/PasswordFields";
+import ButtonEnter from "../../Common/ButtonEnter";
+
 function SignUpPage() {
     const navigate = useNavigate()
 
@@ -70,7 +72,7 @@ function SignUpPage() {
                         setUsernameHelperText("")
                     }}
                 />
-                <PasswordFields styles = {props}/>
+                <PasswordFields styles={props} />
                 {/*Добавить проверку одинаковости паролей*/}
                 <TextField
                     id="last_name_field"
@@ -90,9 +92,12 @@ function SignUpPage() {
                     variant="standard"
                     type="text"
                 />
-                <Button variant="contained" onClick={onSignUpClick}>Регистрация</Button>
+                <ButtonEnter action={onSignUpClick}>
+                    <Button variant="contained" onClick={onSignUpClick}>Регистрация</Button>
+                </ButtonEnter>
+
                 <p>Уже есть аккаунт?</p>
-                <Button variant="contained" onClick={()=>{navigate("/account/login")}}>Войти</Button>
+                <Button variant="contained" onClick={() => { navigate("/account/login") }}>Войти</Button>
             </Stack>
 
         </form>

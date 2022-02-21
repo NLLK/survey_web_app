@@ -3,9 +3,10 @@ import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
 import '../../Common/styles.css'
-import { login } from "./LoginActions";
+import { login, } from "./LoginActions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
+import ButtonEnter from "../../Common/ButtonEnter";
 
 function LoginPage() {
     const dispatch = useDispatch()
@@ -18,7 +19,7 @@ function LoginPage() {
             password: document.getElementById("password_field").value
         };
 
-        login(userData,"/account/manage" ,dispatch, navigate)
+        login(userData, "/account/manage", dispatch, navigate)
     };
 
     return (
@@ -37,12 +38,14 @@ function LoginPage() {
                     variant="standard"
                     type="password"
                 />
-                <Button variant="contained" onClick={onLoginClick} autoFocus>Войти</Button>
+                <ButtonEnter action = {onLoginClick}>
+                    <Button variant="contained" onClick={onLoginClick}>Войти</Button>
+                </ButtonEnter>
                 <p>Забыли пароль?</p>
-                <Button variant="contained" onClick={()=>{navigate("/account/setPassword")}}>Сброс пароля</Button>
+                <Button variant="contained" onClick={() => { navigate("/account/setPassword") }}>Сброс пароля</Button>
                 <p>Нет аккаунта?</p>
-                <Button variant="contained" onClick={()=>{navigate("/account/signUp")}}>Зарегистрироваться</Button>
-                
+                <Button variant="contained" onClick={() => { navigate("/account/signUp") }}>Зарегистрироваться</Button>
+
             </Stack>
 
         </form>
