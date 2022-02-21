@@ -1,6 +1,7 @@
 */node_modules
-*/__pycache__
-*/migrations
+**/__pycache__/
+*.pyc
+**/migrations/
 docker-compose example.yml
 db.sqlite3
 main.js.LICENSE.txt
