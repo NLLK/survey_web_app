@@ -1,10 +1,10 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import SideBar from "../pages/Common/SideBar/SideBar";
 
 
 
-export default function () {
+export default function Layout () {
     return (
         <SideBar>
             <Outlet />

@@ -35,6 +35,7 @@ function App() {
             <Route path="setPassword" element={<SetPasswordPage />} />
           </Route>
           <Route path="/" element={<Layout />}>
+            <Route index element={<LoginSwitch/>}/>
             <Route path="constructor" element={<ConstructorPage />} />
             <Route path="constructor/selectQuestionnaire" element={<SelectQuestionnairePage />} />
             <Route path="constructor/selectQuestionnaire/create" element={<CreateQuestionnairePage />} />

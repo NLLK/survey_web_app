@@ -18,7 +18,7 @@ export default function SideBarHandler(props){
                 }
             }
         )
-    }, [props]);
+    }, [props, dispatch]);
 
     return(props.children);
 }

@@ -17,7 +17,7 @@ export default function UserPermissionsWrapper(props) {
             if (user.permissions < props.permission)
                 navigate('/account/login')
         
-    },[dispatch, navigate, props.permission, user.permissions])
+    },[dispatch, navigate, props.permission, user.permissions, token])
 
     return (props.children);
 

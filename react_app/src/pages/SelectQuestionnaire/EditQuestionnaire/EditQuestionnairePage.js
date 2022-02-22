@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import 'react-splitter-layout/lib/index.css';
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
 
 import UserPermissionsWrapper from "../../Common/UserPermissionsWrapper";
 import { Button } from "@mui/material";
@@ -10,103 +9,144 @@ import { useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 
-import SideBar from "../../Common/SideBar/SideBar";
 import { BLANK_MENU } from "../../Common/SideBar/SideBarList";
 
 import "../../Common/styles.css";
+import SideBarHandler from "../../Common/SideBar/SideBarHandler";
 
 export default function EditQuestionnairePage() {
 
 
     let params = useParams();
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-
     useEffect(() => {
-        //getQuestionnaireList(dispatch);
-    }, [dispatch])
+        getQuestionnaire()
+    }, [])
 
     const [nameError, setNameError] = useState(false)
     const [nameHelperText, setNameHelperText] = useState(false)
     const [commentError, setCommentError] = useState("")
     const [commentHelperText, setCommentHelperText] = useState("")
 
-    const postQuestionnaire = () => {
-        console.log("posting new questionnaire...")
-        console.log(params.id)
+    let qInfoDefault = {
+        id: params.id,
+        name: "",
+        comment: "",
+        fields: "{}"
+    }
+
+    const [qInfo, setQInfo] = useState(qInfoDefault)
+
+    const getQuestionnaire = () => {
         const data = {
-            name: document.getElementById("name_field").value,
-            comment: document.getElementById("comment_field").value,
-        };
+            'id': Number(params.id)
+        }
+        axios
+            .post("/api/constructor/getQuestionnaire/", data)
+            .then(response => {
+                let dataR = response.data
+                let q = {
+                    id: dataR.id,
+                    name: dataR.name,
+                    comment: dataR.comment,
+                    fields: dataR.fields
+                }
+                setQInfo(prevState => ({
+                    ...prevState,
+                    name: dataR.name
+                }));
+                setQInfo(q)
+                console.log('got questionnaire', q)
+            })
+    }
+
+    const editQuestionnaire = () => {
+        console.log("editing questionnaire...", params.id)
+        const data = qInfo
 
         let redirectTo = "/constructor/selectQuestionnaire"
-        // axios
-        //     .post("/api/constructor/createQuestionnaire/", data)
-        //     .then(response => {
-        //         navigate(redirectTo)
-        //     })
-        //     .catch(error => {
-        //         let response = error.response.data
+        axios
+            .post("/api/constructor/editQuestionnaire/", data)
+            .then(response => {
+                navigate(redirectTo)
+            })
+            .catch(error => {
+                let response = error.response.data
 
-        //         const overfillError = "Ensure this field has no more than 150 characters."
-        //         const blankError = "This field may not be blank."
+                const overfillError = "Ensure this field has no more than 150 characters."
+                const overfillErrorComment = "Ensure this field has no more than 300 characters."
+                const blankError = "This field may not be blank."
 
-        //         console.log(response)
-
-        //         console.log(typeof(response['name']), typeof(overfillError))
-
-        //         if (response['name'] !== undefined) {
-        //             if (response['name'][0] === overfillError) {
-        //                 setNameError(true)
-        //                 setNameHelperText("Текст слишком длинный!")
-        //             }
-        //             else if (response['name'][0] === blankError) {
-        //                 setNameError(true)
-        //                 setNameHelperText("Поле не может быть пустым!")
-        //             }
-        //         }
-        //         if (response['comment'] !== undefined) {
-        //             if (response['comment'][0] === overfillError) {
-        //                 setCommentError(true)
-        //                 setCommentHelperText("Текст слишком длинный!")
-        //             }
-        //             else console.log("щота пошло не так")
-        //         }
-        //     });
+                if (response['name'] !== undefined) {
+                    if (response['name'][0] === overfillError) {
+                        setNameError(true)
+                        setNameHelperText("Текст слишком длинный!")
+                    }
+                    else if (response['name'][0] === blankError) {
+                        setNameError(true)
+                        setNameHelperText("Поле не может быть пустым!")
+                    }
+                }
+                if (response['comment'] !== undefined) {
+                    if (response['comment'][0] === overfillErrorComment) {
+                        setCommentError(true)
+                        setCommentHelperText("Текст слишком длинный!")
+                    }
+                    else console.log("щота пошло не так", response)
+                }
+            });
     }
 
     const buttonStyle = {
         marginRight: '5px'
     }
 
+    const handleChange = e => {
+        const { id, value } = e.target;
+        setQInfo(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
+        switch (id) {
+            case 'name': {
+                setNameError(false)
+                setNameHelperText("")
+                break;
+            }
+            case 'comment': {
+                setCommentError(false)
+                setCommentHelperText("")
+                break;
+            }
+            default: break;
+        }
+    }
+
     return (
         <UserPermissionsWrapper permission={2}>
-            <SideBar name="Создать анкету" menu_type={BLANK_MENU}>
+            <SideBarHandler page_name="Создать анкету" menu_type={BLANK_MENU}>
                 <div className="center">
 
                     <Stack direction="column" justifyContent="center" spacing={2}>
                         <h1>Редактирование анкеты: </h1>
                         <TextField
-                            id="name_field"
+                            id="name"
                             label="Название анкеты: "
                             type="text"
+
+                            value={qInfo.name}
+                            onChange={handleChange}
                             error={nameError}
                             helperText={nameHelperText === "" ? "" : nameHelperText}
-                            onChange={() => {
-                                setNameError(false)
-                                setNameHelperText("")
-                            }}
                         />
                         <TextField
-                            id="comment_field"
+                            id="comment"
                             label="Описание: "
                             multiline
                             error={commentError}
                             helperText={commentHelperText === "" ? "" : commentHelperText}
-                            onChange={() => {
-                                setCommentError(false)
-                                setCommentHelperText("")
-                            }}
+                            value={qInfo.comment}
+                            onChange={handleChange}
                         />
                         <Stack
                             direction="row"
@@ -122,13 +162,13 @@ export default function EditQuestionnairePage() {
                             <Button
                                 variant="contained"
                                 style={buttonStyle}
-                                onClick={postQuestionnaire}
-                            >Создать</Button>
+                                onClick={editQuestionnaire}
+                            >Изменить</Button>
                         </Stack>
                     </Stack>
                 </div>
 
-            </SideBar>
+            </SideBarHandler>
         </UserPermissionsWrapper>
     );
 }

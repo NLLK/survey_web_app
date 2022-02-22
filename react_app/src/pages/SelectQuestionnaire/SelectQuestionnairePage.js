@@ -29,7 +29,7 @@ export default function SelectQuestionnairePage(props) {
 
     return (
         <div>
-            {/* <UserPermissionsWrapper permission={2}> */}
+            <UserPermissionsWrapper permission={2}>
                 <SideBarHandler page_name="Выбор анкеты" menu_type={SELECT_QUESTIONNAIRE_MENU}>
                     <div style={{ marginBottom: "5px" }}>
                         <div style={{ display: "inline" }}>
@@ -54,7 +54,7 @@ export default function SelectQuestionnairePage(props) {
                     </div>
 
                 </SideBarHandler>
-            {/* </UserPermissionsWrapper> */}
+            </UserPermissionsWrapper>
         </div>
     );
 

@@ -15,18 +15,12 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import SideBarList from './SideBarList';
 import { useNavigate } from 'react-router-dom';
 import {useSelector} from 'react-redux'
-
-import {BLANK_MENU} from './SideBarList';
-
-const drawerWidth = 240;
 
 const openedMixin = (theme, width) => ({
   width: width,

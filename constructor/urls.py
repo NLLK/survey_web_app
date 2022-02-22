@@ -5,4 +5,6 @@ urlpatterns = [
     path('getQuestionnaireList/', QMviews.GetQuestionnaireList.as_view()),
     path('createQuestionnaire/', QMviews.CreateQuestionnaire.as_view()),
     path('deleteQuestionnaire/', QMviews.DeleteQuestionnaire.as_view()),
+    path('getQuestionnaire/', QMviews.GetQuestionnaire.as_view()),
+    path('editQuestionnaire/', QMviews.EditQuestionnaire.as_view()),
 ]
