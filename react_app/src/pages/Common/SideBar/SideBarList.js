@@ -22,13 +22,13 @@ export default function SideBarList(props) {
         case SELECT_QUESTIONNAIRE_MENU:
             return (
                 <List>
-                    <ListItem button onClick={() => navigate('create')}>
+                    <ListItem button onClick={() => navigate('/constructor/selectQuestionnaire/create/')}>
                         <ListItemIcon>
                             <CreateIcon />
                         </ListItemIcon>
                         <ListItemText primary="Создать" />
                     </ListItem>
-                    <ListItem button onClick={() => navigate('import')}>
+                    <ListItem button onClick={() => navigate('/constructor/selectQuestionnaire/import')}>
                         <ListItemIcon>
                             <ImportExportIcon />
                         </ListItemIcon>
@@ -39,7 +39,7 @@ export default function SideBarList(props) {
         case CONSTRUCTOR_MENU:
             return (
                 <List>
-                    <ListItem button onClick={() => navigate('constructor/selectQuestionnaire')}>
+                    <ListItem button onClick={() => navigate('/constructor/selectQuestionnaire')}>
                         <ListItemIcon>
                             <CreateIcon />
                         </ListItemIcon>

@@ -29,7 +29,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/account">
-            <Route path="manage" element={<ManagePage />} />
+            {/* <Route path="manage" element={<ManagePage />} /> */}
             <Route path="login" element={<LoginPage />} />
             <Route path="signUp" element={<SignUpPage />} />
             <Route path="setPassword" element={<SetPasswordPage />} />
@@ -37,6 +37,9 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="constructor" element={<ConstructorPage />} />
             <Route path="constructor/selectQuestionnaire" element={<SelectQuestionnairePage />} />
+            <Route path="constructor/selectQuestionnaire/create" element={<CreateQuestionnairePage />} />
+            <Route path="account/manage" element={<ManagePage />}/>
+            <Route path="constructor/selectQuestionnaire/edit/:id" element={<EditQuestionnairePage/>}/>
           </Route>
 
           {/* <Route exact path="/" element={<LoginSwitch />} />

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'react-splitter-layout/lib/index.css';
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux'
 
 import UserPermissionsWrapper from "../../Common/UserPermissionsWrapper";
 import { Button } from "@mui/material";
@@ -19,6 +20,11 @@ export default function EditQuestionnairePage() {
 
     let params = useParams();
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        //getQuestionnaireList(dispatch);
+    }, [dispatch])
 
     const [nameError, setNameError] = useState(false)
     const [nameHelperText, setNameHelperText] = useState(false)
@@ -79,7 +85,7 @@ export default function EditQuestionnairePage() {
                 <div className="center">
 
                     <Stack direction="column" justifyContent="center" spacing={2}>
-                        <h1>Создание анкеты: </h1>
+                        <h1>Редактирование анкеты: </h1>
                         <TextField
                             id="name_field"
                             label="Название анкеты: "

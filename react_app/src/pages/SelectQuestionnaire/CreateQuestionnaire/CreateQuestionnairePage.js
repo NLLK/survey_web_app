@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 
-import SideBar from "../../Common/SideBar/SideBar";
+import SideBarHandler from "../../Common/SideBar/SideBarHandler";
 import { BLANK_MENU } from "../../Common/SideBar/SideBarList";
 
 import "../../Common/styles.css";
@@ -70,7 +70,7 @@ export default function CreateQuestionnairePage() {
 
     return (
         <UserPermissionsWrapper permission={2}>
-            <SideBar name="Создать анкету" menu_type={BLANK_MENU}>
+            <SideBarHandler page_name="Создать анкету" menu_type={BLANK_MENU}>
                 <div className="center">
 
                     <Stack direction="column" justifyContent="center" spacing={2}>
@@ -117,7 +117,7 @@ export default function CreateQuestionnairePage() {
                     </Stack>
                 </div>
 
-            </SideBar>
+            </SideBarHandler>
         </UserPermissionsWrapper>
     );
 }
