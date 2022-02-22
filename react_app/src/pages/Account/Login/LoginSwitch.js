@@ -15,5 +15,4 @@ function LoginSwitch(props) {
   );
 }
 
-
 export default LoginSwitch;
