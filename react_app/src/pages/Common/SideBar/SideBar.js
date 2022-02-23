@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'
+
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -18,9 +21,15 @@ import ListItemText from '@mui/material/ListItemText';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+
 import SideBarList from './SideBarList';
-import { useNavigate } from 'react-router-dom';
-import {useSelector} from 'react-redux'
+import { Stack } from '@mui/material';
+
 
 const openedMixin = (theme, width) => ({
   width: width,
@@ -87,12 +96,33 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+const BorderedAvatar = styled(Avatar)`
+  border: 3px solid lightseagreen;
+`;
+
 export default function MiniDrawer(props) {
 
   const navigate = useNavigate();
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+
+  const [greetings, setGreetings] = React.useState("");
+
+  React.useEffect(() => {
+
+    var today = new Date()
+    var time = today.getHours()
+    if ((time >= 0 && time <= 5) || time >= 21)
+      setGreetings("Доброй ночи")
+    else if (time >= 6 && time <= 11)
+      setGreetings("Доброе утро")
+    else if (time >= 12 && time <= 16)
+      setGreetings("Добрый день")
+    else if (time >= 17 && time <= 20)
+      setGreetings("Добрый вечер")
+  }, [])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -106,10 +136,12 @@ export default function MiniDrawer(props) {
   const width = useSelector(state => state.sideBar.width)
   const menu_type = useSelector(state => state.sideBar.menu_type)
 
+  const user = useSelector(state => state.login.user)
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} width = {width}>
+      <AppBar position="fixed" open={open} width={width}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -135,28 +167,65 @@ export default function MiniDrawer(props) {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        <Card elevation={0}>
+          <CardContent sx={{ padding: "8px" }}>
+            <Stack
+              direction="row"
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              spacing={2}
+            >
+              <IconButton>
+                <BorderedAvatar src="/broken-image.jpg" />
+              </IconButton>
+              <Box sx={{
+                ...(!open && { display: 'none' }),
+              }}>
+                <Typography variant="h6" align="left" >
+                  {greetings},
+                </Typography>
+                <Typography variant="subtitle1" style={{ display: "inline-block", whiteSpace: "pre-line" }}>
+                  {user.first_name}
+                </Typography>
+              </Box>
+            </Stack>
+          </CardContent>
+          <CardActions sx={{
+            ...(!open && { display: 'none' }),
+          }}>
+            <Button size="small" color="primary">
+              Настройки
+            </Button>
+            <Button size="small" color="primary">
+              Выйти
+            </Button>
+          </CardActions>
+        </Card>
+
+
+
+        <Divider />
         <List>
-          <List>
-            <ListItem button onClick={() => navigate('/constructor')}>
-              <ListItemIcon>
-                <ConstructionIcon />
-              </ListItemIcon>
-              <ListItemText primary="Конструктор анкет" />
-            </ListItem>
-            <ListItem button onClick={() => navigate('/quetionnaireViewer')}>
-              <ListItemIcon>
-                <QuestionAnswerIcon />
-              </ListItemIcon>
-              <ListItemText primary="Анкетирование" />
-            </ListItem>
-            <ListItem button onClick={() => navigate('/dataAnalysis')}>
-              <ListItemIcon>
-                <AnalyticsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Анализ данных" />
-            </ListItem>
-          </List>
+          <ListItem button onClick={() => navigate('/constructor')}>
+            <ListItemIcon>
+              <ConstructionIcon />
+            </ListItemIcon>
+            <ListItemText primary="Конструктор анкет" />
+          </ListItem>
+          <ListItem button onClick={() => navigate('/quetionnaireViewer')}>
+            <ListItemIcon>
+              <QuestionAnswerIcon />
+            </ListItemIcon>
+            <ListItemText primary="Анкетирование" />
+          </ListItem>
+          <ListItem button onClick={() => navigate('/dataAnalysis')}>
+            <ListItemIcon>
+              <AnalyticsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Анализ данных" />
+          </ListItem>
         </List>
+
         <Divider />
         <SideBarList menu_type={menu_type} />
       </Drawer>
