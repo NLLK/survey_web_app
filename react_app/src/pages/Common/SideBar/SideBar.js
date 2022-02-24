@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -29,7 +30,7 @@ import Avatar from '@mui/material/Avatar';
 
 import SideBarList from './SideBarList';
 import { Stack } from '@mui/material';
-
+import {logout} from '../../Account/Login/LoginActions'
 
 const openedMixin = (theme, width) => ({
   width: width,
@@ -103,6 +104,7 @@ const BorderedAvatar = styled(Avatar)`
 export default function MiniDrawer(props) {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -175,7 +177,7 @@ export default function MiniDrawer(props) {
               alignItems="flex-start"
               spacing={2}
             >
-              <IconButton>
+              <IconButton onClick={()=>{navigate('/account/manage')}}>
                 <BorderedAvatar src="/broken-image.jpg" />
               </IconButton>
               <Box sx={{
@@ -193,11 +195,11 @@ export default function MiniDrawer(props) {
           <CardActions sx={{
             ...(!open && { display: 'none' }),
           }}>
-            <Button size="small" color="primary">
+            <Button size="small" color="primary" onClick={()=>{navigate('/account/manage')}}>
               Настройки
             </Button>
-            <Button size="small" color="primary">
-              Выйти
+            <Button size="small" color="primary" onClick={()=>{logout(dispatch, navigate)}}>
+              Выйти 
             </Button>
           </CardActions>
         </Card>

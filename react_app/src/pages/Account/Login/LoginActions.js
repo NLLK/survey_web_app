@@ -1,5 +1,4 @@
 import axios from "axios";
-import { push } from "connected-react-router";
 import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER } from "./LoginTypes";
 import { setAxiosAuthToken, toastOnError } from "../../../utils/Utils";
 
@@ -39,14 +38,12 @@ export const setCurrentUser = (user, redirectTo, dispatch, navigate) => {
   });
 
   if (redirectTo !== "") {
-    console.log("Trying to redirect to: ", redirectTo)
     navigate(redirectTo)
   }
 };
 
 export const setToken = (token, dispatch) => {
   setAxiosAuthToken(token);
-  //localStorage.setItem("token", token);
   localStorage.token = token
   dispatch({
     type: SET_TOKEN,
@@ -55,7 +52,7 @@ export const setToken = (token, dispatch) => {
 };
 
 export const unsetCurrentUser = (dispatch) => {
-  console.log('deleting')
+  console.log('deleting token')
   setAxiosAuthToken("");
   localStorage.removeItem("token");
   localStorage.removeItem("user");
@@ -64,17 +61,15 @@ export const unsetCurrentUser = (dispatch) => {
   });
 };
 
-export const logout = () => dispatch => {
+export const logout = (dispatch, navigate) => {
   axios
-    .post("/api/v1/token/logout/")
+    .get("/api/auth/logout/")
     .then(response => {
-      dispatch(unsetCurrentUser());
-      dispatch(push("/"));
-      alert("Bye bye")
-      //toast.success("Logout successful.");
+      unsetCurrentUser(dispatch);
+      navigate('/')
     })
     .catch(error => {
-      dispatch(unsetCurrentUser());
+      unsetCurrentUser(dispatch);
       toastOnError(error);
     });
 };
