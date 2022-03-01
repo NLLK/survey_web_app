@@ -19,6 +19,7 @@ import '../Common/styles.css'
 import { getQuestionnaireList } from './SelectQuestionnaireActions'
 import { useNavigate } from "react-router-dom";
 import ButtonEnter from "../Common/ButtonEnter";
+import TextBoxWithDots from '../Common/TextBoxWtihDots'
 
 export default function QuestionnaireCard(props) {
 
@@ -59,10 +60,10 @@ export default function QuestionnaireCard(props) {
 
     return (
         <div>
-            <Card className="card" sx={{ width: 300 }}> {/*maxWidth: 345, minWidth: 200 , height: 200*/}
+            <Card className="card" sx={{ width: 300}}> {/*maxWidth: 345, minWidth: 200 , height: 200*/}
                 <CardActionArea onClick={() => {
                 }}>
-                    <CardContent>
+                    <CardContent sx={{height: 150 }}>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             Наименование
                         </Typography>
@@ -72,9 +73,7 @@ export default function QuestionnaireCard(props) {
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             Описание:
                         </Typography>
-                        <Typography variant="body2">
-                            {props.cardInfo.comment}
-                        </Typography>
+                        <TextBoxWithDots variant = "body2" max_length = {69} text = {props.cardInfo.comment}/>
                     </CardContent>
                 </CardActionArea>
                 <CardActions>

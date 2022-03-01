@@ -20,7 +20,7 @@ export default function CreateQuestionnairePage() {
 
     const [nameError, setNameError] = useState(false)
     const [nameHelperText, setNameHelperText] = useState(false)
-    const [commentError, setCommentError] = useState("")
+    const [commentError, setCommentError] = useState(false)
     const [commentHelperText, setCommentHelperText] = useState("")
 
     const postQuestionnaire = () => {

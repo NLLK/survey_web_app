@@ -1,7 +1,7 @@
 from xml.etree.ElementTree import Comment
 from django.db import models
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.utils import timezone
 
 from authentication.models import User
@@ -17,7 +17,7 @@ class Questionnaire(models.Model):
     fields = models.TextField()
     createdDate = models.DateField(editable=False)
     lastEdited = models.DateTimeField()
-
+    hidden = models.PositiveSmallIntegerField(validators=[RegexValidator(regex = "[01]")])
     def save(self, *args, **kwargs):
         if not self.id:
             self.createdDate = timezone.now()
