@@ -22,7 +22,6 @@ export default function TextBoxWithDots(props) {
     const [useToolTip, setUseToolTip] = useState(false);
 
     useEffect(() => {
-        console.log(props.text.length, props.max_length)
         if (props.text.length > props.max_length) {
             setCuttedString(props.text.slice(0, props.max_length)+"...")
             setUseToolTip(true);

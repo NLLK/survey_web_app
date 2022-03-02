@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER } from "./LoginTypes";
+import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER, SET_LAST_PAGE } from "./LoginTypes";
 import {DESTROY_SESSION} from "./../../../redux/MainTypes"
 
 export const setAxiosAuthToken = token => {
@@ -68,6 +68,7 @@ export const unsetCurrentUser = (dispatch) => {
   setAxiosAuthToken("");
   localStorage.removeItem("token");
   localStorage.removeItem("user");
+
   dispatch({
     type: UNSET_CURRENT_USER
   });
@@ -77,12 +78,17 @@ export const logout = (dispatch, navigate) => {
   axios
     .get("/api/auth/logout/")
     .then(response => {
-      unsetCurrentUser(dispatch);
+      localStorage.last_page = window.location.pathname
+      unsetCurrentUser(dispatch)
+      navigate('/account/login')
       dispatch({type: DESTROY_SESSION})
-      navigate('/')
+      
+      console.log('aaaaaa')
+      
     })
     .catch(error => {
       unsetCurrentUser(dispatch);
+      console.log(error)
      // toastOnError(error);
     });
 };

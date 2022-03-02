@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { useDispatch } from 'react-redux'
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -12,14 +14,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-
 import './questionnaireCard.css'
 import '../Common/styles.css'
 
 import { getQuestionnaireList } from './SelectQuestionnaireActions'
-import { useNavigate } from "react-router-dom";
 import ButtonEnter from "../Common/ButtonEnter";
 import TextBoxWithDots from '../Common/TextBoxWithDots'
+import { CONSTRUCTOR_SET_QUESTIONNAIRE } from "../Constructor/Reducer/ConstructorReducerTypes";
 
 export default function QuestionnaireCard(props) {
 
@@ -60,11 +61,20 @@ export default function QuestionnaireCard(props) {
         navigate('edit/' + props.cardInfo.id)
     }
 
+    const cardOnClick = () => {
+        dispatch({
+                type: CONSTRUCTOR_SET_QUESTIONNAIRE,
+                payload: props.cardInfo.id
+            }
+        )
+        navigate('/constructor/'+props.cardInfo.id)
+
+    }
+
     return (
         <div>
             <Card className="card" sx={{ width: 300}}> {/*maxWidth: 345, minWidth: 200 , height: 200*/}
-                <CardActionArea onClick={() => {
-                }}>
+                <CardActionArea onClick={cardOnClick}>
                     <CardContent sx={{height: 150 }}>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             Наименование:

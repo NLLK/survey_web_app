@@ -12,6 +12,7 @@ export default function UserPermissionsWrapper(props) {
     const token = useSelector(state => state.login.token)
 
     useEffect(() => {
+        console.log('wrapper')
         getCurrentUser("", dispatch, navigate)
         console.log(user.permissions, props.permission, token)
         if (user.permissions < props.permission)

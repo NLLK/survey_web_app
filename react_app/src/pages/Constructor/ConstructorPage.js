@@ -6,6 +6,7 @@ import React from "react";
 import './styles.css'
 import { CONSTRUCTOR_MENU } from "../Common/SideBar/SideBarList";
 import SideBarHandler from "../Common/SideBar/SideBarHandler";
+import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
 
 export default function ConstructorPage(props) {
 
@@ -20,6 +21,7 @@ export default function ConstructorPage(props) {
 
   return (
     <>
+      <UserPermissionsWrapper permission={2}/>
       <SideBarHandler page_name="Конструктор анкет" width={300} menu_type={CONSTRUCTOR_MENU} />
       {
         UnderConstruction()

@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { Stack } from "@mui/material";
 import Button from '@mui/material/Button';
 import '../../Common/styles.css'
-import { setToken, getCurrentUser, unsetCurrentUser/*login,*/ } from "./LoginActions";
+import { setToken, getCurrentUser, unsetCurrentUser } from "./LoginActions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import ButtonEnter from "../../Common/ButtonEnter";
@@ -26,10 +26,12 @@ function LoginPage() {
             .then(response => {
                 const auth_token = response.data.token;
                 setToken(auth_token, dispatch)
+                if (localStorage.last_page)
+                    redirectTo = localStorage.last_page;
                 getCurrentUser(redirectTo, dispatch, navigate);
             })
             .catch(error => {
-                unsetCurrentUser(dispatch);
+                //unsetCurrentUser(dispatch);
                 let response = error.response.data
                 console.log(response)
 
@@ -67,8 +69,7 @@ function LoginPage() {
             password: document.getElementById("password_field").value
         };
 
-        let response = login(userData, "/account/manage", dispatch, navigate)
-        console.log(response)
+        login(userData, "/account/manage", dispatch, navigate)
     };
 
     return (

@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
-function LoginSwitch(props) {
+export default function ConstructorSwitch(props) {
 
   const navigate = useNavigate()
   useEffect(()=>{
-    console.log('login switch', localStorage.token)
     if (localStorage.token != null)
       navigate('/account/manage')
     else navigate('/account/login')
@@ -15,5 +14,3 @@ function LoginSwitch(props) {
     <></>
   );
 }
-
-export default LoginSwitch;

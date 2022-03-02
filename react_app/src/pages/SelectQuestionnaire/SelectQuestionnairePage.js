@@ -25,7 +25,6 @@ export default function SelectQuestionnairePage(props) {
     const buttonStyle = {
         margin: '5px'
     }
-    console.log(questionnaires)
     return (
         <div>
             <UserPermissionsWrapper permission={2} />

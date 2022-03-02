@@ -7,7 +7,6 @@ export default function SideBarHandler(props){
 
     const dispatch = useDispatch()
     useEffect(() => {
-        
         dispatch(
             {
                 type: SIDEBAR_CHANGE_PAGE,
