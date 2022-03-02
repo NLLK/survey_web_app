@@ -72,7 +72,7 @@ export default function EditQuestionnairePage() {
             })
             .catch(error => {
                 let response = error.response.data
-
+                console.log(response)
                 const overfillError = "Ensure this field has no more than 150 characters."
                 const overfillErrorComment = "Ensure this field has no more than 300 characters."
                 const blankError = "This field may not be blank."

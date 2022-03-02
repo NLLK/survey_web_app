@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from 'react-redux'
 
@@ -19,7 +19,7 @@ import '../Common/styles.css'
 import { getQuestionnaireList } from './SelectQuestionnaireActions'
 import { useNavigate } from "react-router-dom";
 import ButtonEnter from "../Common/ButtonEnter";
-import TextBoxWithDots from '../Common/TextBoxWtihDots'
+import TextBoxWithDots from '../Common/TextBoxWithDots'
 
 export default function QuestionnaireCard(props) {
 
@@ -27,6 +27,8 @@ export default function QuestionnaireCard(props) {
     const navigate = useNavigate()
 
     const [open, setOpen] = React.useState(false);
+
+    useEffect(()=>{},[])
 
     const handleClose = () => {
         setOpen(false);
@@ -67,9 +69,7 @@ export default function QuestionnaireCard(props) {
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             Наименование
                         </Typography>
-                        <Typography variant="h5" component="div">
-                            {props.cardInfo.name}
-                        </Typography>
+                        <TextBoxWithDots variant = "h5"  max_length = {15} text = {props.cardInfo.name}/>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             Описание:
                         </Typography>

@@ -1,6 +1,17 @@
 import axios from "axios";
 import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER } from "./LoginTypes";
-import { setAxiosAuthToken, toastOnError } from "../../../utils/Utils";
+
+export const setAxiosAuthToken = token => {
+  if (typeof token !== "undefined" && token) {
+    // Apply for every request
+    console.log("setAxiosAuthToken: ", token)
+    axios.defaults.headers.common["Authorization"] = "Token " + token;
+  } else {
+    // Delete auth header
+    console.log("setAxiosAuthToken delete: ", token)
+    delete axios.defaults.headers.common["Authorization"];
+  }
+};
 
 export const login = (userData, redirectTo, dispatch, navigate) => {
   axios
@@ -13,7 +24,7 @@ export const login = (userData, redirectTo, dispatch, navigate) => {
     })
     .catch(error => {
       unsetCurrentUser(dispatch);
-      toastOnError(error);
+      return error.response.data;
     });
 };
 
@@ -27,7 +38,7 @@ export const getCurrentUser = (redirectTo, dispatch, navigate) => {
     })
     .catch(error => {
       unsetCurrentUser(dispatch);
-      toastOnError(error);
+     // toastOnError(error);
     });
 };
 
@@ -70,6 +81,6 @@ export const logout = (dispatch, navigate) => {
     })
     .catch(error => {
       unsetCurrentUser(dispatch);
-      toastOnError(error);
+     // toastOnError(error);
     });
 };

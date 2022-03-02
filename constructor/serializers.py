@@ -12,10 +12,18 @@ class QuestionnaireSerializer(serializers.ModelSerializer):
         model = Questionnaire
         fields = "__all__"
 
-class QuestionnaireEditSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
+class QuestionnaireAddSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=150)
     comment = serializers.CharField(max_length=300, allow_blank=True)
     class Meta:
         model = Questionnaire
-        fields = ('id', 'name', 'comment')
+        fields = ('name', 'comment')
+
+class QuestionnaireEditSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField(max_length=150)
+    comment = serializers.CharField(max_length=300, allow_blank=True)
+    fields = serializers.CharField(required=False, default="{}")
+    class Meta:
+        model = Questionnaire
+        fields = ('id', 'name', 'comment', 'fields')

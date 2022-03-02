@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from constructor.serializers import QuestionnaireSerializer, QuestionnaireEditSerializer
+from constructor.serializers import QuestionnaireSerializer, QuestionnaireEditSerializer, QuestionnaireAddSerializer
 from constructor.models import Questionnaire, User
 
 
@@ -34,7 +34,7 @@ class CreateQuestionnaire(APIView):
     def post(self, request, format=None):
         current_user = User.objects.get(username=request.user)
 
-        serializer = QuestionnaireSerializer(data=request.data)
+        serializer = QuestionnaireAddSerializer(data=request.data)
 
         if (serializer.is_valid()):
             rec = Questionnaire(
@@ -53,7 +53,7 @@ class EditQuestionnaire(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, format=None):
-        serializer = QuestionnaireSerializer(data=request.data) #full
+        serializer = QuestionnaireEditSerializer(data=request.data) #full
 
         if (serializer.is_valid()):
             id = serializer.validated_data['id']

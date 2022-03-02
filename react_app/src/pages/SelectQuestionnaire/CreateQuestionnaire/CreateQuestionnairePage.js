@@ -19,7 +19,7 @@ export default function CreateQuestionnairePage() {
 
 
     const [nameError, setNameError] = useState(false)
-    const [nameHelperText, setNameHelperText] = useState(false)
+    const [nameHelperText, setNameHelperText] = useState("")
     const [commentError, setCommentError] = useState(false)
     const [commentHelperText, setCommentHelperText] = useState("")
 
@@ -39,11 +39,10 @@ export default function CreateQuestionnairePage() {
             })
             .catch(error => {
                 let response = error.response.data
-
+                console.log(response)
                 const overfillError = "Ensure this field has no more than 150 characters."
                 const blankError = "This field may not be blank."
 
-                console.log(response)
                 if (response['name'] !== undefined) {
                     if (response['name'][0] === overfillError) {
                         setNameError(true)

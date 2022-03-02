@@ -17,16 +17,15 @@ export default function SelectQuestionnairePage(props) {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    useEffect(() => {
+    useEffect(() => {        
         getQuestionnaireList(dispatch);
     }, [dispatch])
 
     const questionnaires = useSelector(state => state.selectQuestionnaire.questionnaires)
-
     const buttonStyle = {
         margin: '5px'
     }
-
+    console.log(questionnaires)
     return (
         <div>
             <UserPermissionsWrapper permission={2}>
@@ -37,7 +36,7 @@ export default function SelectQuestionnairePage(props) {
                                 variant="contained"
                                 style={buttonStyle}
                                 onClick={() => navigate('create')}
-                            > Создать анкету</Button>
+                            >Создать анкету</Button>
                             <Button
                                 variant="contained"
                                 style={buttonStyle}
@@ -45,13 +44,16 @@ export default function SelectQuestionnairePage(props) {
                             >Импорт из файла</Button>
                         </div>
                     </div>
+                    
                     <div style={{ display: "inline" }}> {
-                        questionnaires.map((questionnaire, index) =>
+                        questionnaires.map((item, index) =>                                                         
                             <div key={index} style={{ display: 'inline-block', marginRight: 15 + "px" }}>
-                                <QuestionnaireCard cardInfo={questionnaire} />
-                            </div>
+                                <QuestionnaireCard cardInfo={item} />
+                            </div>                            
                         )}
                     </div>
+                    
+                
 
                 </SideBarHandler>
             </UserPermissionsWrapper>
