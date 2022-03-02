@@ -19,10 +19,12 @@ export default function ConstructorPage(props) {
   }
 
   return (
-    <SideBarHandler page_name = "Конструктор анкет" width={300} menu_type = {CONSTRUCTOR_MENU}>
+    <>
+      <SideBarHandler page_name="Конструктор анкет" width={300} menu_type={CONSTRUCTOR_MENU} />
       {
         UnderConstruction()
       }
-    </SideBarHandler>
+    </>
+
   );
 }

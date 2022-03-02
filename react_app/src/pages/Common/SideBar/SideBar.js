@@ -30,7 +30,7 @@ import Avatar from '@mui/material/Avatar';
 
 import SideBarList from './SideBarList';
 import { Stack } from '@mui/material';
-import {logout} from '../../Account/Login/LoginActions'
+import { logout } from '../../Account/Login/LoginActions'
 
 const openedMixin = (theme, width) => ({
   width: width,
@@ -98,8 +98,24 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const BorderedAvatar = styled(Avatar)`
-  border: 3px solid lightseagreen;
+    border: 3px solid ${(props) =>{
+      switch(props.permissions)
+      {
+          case 1: 
+            return '#2196f3' //blue
+          case 2: 
+            return '#f48fb1' //pink
+          case 3: 
+            return '#00bcd4' //cyan
+          default: 
+            return 'f44336'
+      }}};
 `;
+
+
+// const BorderedAvatar = styled(Avatar)`
+//   border: 3px solid lightseagreen;
+// `;
 
 export default function MiniDrawer(props) {
 
@@ -177,8 +193,8 @@ export default function MiniDrawer(props) {
               alignItems="flex-start"
               spacing={2}
             >
-              <IconButton onClick={()=>{navigate('/account/manage')}}>
-                <BorderedAvatar src="/broken-image.jpg" />
+              <IconButton onClick={() => { navigate('/account/manage') }}>
+                <BorderedAvatar src="/broken-image.jpg" permissions = {user.permissions}/>
               </IconButton>
               <Box sx={{
                 ...(!open && { display: 'none' }),
@@ -195,11 +211,11 @@ export default function MiniDrawer(props) {
           <CardActions sx={{
             ...(!open && { display: 'none' }),
           }}>
-            <Button size="small" color="primary" onClick={()=>{navigate('/account/manage')}}>
+            <Button size="small" color="primary" onClick={() => { navigate('/account/manage') }}>
               Настройки
             </Button>
-            <Button size="small" color="primary" onClick={()=>{logout(dispatch, navigate)}}>
-              Выйти 
+            <Button size="small" color="primary" onClick={() => { logout(dispatch, navigate) }}>
+              Выйти
             </Button>
           </CardActions>
         </Card>

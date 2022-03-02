@@ -20,5 +20,5 @@ export default function SideBarHandler(props){
         )
     }, [props, dispatch]);
 
-    return(props.children);
+    return(<></>);
 }

@@ -1,4 +1,4 @@
-import  { useEffect } from "react";
+import { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
@@ -12,13 +12,13 @@ export default function UserPermissionsWrapper(props) {
     const token = useSelector(state => state.login.token)
 
     useEffect(() => {
-            getCurrentUser("", dispatch, navigate)
-            console.log(user.permissions, props.permission, token)
-            if (user.permissions < props.permission)
-                navigate('/account/login')
-        
-    },[dispatch, navigate, props.permission, user.permissions, token])
+        getCurrentUser("", dispatch, navigate)
+        console.log(user.permissions, props.permission, token)
+        if (user.permissions < props.permission)
+            navigate('/account/login')
 
-    return (props.children);
+    }, [dispatch, navigate, props.permission, user.permissions, token])
+
+    return (<></>);//props.children
 
 }

@@ -123,52 +123,51 @@ export default function EditQuestionnairePage() {
     }
 
     return (
-        <UserPermissionsWrapper permission={2}>
-            <SideBarHandler page_name="Создать анкету" menu_type={BLANK_MENU}>
-                <div className="center">
+        <>
+            <UserPermissionsWrapper permission={2} />
+            <SideBarHandler page_name="Создать анкету" menu_type={BLANK_MENU} />
+            <div className="center">
 
-                    <Stack direction="column" justifyContent="center" spacing={2}>
-                        <h1>Редактирование анкеты: </h1>
-                        <TextField
-                            id="name"
-                            label="Название анкеты: "
-                            type="text"
+                <Stack direction="column" justifyContent="center" spacing={2}>
+                    <h1>Редактирование анкеты: </h1>
+                    <TextField
+                        id="name"
+                        label="Название анкеты: "
+                        type="text"
 
-                            value={qInfo.name}
-                            onChange={handleChange}
-                            error={nameError}
-                            helperText={nameHelperText === "" ? "" : nameHelperText}
-                        />
-                        <TextField
-                            id="comment"
-                            label="Описание: "
-                            multiline
-                            error={commentError}
-                            helperText={commentHelperText === "" ? "" : commentHelperText}
-                            value={qInfo.comment}
-                            onChange={handleChange}
-                        />
-                        <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            spacing={2}
-                        >
-                            <Button
-                                variant="outlined"
-                                style={buttonStyle}
-                                onClick={() => { navigate(-1) }}
-                            >Отмена</Button>
-                            <Button
-                                variant="contained"
-                                style={buttonStyle}
-                                onClick={editQuestionnaire}
-                            >Изменить</Button>
-                        </Stack>
+                        value={qInfo.name}
+                        onChange={handleChange}
+                        error={nameError}
+                        helperText={nameHelperText === "" ? "" : nameHelperText}
+                    />
+                    <TextField
+                        id="comment"
+                        label="Описание: "
+                        multiline
+                        error={commentError}
+                        helperText={commentHelperText === "" ? "" : commentHelperText}
+                        value={qInfo.comment}
+                        onChange={handleChange}
+                    />
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2}
+                    >
+                        <Button
+                            variant="outlined"
+                            style={buttonStyle}
+                            onClick={() => { navigate(-1) }}
+                        >Отмена</Button>
+                        <Button
+                            variant="contained"
+                            style={buttonStyle}
+                            onClick={editQuestionnaire}
+                        >Изменить</Button>
                     </Stack>
-                </div>
-
-            </SideBarHandler>
-        </UserPermissionsWrapper>
+                </Stack>
+            </div>
+        </>
     );
 }

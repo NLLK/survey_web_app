@@ -67,7 +67,7 @@ export default function QuestionnaireCard(props) {
                 }}>
                     <CardContent sx={{height: 150 }}>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                            Наименование
+                            Наименование:
                         </Typography>
                         <TextBoxWithDots variant = "h5"  max_length = {15} text = {props.cardInfo.name}/>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>

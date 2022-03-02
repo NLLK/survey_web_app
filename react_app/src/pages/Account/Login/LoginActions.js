@@ -1,5 +1,6 @@
 import axios from "axios";
 import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER } from "./LoginTypes";
+import {DESTROY_SESSION} from "./../../../redux/MainTypes"
 
 export const setAxiosAuthToken = token => {
   if (typeof token !== "undefined" && token) {
@@ -77,6 +78,7 @@ export const logout = (dispatch, navigate) => {
     .get("/api/auth/logout/")
     .then(response => {
       unsetCurrentUser(dispatch);
+      dispatch({type: DESTROY_SESSION})
       navigate('/')
     })
     .catch(error => {

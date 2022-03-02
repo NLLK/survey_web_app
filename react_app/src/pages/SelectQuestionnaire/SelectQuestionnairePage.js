@@ -17,7 +17,7 @@ export default function SelectQuestionnairePage(props) {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    useEffect(() => {        
+    useEffect(() => {
         getQuestionnaireList(dispatch);
     }, [dispatch])
 
@@ -28,35 +28,30 @@ export default function SelectQuestionnairePage(props) {
     console.log(questionnaires)
     return (
         <div>
-            <UserPermissionsWrapper permission={2}>
-                <SideBarHandler page_name="Выбор анкеты" menu_type={SELECT_QUESTIONNAIRE_MENU}>
-                    <div style={{ marginBottom: "5px" }}>
-                        <div style={{ display: "inline" }}>
-                            <Button
-                                variant="contained"
-                                style={buttonStyle}
-                                onClick={() => navigate('create')}
-                            >Создать анкету</Button>
-                            <Button
-                                variant="contained"
-                                style={buttonStyle}
-                                onClick={() => navigate('import')}
-                            >Импорт из файла</Button>
-                        </div>
-                    </div>
-                    
-                    <div style={{ display: "inline" }}> {
-                        questionnaires.map((item, index) =>                                                         
-                            <div key={index} style={{ display: 'inline-block', marginRight: 15 + "px" }}>
-                                <QuestionnaireCard cardInfo={item} />
-                            </div>                            
-                        )}
-                    </div>
-                    
-                
+            <UserPermissionsWrapper permission={2} />
+            <SideBarHandler page_name="Выбор анкеты" menu_type={SELECT_QUESTIONNAIRE_MENU} />
+            <div style={{ marginBottom: "5px" }}>
+                <div style={{ display: "inline" }}>
+                    <Button
+                        variant="contained"
+                        style={buttonStyle}
+                        onClick={() => navigate('create')}
+                    >Создать анкету</Button>
+                    <Button
+                        variant="contained"
+                        style={buttonStyle}
+                        onClick={() => navigate('import')}
+                    >Импорт из файла</Button>
+                </div>
+            </div>
 
-                </SideBarHandler>
-            </UserPermissionsWrapper>
+            <div style={{ display: "inline" }}> {
+                questionnaires.map((item, index) =>
+                    <div key={index} style={{ display: 'inline-block', marginRight: 15 + "px" }}>
+                        <QuestionnaireCard cardInfo={item} />
+                    </div>
+                )}
+            </div>
         </div>
     );
 

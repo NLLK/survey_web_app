@@ -68,55 +68,55 @@ export default function CreateQuestionnairePage() {
     }
 
     return (
-        <UserPermissionsWrapper permission={2}>
-            <SideBarHandler page_name="Создать анкету" menu_type={BLANK_MENU}>
-                <div className="center">
+        <>
+            <UserPermissionsWrapper permission={2} />
+            <SideBarHandler page_name="Создать анкету" menu_type={BLANK_MENU} />
+            <div className="center">
 
-                    <Stack direction="column" justifyContent="center" spacing={2}>
-                        <h1>Создание анкеты: </h1>
-                        <TextField
-                            id="name_field"
-                            label="Название анкеты: "
-                            type="text"
-                            error={nameError}
-                            helperText={nameHelperText === "" ? "" : nameHelperText}
-                            onChange={() => {
-                                setNameError(false)
-                                setNameHelperText("")
-                            }}
-                        />
-                        <TextField
-                            id="comment_field"
-                            label="Описание: "
-                            multiline
-                            error={commentError}
-                            helperText={commentHelperText === "" ? "" : commentHelperText}
-                            onChange={() => {
-                                setCommentError(false)
-                                setCommentHelperText("")
-                            }}
-                        />
-                        <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            spacing={2}
-                        >
-                            <Button
-                                variant="outlined"
-                                style={buttonStyle}
-                                onClick={() => { navigate(-1) }}
-                            >Отмена</Button>
-                            <Button
-                                variant="contained"
-                                style={buttonStyle}
-                                onClick={postQuestionnaire}
-                            >Создать</Button>
-                        </Stack>
+                <Stack direction="column" justifyContent="center" spacing={2}>
+                    <h1>Создание анкеты: </h1>
+                    <TextField
+                        id="name_field"
+                        label="Название анкеты: "
+                        type="text"
+                        error={nameError}
+                        helperText={nameHelperText === "" ? "" : nameHelperText}
+                        onChange={() => {
+                            setNameError(false)
+                            setNameHelperText("")
+                        }}
+                    />
+                    <TextField
+                        id="comment_field"
+                        label="Описание: "
+                        multiline
+                        error={commentError}
+                        helperText={commentHelperText === "" ? "" : commentHelperText}
+                        onChange={() => {
+                            setCommentError(false)
+                            setCommentHelperText("")
+                        }}
+                    />
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2}
+                    >
+                        <Button
+                            variant="outlined"
+                            style={buttonStyle}
+                            onClick={() => { navigate(-1) }}
+                        >Отмена</Button>
+                        <Button
+                            variant="contained"
+                            style={buttonStyle}
+                            onClick={postQuestionnaire}
+                        >Создать</Button>
                     </Stack>
-                </div>
+                </Stack>
+            </div>
+        </>
 
-            </SideBarHandler>
-        </UserPermissionsWrapper>
     );
 }
