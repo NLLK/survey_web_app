@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import 'react-splitter-layout/lib/index.css';
 import axios from "axios";
 import { useParams } from "react-router-dom";
 

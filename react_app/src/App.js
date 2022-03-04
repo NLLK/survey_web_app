@@ -20,6 +20,8 @@ import EditQuestionnairePage from "./pages/SelectQuestionnaire/EditQuestionnaire
 
 
 import Layout from "./main/Layout"
+import ConstructorSwitch from "./pages/Constructor/ConstructorSwitch";
+import DescriptionPage from "./pages/Constructor/DescriptionPage";
 
 axios.defaults.baseURL = "http://localhost:8000";
 function App() {
@@ -36,7 +38,13 @@ function App() {
           </Route>
           <Route path="/" element={<Layout />}>
             <Route index element={<LoginSwitch/>}/>
-            <Route path="constructor" element={<ConstructorPage />} />
+            <Route path="constructor" element={<ConstructorSwitch />} />
+            <Route path="constructor/:id" element={<ConstructorPage />} />
+
+            {/* <Route path="constructor/description/:id" element={<DescriptionPage />} /> */}
+
+            <Route path="constructor/description" element={<DescriptionPage />} />
+
             <Route path="constructor/selectQuestionnaire" element={<SelectQuestionnairePage />} />
             <Route path="constructor/selectQuestionnaire/create" element={<CreateQuestionnairePage />} />
             <Route path="account/manage" element={<ManagePage />}/>

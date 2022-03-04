@@ -45,7 +45,7 @@ export default function SideBarList(props) {
                         </ListItemIcon>
                         <ListItemText primary="Выбрать/Создать анкету" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button onClick={() => navigate('/constructor/description')}>
                         <ListItemIcon>
                             <InfoIcon  />
                         </ListItemIcon>

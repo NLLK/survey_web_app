@@ -38,7 +38,7 @@ export const getCurrentUser = (redirectTo, dispatch, navigate) => {
       setCurrentUser(user, redirectTo, dispatch, navigate);
     })
     .catch(error => {
-      localStorage.last_page = window.location.pathname
+      //localStorage.last_page = window.location.pathname
       unsetCurrentUser(dispatch);
      // toastOnError(error);
     });
@@ -69,7 +69,7 @@ export const unsetCurrentUser = (dispatch) => {
   setAxiosAuthToken("");
   localStorage.removeItem("token");
   localStorage.removeItem("user");
-  localStorage.removeItem("last_page");
+  //localStorage.removeItem("last_page");
   dispatch({
     type: UNSET_CURRENT_USER
   });
@@ -79,6 +79,7 @@ export const logout = (dispatch, navigate) => {
   axios
     .get("/api/auth/logout/")
     .then(response => {
+      //localStorage.last_page = window.location.pathname
       unsetCurrentUser(dispatch)
       navigate('/account/login')
       dispatch({type: DESTROY_SESSION})     
