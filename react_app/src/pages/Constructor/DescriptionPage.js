@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useSelector } from 'react-redux'
 
 import SideBarHandler from "../Common/SideBar/SideBarHandler";
@@ -13,43 +12,20 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { GetQuestionnaireById, QuestionnaireTemplate } from "../SelectQuestionnaire/QuestionnaireActions";
 
 
 export default function DescriptionPage(props) {
 
     const working_on_id = useSelector(state => state.constructor.working_on_id)
 
-    let qInfoDefault = {
-        id: working_on_id,
-        name: "",
-        comment: "",
-        fields: "{}"
-    }
+    let qInfoDefault = QuestionnaireTemplate
 
     const [questionnaire, setQuestionnaire] = useState(qInfoDefault)
 
     useEffect(() => {
         console.log(working_on_id)
-        const data = {
-            'id': Number(working_on_id)
-        }
-        axios
-            .post("/api/constructor/getQuestionnaire/", data)
-            .then(response => {
-                let dataR = response.data
-                let q = {
-                    id: dataR.id,
-                    name: dataR.name,
-                    comment: dataR.comment,
-                    fields: dataR.fields
-                }
-                setQuestionnaire(prevState => ({
-                    ...prevState,
-                    name: dataR.name
-                }));
-                setQuestionnaire(q)
-                console.log('got questionnaire', q)
-            })
+        GetQuestionnaireById(setQuestionnaire, working_on_id)
     }, [working_on_id])
 
     const paperStyle = { width: "75%", padding: "20px" }
@@ -57,7 +33,7 @@ export default function DescriptionPage(props) {
     return (
         <>
             <UserPermissionsWrapper permission={2} />
-            <SideBarHandler menu_type={BLANK_MENU} page_name={"Описание анкеты: " + working_on_id} />
+            <SideBarHandler menu_type={BLANK_MENU} page_name={"Описание анкеты"} />
             <div>
                 <Paper className="center" elevation={3} style={{ width: "50%", padding: "20px", paddingBlockStart: "50px", paddingBlockEnd: "50px" }}>
                     <Stack
@@ -95,176 +71,6 @@ export default function DescriptionPage(props) {
                             <div style={{ scrollBehavior: "smooth", overflowY: "scroll", maxHeight: "300px" }}>
                                 <Typography>
                                     {questionnaire.fields}
-                                    AAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    A
-
-                                    A
-                                    AAAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    AAAAAAAAAAAAAAAAAAA
-
-
-                                    AAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-                                    AAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    A
-
-                                    A
-                                    AAAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    AAAAAAAAAAAAAAAAAAA
-
-
-                                    AAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAA
-                                    AAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    A
-
-                                    A
-                                    AAAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    AAAAAAAAAAAAAAAAAAA
-
-
-                                    AAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    A
-
-                                    A
-                                    AAAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    AAAAAAAAAAAAAAAAAAA
-
-
-                                    AAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    A
-
-                                    A
-                                    AAAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    AAAAAAAAAAAAAAAAAAA
-
-
-                                    AAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAAA
-                                    A
-
-                                    AAAAAAAAAAAAAAAAAA
-
-                                    AAAAAAAAAAAAAAAAAA
                                 </Typography>
                             </div>
                             </AccordionDetails>

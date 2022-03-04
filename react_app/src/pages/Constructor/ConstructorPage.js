@@ -1,10 +1,12 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import './styles.css'
 import { CONSTRUCTOR_MENU } from "../Common/SideBar/SideBarList";
 import SideBarHandler from "../Common/SideBar/SideBarHandler";
 import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
+import { GetQuestionnaireById, QuestionnaireTemplate } from "../SelectQuestionnaire/QuestionnaireActions";
+import DivWithCoords from "./Utils/DivWithCoords";
 
 export default function ConstructorPage(props) {
   let params = useParams();
@@ -12,19 +14,26 @@ export default function ConstructorPage(props) {
   const navigate = useNavigate()
 
   const [questionnaireEditingId, setQuestionnaireEditingId] = useState(-1)
+  const [questionnaireInfo, setQuestionnaireInfo] = useState(QuestionnaireTemplate)
 
   useEffect(() => {
+    let id = -1;
     if (params.id === undefined && props.id === undefined)
       navigate('/')//TODO: add error page
     else if (params.id !== undefined) {
       setQuestionnaireEditingId(params.id)
+      id = params.id
     }
-    else setQuestionnaireEditingId(props.id)
+    else {
+      setQuestionnaireEditingId(props.id)
+      id = props.id
+    }
+
+    if (id > -1) GetQuestionnaireById(setQuestionnaireInfo, id)
+
+
 
   }, [])
-
-
-  // console.log('qId', questionnaireEditingId)
 
   const UnderConstruction = () => {
     let i = 0;
@@ -38,10 +47,22 @@ export default function ConstructorPage(props) {
   return (
     <>
       <UserPermissionsWrapper permission={2} />
-      <SideBarHandler page_name="Конструктор анкет" width={300} menu_type={CONSTRUCTOR_MENU} />
-      {
-        UnderConstruction()
-      }
+      <SideBarHandler page_name={"Конструктор анкет: " + questionnaireInfo.name} width={300} menu_type={CONSTRUCTOR_MENU} />
+      <div class="constructor">
+        <div class="c-left-part">
+          <div class="c-registerViewer">
+              <DivWithCoords x={40} y={30}>
+                <h1>aaa</h1>
+              </DivWithCoords>
+          </div>
+          <div class="c-registerEditor">
+
+          </div>
+        </div>
+        <div class="c-registerPicker">
+
+        </div>
+      </div>
     </>
 
   );

@@ -1,27 +1,39 @@
 .constructor {
   display: grid;
-  grid-template-columns: 0.1fr 1fr 0.7fr;
-  grid-template-rows: 1fr;
+  height: 88vh;
+  grid-template-columns: 1fr 3fr 1fr;
+  /* grid-template-rows: 100%; */
   gap: 0px 0px;
-  grid-template-areas: "c-menu c-main c-main";
-  height: 100%;
+  /* grid-auto-flow: row; */
+  grid-template-areas: "c-left-part c-left-part c-registerPicker";
+  background-color: darkgray;
 }
 
-.c-menu {
-  grid-area: c-menu;
-}
-
-.c-main {
+.c-left-part {
   display: grid;
-  grid-template-columns: 1.5fr 0.5fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.3fr 0.7fr;
   gap: 0px 0px;
-  grid-template-areas: "c-viewerAndAnswerField c-registerEditorField";
-  grid-area: c-main;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "c-registerViewer"
+    "c-registerEditor";
+  grid-area: c-left-part;
+
+  background-color: aqua;
 }
-.c-viewerAndAnswerField {
-  grid-area: c-viewerAndAnswerField;
+
+.c-registerViewer {
+  grid-area: c-registerViewer;
+  background-color: rgb(48, 113, 173);
 }
-.c-registerEditorField {
-  grid-area: c-registerEditorField;
+
+.c-registerEditor {
+  grid-area: c-registerEditor;
+  background-color: rgb(218, 121, 57);
+}
+
+.c-registerPicker {
+  grid-area: c-registerPicker;
+  background-color: rgb(97, 185, 79);
 }

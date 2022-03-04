@@ -12,52 +12,27 @@ import { BLANK_MENU } from "../../Common/SideBar/SideBarList";
 
 import "../../Common/styles.css";
 import SideBarHandler from "../../Common/SideBar/SideBarHandler";
+import { GetQuestionnaireById, QuestionnaireTemplate } from "../QuestionnaireActions";
 
 export default function EditQuestionnairePage() {
 
 
     let params = useParams();
     const navigate = useNavigate()
-    useEffect(() => {
-        getQuestionnaire()
-    }, [])
+
 
     const [nameError, setNameError] = useState(false)
     const [nameHelperText, setNameHelperText] = useState(false)
     const [commentError, setCommentError] = useState("")
     const [commentHelperText, setCommentHelperText] = useState("")
 
-    let qInfoDefault = {
-        id: params.id,
-        name: "",
-        comment: "",
-        fields: "{}"
-    }
+    let qInfoDefault = QuestionnaireTemplate
 
     const [qInfo, setQInfo] = useState(qInfoDefault)
 
-    const getQuestionnaire = () => {
-        const data = {
-            'id': Number(params.id)
-        }
-        axios
-            .post("/api/constructor/getQuestionnaire/", data)
-            .then(response => {
-                let dataR = response.data
-                let q = {
-                    id: dataR.id,
-                    name: dataR.name,
-                    comment: dataR.comment,
-                    fields: dataR.fields
-                }
-                setQInfo(prevState => ({
-                    ...prevState,
-                    name: dataR.name
-                }));
-                setQInfo(q)
-                console.log('got questionnaire', q)
-            })
-    }
+    useEffect(() => {
+        GetQuestionnaireById(setQInfo, params.id)
+    }, [])
 
     const editQuestionnaire = () => {
         console.log("editing questionnaire...", params.id)
