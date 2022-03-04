@@ -25,15 +25,15 @@
 
 .c-registerViewer {
   grid-area: c-registerViewer;
-  background-color: rgb(48, 113, 173);
+  background-color: rgb(204, 208, 212);
 }
 
 .c-registerEditor {
   grid-area: c-registerEditor;
-  background-color: rgb(218, 121, 57);
+  background-color: rgb(212, 191, 177);
 }
 
 .c-registerPicker {
   grid-area: c-registerPicker;
-  background-color: rgb(97, 185, 79);
+  background-color: rgb(184, 218, 177);
 }

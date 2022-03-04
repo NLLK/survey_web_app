@@ -7,6 +7,8 @@ import SideBarHandler from "../Common/SideBar/SideBarHandler";
 import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
 import { GetQuestionnaireById, QuestionnaireTemplate } from "../SelectQuestionnaire/QuestionnaireActions";
 import DivWithCoords from "./Utils/DivWithCoords";
+import ViewerButton from "./RegisterViewer/ViewerButton";
+import TextBox from "./RegisterViewer/TextBox";
 
 export default function ConstructorPage(props) {
   let params = useParams();
@@ -50,10 +52,13 @@ export default function ConstructorPage(props) {
       <SideBarHandler page_name={"Конструктор анкет: " + questionnaireInfo.name} width={300} menu_type={CONSTRUCTOR_MENU} />
       <div class="constructor">
         <div class="c-left-part">
-          <div class="c-registerViewer">
-              <DivWithCoords x={40} y={30}>
-                <h1>aaa</h1>
-              </DivWithCoords>
+          <div class="c-registerViewer" style={{overflow: "auto"}}>
+            <TextBox x={30} y={20}>
+                Вопрос 1
+            </TextBox>
+            <ViewerButton x={30} y={30}>
+                +
+            </ViewerButton>
           </div>
           <div class="c-registerEditor">
 
