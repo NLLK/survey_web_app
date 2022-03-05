@@ -10,6 +10,8 @@ import DivWithCoords from "./Utils/DivWithCoords";
 import ViewerButton from "./RegisterViewer/ViewerButton";
 import TextBox from "./RegisterViewer/TextBox";
 
+import {Question} from './Models/Models'
+
 export default function ConstructorPage(props) {
   let params = useParams();
 
@@ -33,6 +35,7 @@ export default function ConstructorPage(props) {
 
     if (id > -1) GetQuestionnaireById(setQuestionnaireInfo, id)
 
+    console.log(Question.test())
 
 
   }, [])
