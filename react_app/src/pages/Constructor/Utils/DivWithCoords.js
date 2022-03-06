@@ -1,15 +1,11 @@
-export default function DivWithCoords(props){
+import { WithCoordStyle } from './Styling'
 
-    const style = {
-        position: "relative",
-        left: props.x,
-        top: props.y
-    }
+export default function DivWithCoords(props) {
 
-    return(
-        <div style={style}>
+    return (
+        <div style={WithCoordStyle(props.x, props.y)}>
             {props.children}
         </div>
-);
+    );
 
 }

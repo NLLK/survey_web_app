@@ -32,7 +32,7 @@ export class QuestionId {
 
 		for (let i: number = 0; i < array.length; i++) {
 			string+=array[i];
-			if (i+1 != array.length){
+			if (i+1 !== array.length){
 				string+='.';
 			}
 		}
@@ -47,7 +47,7 @@ export class Questionnaire {
 
 	addRootQuestion(question: Question) {
 		let id: number = -1;
-		if (this.questions.length == 0)
+		if (this.questions.length === 0)
 			id = 1;
 		else id = this.questions.length + 1;
 
@@ -70,9 +70,9 @@ export class Question {
 	connectedQuestionList: Array<Question> = [];
 	type: QuestionTypes = QuestionTypes.string;
 
-	constructor() {
+	// constructor() {
 
-	}
+	// }
 
 	constructorQuestion(text: string) {
 		this.text = text;
@@ -99,7 +99,7 @@ export class Question {
 		answer.constructorAnswer(text, type);
 
 		let parrentId: QuestionId = this.id
-		let newId: QuestionId = new QuestionId;
+		let newId: QuestionId = new QuestionId();
 		newId.setWithString(parrentId.string)
 
 		let newNum: number = this.answersList.length + 1;
@@ -126,7 +126,6 @@ export class Question {
 		q.id.setWithString('1')
 		q.addAnswer('мужской', QuestionTypes.string)
 		q.addAnswer('женский', QuestionTypes.string)
-		console.log(')')
 		return q;
 	}
 }

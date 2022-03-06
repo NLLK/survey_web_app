@@ -1,11 +1,9 @@
-import DivWithCoords from "../Utils/DivWithCoords";
+import { WithCoordStyleViewElement } from '../Utils/Styling'
 
 export default function TextBox(props) {
     return (
-        <DivWithCoords x={props.x} y={props.y}>
-            <p>
-                {props.children}
-            </p>
-        </DivWithCoords>
+        <p style={WithCoordStyleViewElement(props.x, props.y)}>
+            {props.children}
+        </p>
     );
 }

@@ -14,10 +14,6 @@ export const GetQuestionnaireById = (setQInfo, qId ) => {
                 comment: dataR.comment,
                 fields: dataR.fields
             }
-            setQInfo(prevState => ({
-                ...prevState,
-                name: dataR.name
-            }));
             setQInfo(q)
             console.log('got questionnaire', q)
         })
