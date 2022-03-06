@@ -1,12 +1,15 @@
 import { Button } from "@mui/material";
-import { WithCoordStyleViewElement } from '../Utils/Styling'
+import { ButtonSizes } from './Styling'
 
 
 export default function ViewerButton(props) {
 
     return (
-        <Button variant="contained" style={WithCoordStyleViewElement(props.x, props.y)}>
-            {props.children}
-        </Button>
+        <div style={{ margin: 10 + "px" }}>
+            <Button variant="contained" style={ButtonSizes}>
+                {props.children}
+            </Button>
+        </div>
+
     );
 }

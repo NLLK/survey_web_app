@@ -67,7 +67,7 @@ export class Question {
 	haveSubquestion: boolean = false;
 	subText: string = "";
 	redirectTo: QuestionId = new QuestionId();
-	connectedQuestionList: Array<Question> = [];
+	additionalQuestionList: Array<Question> = [];
 	type: QuestionTypes = QuestionTypes.string;
 
 	// constructor() {
