@@ -6,15 +6,15 @@ import ViewerButton from "./ViewerButton"
 
 const X_DIV: number = 100;
 
-class Point {
-    x: number = 0;
-    y: number = 0;
+// class Point {
+//     x: number = 0;
+//     y: number = 0;
 
-    constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
-    }
-}
+//     constructor(x: number, y: number) {
+//         this.x = x;
+//         this.y = y;
+//     }
+// }
 
 export default function RegisterViewer(qFields: string): JSX.Element {
     if (qFields === '{}') {
@@ -23,18 +23,14 @@ export default function RegisterViewer(qFields: string): JSX.Element {
             </div>
         )
     }
+
     let fields: Array<Question> = JSON.parse(qFields)
-
     let returnPage: Array<JSX.Element> = [];
-
-    let startPoint: Point = new Point(20, 20);
 
     fields.forEach(rootQuestion => {
         console.log(rootQuestion)
         returnPage.push(RenderQuestion(rootQuestion))
     });
-
-    //returnPage.push(RenderQuestion(fields[0], startPoint))
 
     return (
         <>{
@@ -42,18 +38,10 @@ export default function RegisterViewer(qFields: string): JSX.Element {
                 <div key={index}>{item}</div>
             )}
         </>
-
     )
-
 }
 
 function RenderQuestion(question: Question): JSX.Element {
-
-    // let parentIdArray: Array<number> = question.id.array
-    // let parentId: number = parentIdArray[parentIdArray.length - 1]
-    // let parentPoint: Point = new Point(0, 0);
-    // parentPoint.x = startPoint.x + (parentIdArray.length - 1) * X_DIV
-    // parentPoint.y = startPoint.y + (parentId - 1) * Y_DIV
 
     return (
         <div style={{ position: "relative"}}>
@@ -61,7 +49,7 @@ function RenderQuestion(question: Question): JSX.Element {
                 {question.id.string}
             </ViewerButton>
             {question.answersList ? 
-            <div style={{ position: "relative", left: 100 + "px" }}>
+            <div style={{ position: "relative", left: X_DIV + "px" }}>
                 {
                     question.answersList.map((item: Question, index: number) => (
                         !item.answersList? 
