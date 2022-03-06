@@ -29,16 +29,17 @@ export default function RegisterViewer(qFields: string): JSX.Element {
 
     let startPoint: Point = new Point(20, 20);
 
-    // fields.forEach(rootQuestion => {
-    //     returnPage.push(RenderQuestion(rootQuestion, startPoint))
-    // });
+    fields.forEach(rootQuestion => {
+        console.log(rootQuestion)
+        returnPage.push(RenderQuestion(rootQuestion))
+    });
 
-    returnPage.push(RenderQuestion(fields[0], startPoint))
+    //returnPage.push(RenderQuestion(fields[0], startPoint))
 
     return (
         <>{
             returnPage.map((item: JSX.Element, index: number) =>
-                <>{item}</>
+                <div key={index}>{item}</div>
             )}
         </>
 
@@ -46,7 +47,7 @@ export default function RegisterViewer(qFields: string): JSX.Element {
 
 }
 
-function RenderQuestion(question: Question, startPoint: Point): JSX.Element {
+function RenderQuestion(question: Question): JSX.Element {
 
     // let parentIdArray: Array<number> = question.id.array
     // let parentId: number = parentIdArray[parentIdArray.length - 1]
@@ -55,19 +56,23 @@ function RenderQuestion(question: Question, startPoint: Point): JSX.Element {
     // parentPoint.y = startPoint.y + (parentId - 1) * Y_DIV
 
     return (
-        <div>
+        <div style={{ position: "relative"}}>
             <ViewerButton >
                 {question.id.string}
             </ViewerButton>
-            <div style={{ position: "relative", left: X_DIV + "px" }}>
+            {question.answersList ? 
+            <div style={{ position: "relative", left: 100 + "px" }}>
                 {
                     question.answersList.map((item: Question, index: number) => (
-                        <ViewerButton>
+                        !item.answersList? 
+                        <ViewerButton key={index}>
                             {item.id.string}
                         </ViewerButton>
+                        :
+                        RenderQuestion(item)
                     ))
                 }
-            </div>
+            </div> : <p>a</p>}
 
         </div>
     )

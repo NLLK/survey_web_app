@@ -65,12 +65,10 @@ export default function ConstructorPage(props) {
 			<div className="constructor">
 				<div className="c-left-part">
 					<div className="c-registerViewer" style={{ overflow: "auto", position: "relative", paddingLeft: "10 px" }}>
-						{/* <div style={{ position: "absolute", left: 10 + "px", top: 10 + "px" }}>
-              {
-                //RegisterViewer(questionnaireInfo.fields)
-              }
-            </div> */}
-						<div>
+						{
+							RegisterViewer(questionnaireInfo.fields)
+						}
+						{/* <div>
 							<div style={{ position: "relative" }}>
 								<ViewerButton>
 									1
@@ -116,7 +114,7 @@ export default function ConstructorPage(props) {
 									</ViewerButton>
 								</div>
 							</div>
-						</div>
+						</div> */}
 
 
 					</div>
