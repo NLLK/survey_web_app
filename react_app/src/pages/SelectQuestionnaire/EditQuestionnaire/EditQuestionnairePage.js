@@ -32,7 +32,7 @@ export default function EditQuestionnairePage() {
 
     useEffect(() => {
         GetQuestionnaireById(setQInfo, params.id)
-    }, [])
+    }, [params])
 
     const editQuestionnaire = () => {
         console.log("editing questionnaire...", params.id)

@@ -43,19 +43,29 @@ export class QuestionId {
 }
 
 export class Questionnaire {
-	questions: Array<Question>;
-
+	fields: Array<Question> = [];
+	id: number = -1;
+	name: string;
+	comment: string;
 	addRootQuestion(question: Question) {
 		let id: number = -1;
-		if (this.questions.length === 0)
+		if (this.fields.length === 0)
 			id = 1;
-		else id = this.questions.length + 1;
+		else id = this.fields.length + 1;
 
 		let qid = new QuestionId()
 		qid.setWithString(id.toString())
 		question.id = qid;
 
-		this.questions.push(question);
+		this.fields.push(question);
+	}
+	static test(): Questionnaire {
+		let newQ: Questionnaire = new Questionnaire();
+		newQ.fields.push(Question.test())
+		newQ.name = "Тест"
+		newQ.id = 12
+		newQ.comment = "Комментарий"
+		return newQ;
 	}
 }
 
@@ -121,7 +131,7 @@ export class Question {
 	// }
 	static test(): Question {
 		let q = new Question();
-		q.text = "Какого вы пола?"
+		q.constructorQuestion("Какого вы пола?");
 		q.id = new QuestionId()
 		q.id.setWithString('1')
 		q.addAnswer('мужской', QuestionTypes.string)

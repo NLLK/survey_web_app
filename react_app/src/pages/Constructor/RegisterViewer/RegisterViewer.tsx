@@ -17,18 +17,19 @@ const X_DIV: number = 100;
 // }
 
 export default function RegisterViewer(qFields: string): JSX.Element {
-    if (qFields === '{}') {
+   
+    if (qFields === '{}' || qFields === undefined) {
         return (
             <div>
             </div>
         )
     }
-
+    console.log(qFields)
     let fields: Array<Question> = JSON.parse(qFields)
     let returnPage: Array<JSX.Element> = [];
 
     fields.forEach(rootQuestion => {
-        console.log(rootQuestion)
+        //console.log(rootQuestion)
         returnPage.push(RenderQuestion(rootQuestion))
     });
 
@@ -45,22 +46,24 @@ function RenderQuestion(question: Question): JSX.Element {
 
     return (
         <div style={{ position: "relative"}}>
-            <ViewerButton >
+            <ViewerButton parentRegister = {JSON.stringify(question)} type="content">
                 {question.id.string}
             </ViewerButton>
-            {question.answersList ? 
+            {question.isQuestion ? 
             <div style={{ position: "relative", left: X_DIV + "px" }}>
                 {
                     question.answersList.map((item: Question, index: number) => (
-                        !item.answersList? 
-                        <ViewerButton key={index}>
+                        !item.isQuestion? 
+                        <ViewerButton key={index} parentRegister = {JSON.stringify(item) } type="content">
                             {item.id.string}
                         </ViewerButton>
                         :
                         RenderQuestion(item)
                     ))
                 }
-            </div> : <p>a</p>}
+                <ViewerButton type="add" parentRegister={JSON.stringify(question)}>+</ViewerButton>
+            </div> : <></>}
+
 
         </div>
     )

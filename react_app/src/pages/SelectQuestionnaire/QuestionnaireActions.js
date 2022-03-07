@@ -1,23 +1,30 @@
 import axios from "axios";
 
-export const GetQuestionnaireById = (setQInfo, qId ) => {
+export const GetQuestionnaireById = async (setQInfo, qId) => {
     const data = {
         'id': Number(qId)
     }
-    axios
+    let q = {
+        id: 0,
+        name: '',
+        comment: '',
+        fields: {}
+    }
+    await axios
         .post("/api/constructor/getQuestionnaire/", data)
         .then(response => {
             let dataR = response.data
-            let q = {
-                id: dataR.id,
-                name: dataR.name,
-                comment: dataR.comment,
-                fields: dataR.fields
-            }
+
+            q.id = dataR.id
+            q.name = dataR.name
+            q.comment = dataR.comment
+            q.fields = dataR.fields
+
             setQInfo(q)
             console.log('got questionnaire', q)
         })
-} 
+    return q;
+}
 
 export const QuestionnaireTemplate = {
     id: 0,

@@ -1,15 +1,33 @@
-import { CONSTRUCTOR_SET_QUESTIONNAIRE } from "./ConstructorReducerTypes";
+import { CONSTRUCTOR_SET_QUESTIONNAIRE_ID, CONSTRUCTOR_SET_QUESTIONNAIRE, CONSTRUCTOR_MODIFY_QUESTIONNAIRE } from "./ConstructorReducerTypes";
 
 const defaultState = {
     working_on_id: -1,
+    questionnaire: null
 };
 
 export const ConstructorReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case CONSTRUCTOR_SET_QUESTIONNAIRE: {
+        case CONSTRUCTOR_SET_QUESTIONNAIRE_ID: {
             return {
                 ...state,
                 working_on_id: action.payload
+            };
+        }
+        case CONSTRUCTOR_SET_QUESTIONNAIRE: {
+            console.log('setting q', action.payload)
+            return {
+                ...state,
+                questionnaire: action.payload
+            };
+        }
+        case CONSTRUCTOR_MODIFY_QUESTIONNAIRE: {
+
+            let newQ = state.questionnaire;
+            newQ.fields = '['+action.payload+']'
+            console.log('new q', newQ)
+            return {
+                ...state,
+                questionnaire: newQ
             };
         }
         default:

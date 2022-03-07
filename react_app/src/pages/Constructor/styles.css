@@ -5,7 +5,7 @@
   /* grid-template-rows: 100%; */
   gap: 0px 0px;
   /* grid-auto-flow: row; */
-  grid-template-areas: "c-left-part c-left-part c-registerPicker";
+  grid-template-areas: "c-left-part c-left-part c-registerEditor";
   background-color: darkgray;
 }
 
@@ -17,7 +17,7 @@
   grid-auto-flow: row;
   grid-template-areas:
     "c-registerViewer"
-    "c-registerEditor";
+    "c-answerEditor";
   grid-area: c-left-part;
 
   background-color: aqua;
@@ -28,12 +28,12 @@
   background-color: rgb(204, 208, 212);
 }
 
-.c-registerEditor {
-  grid-area: c-registerEditor;
+.c-answerEditor {
+  grid-area: c-answerEditor;
   background-color: rgb(212, 191, 177);
 }
 
-.c-registerPicker {
-  grid-area: c-registerPicker;
+.c-registerEditor {
+  grid-area: c-registerEditor;
   background-color: rgb(184, 218, 177);
 }

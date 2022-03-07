@@ -20,7 +20,7 @@ import '../Common/styles.css'
 import { getQuestionnaireList } from './SelectQuestionnaireActions'
 import ButtonEnter from "../Common/ButtonEnter";
 import TextBoxWithDots from '../Common/TextBoxWithDots'
-import { CONSTRUCTOR_SET_QUESTIONNAIRE } from "../Constructor/Reducer/ConstructorReducerTypes";
+import { CONSTRUCTOR_SET_QUESTIONNAIRE as CONSTRUCTOR_SET_QUESTIONNAIRE_ID } from "../Constructor/Reducer/ConstructorReducerTypes";
 
 export default function QuestionnaireCard(props) {
 
@@ -63,7 +63,7 @@ export default function QuestionnaireCard(props) {
 
     const cardOnClick = () => {
         dispatch({
-                type: CONSTRUCTOR_SET_QUESTIONNAIRE,
+                type: CONSTRUCTOR_SET_QUESTIONNAIRE_ID,
                 payload: props.cardInfo.id
             }
         )
