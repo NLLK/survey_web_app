@@ -29,15 +29,15 @@ export default function ConstructorPage(props) {
 	const getQuestionnaire = async (id) => {
 
 		const qInfo = Questionnaire.test()//await GetQuestionnaireById(setQuestionnaireInfo, id)
-		console.log('or',await GetQuestionnaireById(setQuestionnaireInfo, id))
-		console.log('test',qInfo)
+		console.log('or', await GetQuestionnaireById(setQuestionnaireInfo, id))
+		console.log('test', qInfo)
 
 		let qTest = {
 			...qInfo,
-			fields: JSON.stringify(qInfo.fields)	
+			fields: JSON.stringify(qInfo.fields)
 		}
 
-		dispatch({type: CONSTRUCTOR_SET_QUESTIONNAIRE, payload: qTest})
+		dispatch({ type: CONSTRUCTOR_SET_QUESTIONNAIRE, payload: qTest })
 	}
 
 	useEffect(() => {
@@ -71,25 +71,28 @@ export default function ConstructorPage(props) {
 					<SideBarHandler page_name={"Конструктор анкет: " + questionnaire.name} width={300} menu_type={CONSTRUCTOR_MENU} />
 					<div className="constructor">
 						<div className="c-left-part">
-							<div className="c-registerViewer" style={{ overflow: "auto", position: "relative", paddingLeft: "10 px" }}>
-								{
-									RegisterViewer(questionnaire.fields)
-								}
+							<div className="c-registerViewer" style={{ overflow: "auto"}}>
+								<div style={{ position: "relative", paddingLeft: "10 px" }}>
+									{
+										RegisterViewer(questionnaire.fields)
+									}
 
-								<ViewerButton type="add">+</ViewerButton>
+									<ViewerButton type="add">+</ViewerButton>
+								</div>
+
 
 							</div>
 
 							<div className="c-answerEditor">
 
 							</div>
-						</div>w
+						</div>
 						<div className="c-registerEditor">
 
 						</div>
 					</div>
 				</>
-				: <></>
+					: <></>
 			}
 
 		</>

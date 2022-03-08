@@ -22,9 +22,11 @@ export const ConstructorReducer = (state = defaultState, action) => {
         }
         case CONSTRUCTOR_MODIFY_QUESTIONNAIRE: {
 
-            let newQ = state.questionnaire;
+            let newQ = {}
+            Object.assign(newQ, state.questionnaire)
+
+            //let newQ = state.questionnaire;
             newQ.fields = '['+action.payload+']'
-            console.log('new q', newQ)
             return {
                 ...state,
                 questionnaire: newQ

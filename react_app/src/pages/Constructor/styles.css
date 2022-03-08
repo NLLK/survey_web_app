@@ -12,7 +12,7 @@
 .c-left-part {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1.3fr 0.7fr;
+  grid-template-rows: 0.65fr 0.35fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
