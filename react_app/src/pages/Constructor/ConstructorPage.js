@@ -54,12 +54,6 @@ export default function ConstructorPage(props) {
 		if (id > -1) {
 			getQuestionnaire(id)
 		}
-		// let q = JSON.stringify(Question.test())
-		// console.log(q)
-		// setQuestionnaireInfo(prevState => ({
-		//   ...prevState,
-		//   fields: q,
-		// }));
 
 	}, [navigate, params, props])
 

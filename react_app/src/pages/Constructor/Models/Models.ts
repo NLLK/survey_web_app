@@ -1,4 +1,10 @@
-export enum QuestionTypes { string, checkbox, open_question, checkbox_open, number }
+export enum QuestionTypes {
+	string,
+	checkbox,
+	open_question,
+	checkbox_open,
+	number,
+}
 
 export class QuestionId {
 	string: string = null;
@@ -12,59 +18,90 @@ export class QuestionId {
 		this.array = array;
 		this.string = QuestionId.getStringByArray(array);
 	}
-//TODO: сделать метод сонст + передавать в него парент и намбер
+	//TODO: сделать метод сонст + передавать в него парент и намбер
 	addElementForAnswer(id: number) {
 		let newArray: Array<number> = this.array;
 		newArray.push(id);
 
-		this.string = QuestionId.getStringByArray(newArray)
+		this.string = QuestionId.getStringByArray(newArray);
 		this.array = newArray;
 	}
 
 	static getArrayByString(string: string): Array<number> {
-		let strArray = string.split('.')
+		let strArray = string.split(".");
 
-		let numArray = strArray.map(Number)
+		let numArray = strArray.map(Number);
 		return numArray;
 	}
 	static getStringByArray(array: Array<number>): string {
 		let string: string = "";
 
 		for (let i: number = 0; i < array.length; i++) {
-			string+=array[i];
-			if (i+1 !== array.length){
-				string+='.';
+			string += array[i];
+			if (i + 1 !== array.length) {
+				string += ".";
 			}
 		}
 
 		return string;
 	}
-
 }
 
 export class Questionnaire {
-	fields: Array<Question> = [];
+	fields: string;
 	id: number = -1;
 	name: string;
 	comment: string;
+	questionList: Array<Question> = [];
 	addRootQuestion(question: Question) {
 		let id: number = -1;
-		if (this.fields.length === 0)
-			id = 1;
-		else id = this.fields.length + 1;
+		if (this.questionList.length === 0) id = 1;
+		else id = this.questionList.length + 1;
 
-		let qid = new QuestionId()
-		qid.setWithString(id.toString())
+		let qid = new QuestionId();
+		qid.setWithString(id.toString());
 		question.id = qid;
 
-		this.fields.push(question);
+		this.questionList.push(question);
 	}
+	autoSetQuestionList(){
+		let fields: Array<Question> = [];
+		Object.assign(fields, JSON.parse(this.fields))
+		this.questionList = fields;
+	}
+	autoSetFields(){
+		this.fields = JSON.stringify(this.questionList)
+	}
+
+	modifyQuestionnaire(question: Question) {
+		let qIdArray = question.id.array;
+
+		this.autoSetQuestionList();
+
+		let currentQuestionList: Array<Question> = this.questionList;
+
+		for (let i: number = 0; i < qIdArray.length; i++) {
+
+			let index = qIdArray[i];
+
+			if (i != qIdArray.length - 1) {
+				currentQuestionList = currentQuestionList[index].answersList;
+			}
+			else{
+				currentQuestionList[index] = question;
+			}
+		}
+	}
+
 	static test(): Questionnaire {
 		let newQ: Questionnaire = new Questionnaire();
-		newQ.fields.push(Question.test())
-		newQ.name = "Тест"
-		newQ.id = 12
-		newQ.comment = "Комментарий"
+		newQ.questionList.push(Question.test());
+		newQ.name = "Тест";
+		newQ.id = 12;
+		newQ.comment = "Комментарий";
+
+		newQ.autoSetFields()
+
 		return newQ;
 	}
 }
@@ -77,7 +114,7 @@ export class Question {
 	haveSubquestion: boolean = false;
 	subText: string = "";
 	redirectTo: QuestionId = new QuestionId();
-	additionalQuestionList: Array<Question> = [];
+	isAdditionalQuestion: boolean = false;
 	type: QuestionTypes = QuestionTypes.string;
 
 	// constructor() {
@@ -97,45 +134,39 @@ export class Question {
 		this.isQuestion = false;
 	}
 
-	questionToAnswer() {
-
-	}
-	answerToQuestion() {
-
-	}
+	questionToAnswer() { }
+	answerToQuestion() { }
 
 	addAnswer(text: string, type: QuestionTypes) {
 		let answer: Question = new Question();
 		answer.constructorAnswer(text, type);
 
-		let parrentId: QuestionId = this.id
+		let parrentId: QuestionId = this.id;
 		let newId: QuestionId = new QuestionId();
-		newId.setWithString(parrentId.string)
+		newId.setWithString(parrentId.string);
 
 		let newNum: number = this.answersList.length + 1;
 
-		newId.addElementForAnswer(newNum)
+		newId.addElementForAnswer(newNum);
 		answer.id = newId;
 
 		this.answersList.push(answer);
 	}
 	addQuestion(question: Question) {
-		this.answersList.push(question)
+		this.answersList.push(question);
 	}
 	// addQuestion(text: string, ){
 	//     let question :Question = new Question();
-
-
 
 	//     this.answersList.push(question)
 	// }
 	static test(): Question {
 		let q = new Question();
 		q.constructorQuestion("Какого вы пола?");
-		q.id = new QuestionId()
-		q.id.setWithString('1')
-		q.addAnswer('мужской', QuestionTypes.string)
-		q.addAnswer('женский', QuestionTypes.string)
+		q.id = new QuestionId();
+		q.id.setWithString("1");
+		q.addAnswer("мужской", QuestionTypes.string);
+		q.addAnswer("женский", QuestionTypes.string);
 		return q;
 	}
 }
