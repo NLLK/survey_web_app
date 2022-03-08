@@ -13,3 +13,12 @@ export function ModifyQuestionnaire(origin: string, element: string): Questionna
     return originQ;
 
 }
+
+export function AddParentQuestion(origin: string): Questionnaire{
+    let originQ: Questionnaire = new Questionnaire()
+    Object.assign(originQ, JSON.parse(origin))
+
+    originQ.addRootQuestion(new Question())
+
+    return originQ;
+}

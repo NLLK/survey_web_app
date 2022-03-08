@@ -63,6 +63,10 @@ export class Questionnaire {
 		question.id = qid;
 
 		this.questionList.push(question);
+
+		question.isQuestion = true;
+
+		this.autoSetFields()
 	}
 	autoSetQuestionList() {
 		let fields: Array<Question> = [];

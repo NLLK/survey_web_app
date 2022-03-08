@@ -4,6 +4,8 @@ import { Question } from "../Models/Models";
 import DivWithCoords from "./DivWithCoords"
 import ViewerButton from "./ViewerButton"
 
+import { ButtonTypes } from './ViewerButton'
+
 const X_DIV: number = 100;
 
 // class Point {
@@ -17,14 +19,14 @@ const X_DIV: number = 100;
 // }
 
 export default function RegisterViewer(qFields: string): JSX.Element {
-   
+
     if (qFields === '{}' || qFields === undefined) {
         return (
             <div>
             </div>
         )
     }
-    console.log('regViewer',qFields)
+    console.log('regViewer', qFields)
     let fields: Array<Question> = JSON.parse(qFields)
     let returnPage: Array<JSX.Element> = [];
 
@@ -45,24 +47,30 @@ export default function RegisterViewer(qFields: string): JSX.Element {
 function RenderQuestion(question: Question): JSX.Element {
 
     return (
-        <div style={{ position: "relative"}}>
-            <ViewerButton parentRegister = {JSON.stringify(question)} type="content">
+        <div style={{ position: "relative" }}>
+            <ViewerButton parentRegister={JSON.stringify(question)} type={ButtonTypes.content}>
                 {question.id.string}
             </ViewerButton>
-            {question.isQuestion ? 
+
             <div style={{ position: "relative", left: X_DIV + "px" }}>
-                {
-                    question.answersList.map((item: Question, index: number) => (
-                        !item.isQuestion? 
-                        <ViewerButton key={index} parentRegister = {JSON.stringify(item) } type="content">
-                            {item.id.string}
-                        </ViewerButton>
-                        :
-                        RenderQuestion(item)
-                    ))
+                {question.isQuestion ?
+                    <>
+                        {
+                            question.answersList.map((item: Question, index: number) => (
+                                !item.isQuestion ?
+                                    <ViewerButton key={index} parentRegister={JSON.stringify(item)} type={ButtonTypes.content}>
+                                        {item.id.string}
+                                    </ViewerButton>
+                                    :
+                                    RenderQuestion(item)
+                            ))
+                        }
+                        <ViewerButton type={ButtonTypes.add} parentRegister={JSON.stringify(question)}>+</ViewerButton>
+                    </>
+                    :
+                    <ViewerButton type={ButtonTypes.add} parentRegister={JSON.stringify(question)}>+</ViewerButton>
                 }
-                <ViewerButton type="add" parentRegister={JSON.stringify(question)}>+</ViewerButton>
-            </div> : <></>}
+            </div>
 
 
         </div>

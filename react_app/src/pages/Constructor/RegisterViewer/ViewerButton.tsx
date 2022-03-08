@@ -6,10 +6,10 @@ import { Button } from "@mui/material";
 import { ButtonSizes } from './Styling'
 
 import { Question, QuestionTypes } from '../Models/Models'
-import { CONSTRUCTOR_MODIFY_QUESTIONNAIRE } from '../../Constructor/Reducer/ConstructorReducerTypes'
+import { CONSTRUCTOR_MODIFY_QUESTIONNAIRE, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from '../../Constructor/Reducer/ConstructorReducerTypes'
 
 
-export enum ButtonTypes { add = "add", content = "content" }
+export enum ButtonTypes { add = "add", content = "content", addParent = "addParent" }
 
 interface Props {
     //parentRegister?: Question;
@@ -25,18 +25,25 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
     const dispatch = useDispatch()
 
     const onClick = () => {
-        let parentReg: Question = Object.assign(new Question(), JSON.parse(parentRegister));
+        
 
         switch (type) {
             case ButtonTypes.add: {
+                let parentReg: Question = Object.assign(new Question(), JSON.parse(parentRegister));
                 parentReg.addAnswer("string", QuestionTypes.string)
 
                 dispatch({ type: CONSTRUCTOR_MODIFY_QUESTIONNAIRE, payload: JSON.stringify(parentReg) })
 
+
+                console.log('add')
                 break;
             }
             case ButtonTypes.content: {
 
+                break;
+            }
+            case ButtonTypes.addParent: {
+                dispatch({ type: CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION})
                 break;
             }
             default: break;

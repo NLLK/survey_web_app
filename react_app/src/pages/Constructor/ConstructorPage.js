@@ -16,6 +16,8 @@ import DivWithCoords from "./RegisterViewer/DivWithCoords";
 import ViewerButton from "./RegisterViewer/ViewerButton";
 import { Question, Questionnaire } from "./Models/Models";
 
+import {ButtonTypes} from './RegisterViewer/ViewerButton'
+
 export default function ConstructorPage(props) {
 	let params = useParams();
 
@@ -71,7 +73,7 @@ export default function ConstructorPage(props) {
 										RegisterViewer(questionnaire.fields)
 									}
 
-									<ViewerButton type="add">+</ViewerButton>
+									<ViewerButton type={ButtonTypes.addParent}>+</ViewerButton>
 								</div>
 
 
