@@ -58,7 +58,7 @@ function RenderQuestion(question: Question): JSX.Element {
                         {
                             question.answersList.map((item: Question, index: number) => (
                                 !item.isQuestion ?
-                                    <ViewerButton key={index} parentRegister={JSON.stringify(item)} type={ButtonTypes.content}>
+                                    <ViewerButton key={index} parentRegister={JSON.stringify(item)} childIndex={index} type={ButtonTypes.content}>
                                         {item.id.string}
                                     </ViewerButton>
                                     :

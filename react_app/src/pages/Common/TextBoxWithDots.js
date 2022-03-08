@@ -1,20 +1,6 @@
 import { useEffect, useState } from "react";
-
-import { styled } from '@mui/material/styles';
 import { Typography } from "@mui/material";
-import Button from '@mui/material/Button';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-const HtmlTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-        backgroundColor: '#f5f5f9',
-        color: 'rgba(0, 0, 0, 0.87)',
-        maxWidth: 220,
-        fontSize: theme.typography.pxToRem(12),
-        border: '1px solid #dadde9',
-    },
-}));
+import { HtmlTooltip } from "./HtmlTooltip";
 
 export default function TextBoxWithDots(props) {
 
@@ -32,7 +18,7 @@ export default function TextBoxWithDots(props) {
     return (
         useToolTip 
         ? 
-        <HtmlTooltip title={props.text}>
+        <HtmlTooltip title={props.text} enterTouchDelay={10000} disableInteractive>
             <Typography variant={props.variant}>
                 {cuttedString}
             </Typography>
