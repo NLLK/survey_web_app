@@ -24,7 +24,7 @@ export default function RegisterViewer(qFields: string): JSX.Element {
             </div>
         )
     }
-    console.log(qFields)
+    console.log('regViewer',qFields)
     let fields: Array<Question> = JSON.parse(qFields)
     let returnPage: Array<JSX.Element> = [];
 

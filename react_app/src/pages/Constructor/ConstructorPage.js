@@ -34,7 +34,7 @@ export default function ConstructorPage(props) {
 
 		let qTest = {
 			...qInfo,
-			fields: JSON.stringify(qInfo.fields)
+			fields: qInfo.fields
 		}
 
 		dispatch({ type: CONSTRUCTOR_SET_QUESTIONNAIRE, payload: qTest })

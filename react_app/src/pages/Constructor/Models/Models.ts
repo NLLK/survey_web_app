@@ -64,12 +64,12 @@ export class Questionnaire {
 
 		this.questionList.push(question);
 	}
-	autoSetQuestionList(){
+	autoSetQuestionList() {
 		let fields: Array<Question> = [];
 		Object.assign(fields, JSON.parse(this.fields))
 		this.questionList = fields;
 	}
-	autoSetFields(){
+	autoSetFields() {
 		this.fields = JSON.stringify(this.questionList)
 	}
 
@@ -82,15 +82,16 @@ export class Questionnaire {
 
 		for (let i: number = 0; i < qIdArray.length; i++) {
 
-			let index = qIdArray[i];
+			let index = qIdArray[i] - 1;
 
 			if (i != qIdArray.length - 1) {
 				currentQuestionList = currentQuestionList[index].answersList;
 			}
-			else{
+			else {
 				currentQuestionList[index] = question;
 			}
 		}
+		this.autoSetFields()
 	}
 
 	static test(): Questionnaire {
