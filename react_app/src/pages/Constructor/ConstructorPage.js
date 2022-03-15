@@ -10,13 +10,13 @@ import { GetQuestionnaireById, QuestionnaireTemplate } from "../SelectQuestionna
 
 import { CONSTRUCTOR_SET_QUESTIONNAIRE } from "./Reducer/ConstructorReducerTypes";
 
-import TextBox from "./RegisterViewer/TextBox";
 import RegisterViewer from './RegisterViewer/RegisterViewer'
-import DivWithCoords from "./RegisterViewer/DivWithCoords";
 import ViewerButton from "./RegisterViewer/ViewerButton";
-import { Question, Questionnaire } from "./Models/Models";
+import { Questionnaire } from "./Models/Models";
 
 import {ButtonTypes} from './RegisterViewer/ViewerButton'
+
+import RegisterEditor from './RegisterEditor/RegisterEditor'
 
 export default function ConstructorPage(props) {
 	let params = useParams();
@@ -67,7 +67,7 @@ export default function ConstructorPage(props) {
 					<SideBarHandler page_name={"Конструктор анкет: " + questionnaire.name} width={300} menu_type={CONSTRUCTOR_MENU} />
 					<div className="constructor">
 						<div className="c-left-part">
-							<div className="c-registerViewer" style={{ overflow: "auto"}}>
+							<div className="c-registerViewer" style={{display: "flex", overflow: "auto"}}>
 								<div style={{ position: "relative", paddingLeft: "10 px" }}>
 									{
 										RegisterViewer(questionnaire.fields)
@@ -84,7 +84,9 @@ export default function ConstructorPage(props) {
 							</div>
 						</div>
 						<div className="c-registerEditor">
+							<RegisterEditor>
 
+							</RegisterEditor>
 						</div>
 					</div>
 				</>

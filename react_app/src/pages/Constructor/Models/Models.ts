@@ -18,6 +18,18 @@ export class QuestionId {
 		this.array = array;
 		this.string = QuestionId.getStringByArray(array);
 	}
+
+	update(){
+		if (this.array !== []) this.setWithArray(this.array)
+		else if (this.string) this.setWithString(this.string)
+	}
+
+	setForNewQuestion(parrentId: QuestionId,lastIndex: number){
+		this.array = parrentId.array;
+		this.array.push(lastIndex)
+		this.update()
+	}
+
 	//TODO: сделать метод сонст + передавать в него парент и намбер
 	addElementForAnswer(id: number) {
 		let newArray: Array<number> = this.array;
@@ -42,7 +54,6 @@ export class QuestionId {
 				string += ".";
 			}
 		}
-
 		return string;
 	}
 }
@@ -77,25 +88,64 @@ export class Questionnaire {
 		this.fields = JSON.stringify(this.questionList)
 	}
 
-	modifyQuestionnaire(question: Question) {
-		let qIdArray = question.id.array;
-
+	addQuestionById(qId: QuestionId){
 		this.autoSetQuestionList();
 
+		let qIdArray = qId.array;
 		let currentQuestionList: Array<Question> = this.questionList;
-
 		for (let i: number = 0; i < qIdArray.length; i++) {
-
 			let index = qIdArray[i] - 1;
+			if (qIdArray.length - 2 < 0)
+			{
+				let newQ = new Question();
+				newQ.constructorAnswer("", QuestionTypes.string);
+				newQ.id = new QuestionId();
+				newQ.id.setForNewQuestion(qId,currentQuestionList[index].answersList.length+1)
+				currentQuestionList[index].answersList.push(newQ);
+				break;
+			}
+			if (i !== qIdArray.length - 2) {
+				currentQuestionList = currentQuestionList[index].answersList;
+			}
+			else {
+				currentQuestionList.push(new Question());
+			}
+		}
+		this.autoSetFields();
+	}	
 
-			if (i != qIdArray.length - 1) {
+	modifyQuestionnaire(question: Question) {
+		this.autoSetQuestionList();
+
+		let qIdArray = question.id.array;
+		let currentQuestionList: Array<Question> = this.questionList;
+		for (let i: number = 0; i < qIdArray.length; i++) {
+			let index = qIdArray[i] - 1;
+			if (i !== qIdArray.length - 1) {
 				currentQuestionList = currentQuestionList[index].answersList;
 			}
 			else {
 				currentQuestionList[index] = question;
 			}
 		}
-		this.autoSetFields()
+
+		this.autoSetFields();
+	}
+
+	findQuestionById(qId: QuestionId): Question{
+		this.autoSetQuestionList();
+
+		let qIdArray = qId.array;
+		let currentQuestionList: Array<Question> = this.questionList;
+		for (let i: number = 0; i < qIdArray.length; i++) {
+			let index = qIdArray[i] - 1;
+			if (i !== qIdArray.length - 1) {
+				currentQuestionList = currentQuestionList[index].answersList;
+			}
+			else {
+				return currentQuestionList[index]
+			}
+		}
 	}
 
 	static test(): Questionnaire {

@@ -5,8 +5,9 @@ import { Button, Typography } from "@mui/material";
 
 import { ButtonSizes } from './Styling'
 
-import { Question, QuestionTypes } from '../Models/Models'
-import { CONSTRUCTOR_MODIFY_QUESTIONNAIRE, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from '../../Constructor/Reducer/ConstructorReducerTypes'
+import { Question} from '../Models/Models'
+import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from '../../Constructor/Reducer/ConstructorReducerTypes'
+import {REGISTER_EDITOR_SET_REGISTER} from "../RegisterEditor/RegisterEditorReducer/RegisterEditorTypes"
 import { HtmlTooltipViewerButton } from '../../Common/HtmlTooltip'
 
 export enum ButtonTypes { add = "add", content = "content", addParent = "addParent" }
@@ -14,12 +15,11 @@ export enum ButtonTypes { add = "add", content = "content", addParent = "addPare
 interface Props {
     //parentRegister?: Question;
     parentRegister?: string;
-    childIndex?: number;
     type?: string;
     children?: string;
 }
 
-export default function ViewerButton({ parentRegister, childIndex, type, children }: Props) {
+export default function ViewerButton({ parentRegister, type, children }: Props) {
 
     const dispatch = useDispatch()
 
@@ -33,30 +33,28 @@ export default function ViewerButton({ parentRegister, childIndex, type, childre
             setUseToolTip(false);
         }
         if (parentRegister !== undefined) {
-            parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
-            setParentRegView(parentReg)
+             parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
+             setParentRegView(parentReg)
         }
     }, [])
-
-
-
 
     const onClick = () => {
         switch (type) {
             case ButtonTypes.add: {
                 parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
-                parentReg.addAnswer("string", QuestionTypes.string)
-
-                dispatch({ type: CONSTRUCTOR_MODIFY_QUESTIONNAIRE, payload: JSON.stringify(parentReg) })
+                // parentReg.addAnswer("string", QuestionTypes.string)
+                
+                //dispatch({ type: CONSTRUCTOR_MODIFY_QUESTIONNAIRE, payload: JSON.stringify(parentReg) })
+                dispatch({ type: CONSTRUCTOR_ADD_BLANK_QUESTION, payload: parentReg.id.string})
 
                 break;
             }
             case ButtonTypes.content: {
-
+                dispatch({type: REGISTER_EDITOR_SET_REGISTER})
                 break;
             }
             case ButtonTypes.addParent: {
-                dispatch({ type: CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION })
+                dispatch({type: CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION})
                 break;
             }
             default: break;
