@@ -1,10 +1,13 @@
 import * as React from 'react'
 
+
+
 import { Question } from "../Models/Models";
 import DivWithCoords from "./DivWithCoords"
 import ViewerButton from "./ViewerButton"
 
 import { ButtonTypes } from './ViewerButton'
+import { start } from 'repl';
 
 const X_DIV: number = 100;
 
@@ -36,10 +39,14 @@ export default function RegisterViewer(qFields: string): JSX.Element {
     });
 
     return (
-        <>{
-            returnPage.map((item: JSX.Element, index: number) =>
-                <div key={index}>{item}</div>
-            )}
+        <>
+            <div style={{ position: "relative", paddingLeft: "10 px", display: "flex", flexDirection: 'column' }}>
+                {
+                    returnPage.map((item: JSX.Element, index: number) =>
+                        <div key={index}>{item}</div>
+                    )}
+                <ViewerButton type={ButtonTypes.addParent}>+</ViewerButton>
+            </div>
         </>
     )
 }
@@ -47,12 +54,12 @@ export default function RegisterViewer(qFields: string): JSX.Element {
 function RenderQuestion(question: Question): JSX.Element {
 
     return (
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", display: "flex", flexDirection: 'column' }}>
             <ViewerButton parentRegister={JSON.stringify(question)} type={ButtonTypes.content}>
                 {question.id.string}
             </ViewerButton>
 
-            <div style={{ position: "relative", left: X_DIV + "px" }}>
+            <div style={{ position: "relative", left: X_DIV + "px", display: "flex", flexDirection: 'column' }}>
                 {question.isQuestion ?
                     <>
                         {
