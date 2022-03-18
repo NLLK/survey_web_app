@@ -1,7 +1,7 @@
 import { REGISTER_EDITOR_SET_REGISTER } from "./RegisterEditorTypes";
 
 const defaultState = {
-    register: undefined,
+    register: null,
 };
 
 export const RegisterEditorReducer = (state = defaultState, action) => {

@@ -6,7 +6,7 @@
   gap: 0px 0px;
   /* grid-auto-flow: row; */
   grid-template-areas: "c-left-part c-left-part c-registerEditor";
-  background-color: darkgray;
+  /* background-color: darkgray; */
 }
 
 .c-left-part {
@@ -20,20 +20,23 @@
     "c-answerEditor";
   grid-area: c-left-part;
 
-  background-color: aqua;
+  /* background-color: aqua; */
 }
 
 .c-registerViewer {
   grid-area: c-registerViewer;
-  background-color: rgb(204, 208, 212);
+  /* border: 2px solid gray; */
+  /* background-color: rgb(204, 208, 212); */
 }
 
 .c-answerEditor {
   grid-area: c-answerEditor;
-  background-color: rgb(212, 191, 177);
+  border: 2px solid gray;
+  /* background-color: rgb(212, 191, 177); */
 }
 
 .c-registerEditor {
   grid-area: c-registerEditor;
-  background-color: rgb(184, 218, 177);
+  border: 2px solid gray;
+  /* background-color: rgb(184, 218, 177); */
 }

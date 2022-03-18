@@ -65,22 +65,23 @@ export default function ConstructorPage(props) {
 	const [contextMenu, setContextMenu] = React.useState(null);
 
 	const handleContextMenu = (event) => {
-	  event.preventDefault();
-	  setContextMenu(
-		contextMenu === null
-		  ? {
-			  mouseX: event.clientX - 2,
-			  mouseY: event.clientY - 4,
-			}
-		  : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
-			// Other native context menus might behave different.
-			// With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
-			null,
-	  );
+		
+		setContextMenu(
+			contextMenu === null
+				? {
+					mouseX: event.clientX - 2,
+					mouseY: event.clientY - 4,
+				}
+				: // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
+				// Other native context menus might behave different.
+				// With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
+				null,
+		);
+		event.preventDefault();
 	};
-  
+
 	const handleClose = () => {
-	  setContextMenu(null);
+		setContextMenu(null);
 	};
 
 	return (
@@ -91,38 +92,35 @@ export default function ConstructorPage(props) {
 					<SideBarHandler page_name={"Конструктор анкет: " + questionnaire.name} width={300} menu_type={CONSTRUCTOR_MENU} />
 					<div className="constructor">
 						<div className="c-left-part">
-							<div className="c-registerViewer" style={{ overflow: "auto" }} >
-								
-								<div onContextMenu={handleContextMenu} style={{position: "absolute"}}>
-									<Menu
-										transitionDuration = {100}
-										open={contextMenu !== null}
-										onClose={handleClose}
-										anchorReference="anchorPosition"
-										anchorPosition={
-											contextMenu !== null
-												? { top: contextMenu.mouseY, left: contextMenu.mouseX }
-												: undefined
-										}
-									>
-										<MenuItem onClick={handleClose}>Copy</MenuItem>
-										<MenuItem onClick={handleClose}>Print</MenuItem>
-										<MenuItem onClick={handleClose}>Highlight</MenuItem>
-										<MenuItem onClick={handleClose}>Email</MenuItem>
-									</Menu>
-								</div>
-								<div>
-								{
-									RegisterViewer(questionnaire.fields)
-								}
-								</div>
+							<div className="c-registerViewer" style={{ overflow: "auto" }} onContextMenu={handleContextMenu}>
 
+								<div >
+									{
+										RegisterViewer(questionnaire.fields)
+									}
+								</div>
+								<Menu
+									transitionDuration={100}
+									open={contextMenu !== null}
+									onClose={handleClose}
+									anchorReference="anchorPosition"
+									anchorPosition={
+										contextMenu !== null
+											? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+											: undefined
+									}
+								>
+									<MenuItem onClick={handleClose}>Copy</MenuItem>
+									<MenuItem onClick={handleClose}>Print</MenuItem>
+									<MenuItem onClick={handleClose}>Highlight</MenuItem>
+									<MenuItem onClick={handleClose}>Email</MenuItem>
+								</Menu>
 								{/* <div style={{ justifyContent: "end", alignItems: "start" }}>
 									<Fab color="primary" aria-label="add">
 										<AddIcon />
 									</Fab>
 								</div> */}
-								
+
 							</div>
 
 							<div className="c-answerEditor">

@@ -3,11 +3,9 @@ import { useDispatch } from 'react-redux';
 
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
-import { ButtonSizes } from './Styling'
-
 import { Question } from '../Models/Models'
-import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from '../../Constructor/Reducer/ConstructorReducerTypes'
-import { REGISTER_EDITOR_SET_REGISTER } from "../RegisterEditor/RegisterEditorReducer/RegisterEditorTypes"
+import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from '../Reducer/ConstructorReducerTypes'
+import { REGISTER_EDITOR_SET_REGISTER } from "./RegisterEditorReducer/RegisterEditorTypes"
 import { HtmlTooltipViewerButton } from '../../Common/HtmlTooltip'
 
 export enum ButtonTypes { add = "add", content = "content", addParent = "addParent" }
@@ -43,15 +41,12 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
         switch (type) {
             case ButtonTypes.add: {
                 parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
-                // parentReg.addAnswer("string", QuestionTypes.string)
-
-                //dispatch({ type: CONSTRUCTOR_MODIFY_QUESTIONNAIRE, payload: JSON.stringify(parentReg) })
                 dispatch({ type: CONSTRUCTOR_ADD_BLANK_QUESTION, payload: parentReg.id.string })
 
                 break;
             }
             case ButtonTypes.content: {
-                dispatch({ type: REGISTER_EDITOR_SET_REGISTER, payload: parentRegister})
+                dispatch({ type: REGISTER_EDITOR_SET_REGISTER, payload: parentRegister })
                 break;
             }
             case ButtonTypes.addParent: {
@@ -65,24 +60,20 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
     const [contextMenu, setContextMenu] = React.useState(null);
 
     const handleContextMenu = (event) => {
-      event.preventDefault();
-      //event.stopImmediatePropagation();
-      setContextMenu(
-        contextMenu === null
-          ? {
-              mouseX: event.clientX - 2,
-              mouseY: event.clientY - 4,
-            }
-          : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
-            // Other native context menus might behave different.
-            // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
-            null,
-      );
-      event.stopPropagation();
+        event.preventDefault();
+        setContextMenu(
+            contextMenu === null
+                ? {
+                    mouseX: event.clientX - 2,
+                    mouseY: event.clientY - 4,
+                }
+                : null,
+        );
+        event.stopPropagation();
     };
-  
+
     const handleClose = () => {
-      setContextMenu(null);
+        setContextMenu(null);
     };
 
     return (
@@ -98,12 +89,12 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
                         </Typography>
                     </>
                 }>
-                    <Button variant="contained" style={ButtonSizes} onClick={onClick}>
+                    <Button variant="contained" sx={{ display: "block", width: "-webkit-fill-available", margin: "10px"}} onClick = {onClick}>
                         {children}
                     </Button>
                 </HtmlTooltipViewerButton>
                 :
-                <Button variant="contained" style={ButtonSizes} onClick={onClick}>
+                <Button variant="contained" sx={{ display: "block", width: "-webkit-fill-available", margin: "10px" }} onClick = {onClick}>
                     {children}
                 </Button>
             }
