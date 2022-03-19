@@ -89,7 +89,7 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
     };
 
     return (
-        <div style={{ margin: 5 + "px", }} onContextMenu={handleContextMenu}>
+        <div style={{ margin: 5 + "px", width: "fit-content" }} onContextMenu={handleContextMenu}>
             {useToolTip ?
                 <HtmlTooltipViewerButton title={
                     <>

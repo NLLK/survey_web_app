@@ -14,7 +14,7 @@ interface Props {
     children?: string;
 }
 
-export default function ViewerButton({ parentRegister, type, children }: Props) {
+export default function EditorButton({ parentRegister, type, children }: Props) {
 
     return (
         <div  >

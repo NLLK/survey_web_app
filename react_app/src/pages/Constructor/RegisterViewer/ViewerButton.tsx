@@ -40,9 +40,11 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
         height: "30px" 
     }
 
+
+
     return (
          <div /*onContextMenu={handleContextMenu}*/>
-            <ConstructorButtonBase parentRegister={parentRegister} type={type} styling={ButtonSizes}>
+            <ConstructorButtonBase parentRegister={parentRegister} type={type}>
                 {children}
             </ConstructorButtonBase>
             {/* <Menu

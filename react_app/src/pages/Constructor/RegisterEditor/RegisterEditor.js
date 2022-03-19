@@ -4,37 +4,38 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 import EditorButton from "./EditorButton"
-import { ButtonTypes } from '../RegisterViewer/ViewerButton';
+import { ButtonTypes } from '../ConstructorButtonBase';
 
 export default function RegisterEditor() {
 
-    const questionnaire = useSelector(state => state.constructor.register)
+    const register = useSelector(state => state.constructor.register)
 
     const fields = () => {
 
-        if (!questionnaire)
+        if (!register)
             return (<>Ашипка</>)
-
-        let qObj = questionnaire
 
         return (
             <>
                 <div style={{ display: "block", alignItems: "flex-start", justifyItems: "center" }}>
-                    <div style={{padding: "10px"}}>
+                    <div style={{ padding: "10px" }}>
                         <Typography>
-                            {qObj.id.string} : {qObj.text}
+                            {register.id.string} : {register.text}
                         </Typography>
                     </div>
 
                     <div style={{ display: "block", alignItems: "flex-start", justifyItems: "center" }}>
                         {
-                            qObj.answersList.map((item, index) => (
+                            register.answersList.map((item, index) => (
                                 <EditorButton key={index} parentRegister={JSON.stringify(item)} type={ButtonTypes.content}>
-                                {item.text}
+                                    {item.id.string}: {item.text}
                                 </EditorButton>
                             ))
                         }
                     </div>
+                    <EditorButton parentRegister={JSON.stringify(register)} type={ButtonTypes.add}>
+                        *Добавить*
+                    </EditorButton>
                 </div>
 
             </>)
@@ -42,17 +43,9 @@ export default function RegisterEditor() {
 
     return (
         <>
-
-            <>
-                {
-                    fields()
-                }
-                {/* <div style={{ display: "flex", alignItems: "flex-start", justifyItems: "center" }}>
-                        {questionnaire}
-                    </div> */}
-            </>
-
-
+            {
+                fields()
+            }
         </>
     )
 }

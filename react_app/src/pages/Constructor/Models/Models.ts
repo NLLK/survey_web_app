@@ -101,16 +101,7 @@ export class Questionnaire {
 		let currentQuestionList: Array<Question> = this.questionList;
 		for (let i: number = 0; i < qIdArray.length; i++) {
 			let index = qIdArray[i] - 1;
-			if (qIdArray.length - 2 < 0)
-			{
-				let newQ = new Question();
-				newQ.constructorAnswer("*Введите текст*", QuestionTypes.string);
-				newQ.id = new QuestionId();
-				newQ.id.setForNewQuestion(qId,currentQuestionList[index].answersList.length+1)
-				currentQuestionList[index].answersList.push(newQ);
-				break;
-			}
-			if (i !== qIdArray.length - 2) {
+			if (i !== qIdArray.length - 1) {
 				currentQuestionList = currentQuestionList[index].answersList;
 			}
 			else {
@@ -118,7 +109,9 @@ export class Questionnaire {
 				newQ.constructorAnswer("*Введите текст*", QuestionTypes.string);
 				newQ.id = new QuestionId();
 				newQ.id.setForNewQuestion(qId,currentQuestionList[index].answersList.length+1)
-				currentQuestionList.push(newQ);
+				currentQuestionList[index].answersList.push(newQ);
+				currentQuestionList[index].isQuestion = true;
+				break;
 			}
 		}
 		this.autoSetFields();
