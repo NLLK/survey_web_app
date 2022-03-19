@@ -8,14 +8,14 @@ import { ButtonTypes } from '../RegisterViewer/ViewerButton';
 
 export default function RegisterEditor() {
 
-    const questionnaire = useSelector(state => state.regEdit.register)
+    const questionnaire = useSelector(state => state.constructor.register)
 
     const fields = () => {
 
         if (!questionnaire)
             return (<>Ашипка</>)
 
-        let qObj = JSON.parse(questionnaire)
+        let qObj = questionnaire
 
         return (
             <>

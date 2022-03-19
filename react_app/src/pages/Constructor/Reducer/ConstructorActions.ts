@@ -33,3 +33,26 @@ export function AddQuestion(origin: string, id: string): Questionnaire{
 
     return originQ;
 }
+
+export function FindRegisterById(origin: object, idString: string): Question{
+
+    let originQ: Questionnaire = new Questionnaire()
+    Object.assign(originQ, JSON.parse(JSON.stringify(origin)))
+    
+    let originQID: QuestionId = new QuestionId()
+    originQID.setWithString(idString)
+
+    return originQ.findQuestionById(originQID);
+}
+export function FindRegisterByIdNext(origin: object, idString: string): Question{
+
+    let originQ: Questionnaire = new Questionnaire()
+    Object.assign(originQ, JSON.parse(JSON.stringify(origin)))
+    
+    let originQID: QuestionId = new QuestionId()
+    originQID.setWithString(idString)
+
+    let newQId = originQ.getLastChildIdById(originQID)
+
+    return originQ.findQuestionById(newQId);
+}

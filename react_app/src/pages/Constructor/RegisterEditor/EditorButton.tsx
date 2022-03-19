@@ -5,7 +5,7 @@ import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
 import { Question } from '../Models/Models'
 import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from '../Reducer/ConstructorReducerTypes'
-import { REGISTER_EDITOR_SET_REGISTER } from "./RegisterEditorReducer/RegisterEditorTypes"
+import { REGISTER_EDITOR_SET_REGISTER_ID } from "../Reducer/RegisterEditorTypes"
 import { HtmlTooltipViewerButton } from '../../Common/HtmlTooltip'
 
 export enum ButtonTypes { add = "add", content = "content", addParent = "addParent" }
@@ -46,7 +46,7 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
                 break;
             }
             case ButtonTypes.content: {
-                dispatch({ type: REGISTER_EDITOR_SET_REGISTER, payload: parentRegister })
+                dispatch({ type: REGISTER_EDITOR_SET_REGISTER_ID, payload: parentReg.id.string })
                 break;
             }
             case ButtonTypes.addParent: {

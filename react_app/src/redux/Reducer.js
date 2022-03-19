@@ -7,7 +7,7 @@ import { SideBarReducer } from "../pages/Common/SideBar/Reducer/SideBarReducer";
 import {ConstructorReducer} from "../pages/Constructor/Reducer/ConstructorReducer"
 
 import {DESTROY_SESSION} from './MainTypes'
-import { RegisterEditorReducer } from "../pages/Constructor/RegisterEditor/RegisterEditorReducer/RegisterEditorReducer";
+//import { RegisterEditorReducer } from "../pages/Constructor/RegisterEditor/RegisterEditorReducer/RegisterEditorReducer";
 
 // Combine all reducers.
 const appReducer = combineReducers({
@@ -17,7 +17,7 @@ const appReducer = combineReducers({
   selectQuestionnaire: SelectQuestionnaireReducer,
   sideBar: SideBarReducer,
   constructor: ConstructorReducer,
-  regEdit: RegisterEditorReducer
+  //regEdit: RegisterEditorReducer
 });
 const rootReducer = (state, action) => {   
   // Clear all data in redux store to initial.

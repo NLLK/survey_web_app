@@ -30,6 +30,12 @@ export class QuestionId {
 		this.update()
 	}
 
+	setIdNextToId(myId: QuestionId){
+		this.array = myId.array;
+		this.array[this.array.length-1] = this.array[this.array.length-1]+1 
+		this.update()
+	}
+
 	//TODO: сделать метод сонст + передавать в него парент и намбер
 	addElementForAnswer(id: number) {
 		let newArray: Array<number> = this.array;
@@ -150,6 +156,17 @@ export class Questionnaire {
 				return currentQuestionList[index]
 			}
 		}
+	}
+
+	getLastChildIdById(qId: QuestionId): QuestionId{
+		
+		let parentQuestion = this.findQuestionById(qId);
+		let lastChildIndex = parentQuestion.answersList.length - 1
+
+		let lastChildId = parentQuestion.answersList[lastChildIndex].id
+
+		return lastChildId;
+
 	}
 
 	static test(): Questionnaire {
