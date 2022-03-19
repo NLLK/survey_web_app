@@ -21,7 +21,7 @@ const X_DIV: number = 100;
 //     }
 // }
 
-export default function RegisterViewer(qFields: string): JSX.Element {
+export default function RegisterViewer(qFields: string, showAddButtons: boolean): JSX.Element {
 
     if (qFields === '{}' || qFields === undefined) {
         return (
@@ -29,13 +29,16 @@ export default function RegisterViewer(qFields: string): JSX.Element {
             </div>
         )
     }
+
+    if (showAddButtons === undefined)
+        showAddButtons = true; 
+
     console.log('regViewer', qFields)
     let fields: Array<Question> = JSON.parse(qFields)
     let returnPage: Array<JSX.Element> = [];
 
     fields.forEach(rootQuestion => {
-        //console.log(rootQuestion)
-        returnPage.push(RenderQuestion(rootQuestion))
+        returnPage.push(RenderQuestion(rootQuestion,showAddButtons))
     });
 
     return (
@@ -45,13 +48,17 @@ export default function RegisterViewer(qFields: string): JSX.Element {
                     returnPage.map((item: JSX.Element, index: number) =>
                         <div key={index}>{item}</div>
                     )}
+                {
+                showAddButtons? 
                 <ViewerButton type={ButtonTypes.addParent}>+</ViewerButton>
+                : <></>
+                }
             </div>
         </>
     )
 }
 
-function RenderQuestion(question: Question): JSX.Element {
+function RenderQuestion(question: Question, showAddButtons: boolean): JSX.Element {
 
     return (
         <div style={{ position: "relative", display: "flex", flexDirection: 'column' }}>
@@ -69,13 +76,13 @@ function RenderQuestion(question: Question): JSX.Element {
                                         {item.id.string}
                                     </ViewerButton>
                                     :
-                                    RenderQuestion(item)
+                                    RenderQuestion(item, showAddButtons)
                             ))
                         }
-                        <ViewerButton type={ButtonTypes.add} parentRegister={JSON.stringify(question)}>+</ViewerButton>
+                        {showAddButtons? <ViewerButton type={ButtonTypes.add} parentRegister={JSON.stringify(question)}>+</ViewerButton> : <></>}
                     </>
                     :
-                    <ViewerButton type={ButtonTypes.add} parentRegister={JSON.stringify(question)}>+</ViewerButton>
+                    showAddButtons? <ViewerButton type={ButtonTypes.add} parentRegister={JSON.stringify(question)}>+</ViewerButton> : <></>
                 }
             </div>
 

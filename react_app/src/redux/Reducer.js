@@ -16,8 +16,7 @@ const appReducer = combineReducers({
   main: mainReducer,
   selectQuestionnaire: SelectQuestionnaireReducer,
   sideBar: SideBarReducer,
-  constructor: ConstructorReducer,
-  //regEdit: RegisterEditorReducer
+  constructor: ConstructorReducer
 });
 const rootReducer = (state, action) => {   
   // Clear all data in redux store to initial.

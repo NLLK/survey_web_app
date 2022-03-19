@@ -11,7 +11,7 @@ import SideBarHandler from "../Common/SideBar/SideBarHandler";
 import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
 import { GetQuestionnaireById, QuestionnaireTemplate } from "../SelectQuestionnaire/QuestionnaireActions";
 
-import { CONSTRUCTOR_SET_QUESTIONNAIRE } from "./Reducer/ConstructorReducerTypes";
+import { CONSTRUCTOR_SET_QUESTIONNAIRE, CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS } from "./Reducer/ConstructorReducerTypes";
 
 import RegisterViewer from './RegisterViewer/RegisterViewer'
 import ViewerButton from "./RegisterViewer/ViewerButton";
@@ -29,6 +29,7 @@ export default function ConstructorPage(props) {
 
 	const [questionnaireInfo, setQuestionnaireInfo] = useState(QuestionnaireTemplate)
 	const questionnaire = useSelector(state => state.constructor.questionnaire)
+	const showAddButtons = useSelector(state => state.constructor.showAddButtons)
 
 	useEffect(() => {
 		let id = -1;
@@ -96,7 +97,7 @@ export default function ConstructorPage(props) {
 
 								<div >
 									{
-										RegisterViewer(questionnaire.fields)
+										RegisterViewer(questionnaire.fields, showAddButtons)
 									}
 								</div>
 								<Menu
@@ -110,10 +111,10 @@ export default function ConstructorPage(props) {
 											: undefined
 									}
 								>
-									<MenuItem onClick={handleClose}>Copy</MenuItem>
-									<MenuItem onClick={handleClose}>Print</MenuItem>
-									<MenuItem onClick={handleClose}>Highlight</MenuItem>
-									<MenuItem onClick={handleClose}>Email</MenuItem>
+									<MenuItem onClick={()=>{
+										dispatch({ type: CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS })
+										handleClose();
+									}}>Скрыть кнопки "+"</MenuItem>
 								</Menu>
 								{/* <div style={{ justifyContent: "end", alignItems: "start" }}>
 									<Fab color="primary" aria-label="add">
