@@ -30,9 +30,6 @@ export default function RegisterViewer(qFields: string, showAddButtons: boolean)
         )
     }
 
-    if (showAddButtons === undefined)
-        showAddButtons = true; 
-
     console.log('regViewer', qFields)
     let fields: Array<Question> = JSON.parse(qFields)
     let returnPage: Array<JSX.Element> = [];

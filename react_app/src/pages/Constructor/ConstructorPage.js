@@ -114,7 +114,9 @@ export default function ConstructorPage(props) {
 									<MenuItem onClick={()=>{
 										dispatch({ type: CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS })
 										handleClose();
-									}}>Скрыть кнопки "+"</MenuItem>
+									}}>
+										{showAddButtons? "Скрыть": "Показать"} кнопки "+"
+									</MenuItem>
 								</Menu>
 								{/* <div style={{ justifyContent: "end", alignItems: "start" }}>
 									<Fab color="primary" aria-label="add">

@@ -72,7 +72,6 @@ export const ConstructorReducer = (state = defaultState, action) => {
             };
         }
         case CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS: {
-            console.log(state.showAddButtons)
             let newShowAddButtons = false;
             if (!state.showAddButtons)
                 newShowAddButtons = true;
