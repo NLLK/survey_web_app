@@ -19,9 +19,8 @@ import RegisterViewer from './RegisterViewer/RegisterViewer'
 import ViewerButton from "./RegisterViewer/ViewerButton";
 import { Questionnaire } from "./Models/Models";
 
-import { ButtonTypes } from './RegisterViewer/ViewerButton'
-
 import RegisterEditor from './RegisterEditor/RegisterEditor'
+import AnswerEditor from './AnswerEditor/AnswerEditor'
 
 export default function ConstructorPage(props) {
 	let params = useParams();
@@ -129,13 +128,11 @@ export default function ConstructorPage(props) {
 							</div>
 
 							<div className="c-answerEditor">
-
+								<AnswerEditor />
 							</div>
 						</div>
 						<div className="c-registerEditor">
-							<RegisterEditor>
-
-							</RegisterEditor>
+							<RegisterEditor />
 						</div>
 					</div>
 				</>
