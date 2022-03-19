@@ -28,7 +28,7 @@ interface OnClickProps {
     type: ButtonTypes
 }
 
-export default function ConstructorButtonBase({ parentRegister, type, children, styling, sxProps}: Props) {
+export default function ConstructorButtonBase({ parentRegister, type, children, styling, sxProps }: Props) {
 
     const dispatch = useDispatch()
 
@@ -39,9 +39,9 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
 
     React.useEffect(() => {
         let parentReg: Question;
-        if (type === ButtonTypes.addParent || type === ButtonTypes.add) {
-            setUseToolTip(false);
-        }
+        // if (type === ButtonTypes.addParent || type === ButtonTypes.add) {
+        //     setUseToolTip(false);
+        // }
         if (parentRegister !== undefined) {
             parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
             setParentRegView(parentReg)
@@ -91,20 +91,31 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
     return (
         <div style={{ margin: 5 + "px", width: "fit-content" }} onContextMenu={handleContextMenu}>
             {useToolTip ?
-                <HtmlTooltipViewerButton title={
-                    <>
-                        <Typography variant="body2">
-                            {parentRegView.text}
-                        </Typography>
-                        <Typography variant="body2">
-                            {parentRegView.subText}
-                        </Typography>
-                    </>
-                }>
-                    <Button variant="contained" style={styling} sx={sxProps} onClick={onClick}>
-                        {children}
-                    </Button>
-                </HtmlTooltipViewerButton>
+                (
+                    <HtmlTooltipViewerButton title={
+                        (type == ButtonTypes.add || type == ButtonTypes.addParent) ? (
+                            <>
+                                <Typography variant="body2">
+                                    *Добавить*
+                                </Typography>
+                            </>
+                        ) : (
+                        <>
+                            <Typography variant="body2">
+                                {parentRegView.text}
+                            </Typography>
+                            <Typography variant="body2">
+                                {parentRegView.subText}
+                            </Typography>
+                        </>)
+
+                    }>
+
+                        <Button variant="contained" style={styling} sx={sxProps} onClick={onClick}>
+                            {children}
+                        </Button>
+                    </HtmlTooltipViewerButton>
+                )
                 :
                 <Button variant="contained" style={styling} sx={sxProps} onClick={onClick}>
                     {children}

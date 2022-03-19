@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Fab, Menu, MenuItem } from '@mui/material';
+import { Fab, ListItemIcon, Menu, MenuItem } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import AddIcon from '@mui/icons-material/Add';
 
 import './styles.css'
@@ -66,7 +68,7 @@ export default function ConstructorPage(props) {
 	const [contextMenu, setContextMenu] = React.useState(null);
 
 	const handleContextMenu = (event) => {
-		
+
 		setContextMenu(
 			contextMenu === null
 				? {
@@ -94,7 +96,6 @@ export default function ConstructorPage(props) {
 					<div className="constructor">
 						<div className="c-left-part">
 							<div className="c-registerViewer" style={{ overflow: "auto" }} onContextMenu={handleContextMenu}>
-
 								<div >
 									{
 										RegisterViewer(questionnaire.fields, showAddButtons)
@@ -111,19 +112,20 @@ export default function ConstructorPage(props) {
 											: undefined
 									}
 								>
-									<MenuItem onClick={()=>{
+									<MenuItem onClick={() => {
 										dispatch({ type: CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS })
 										handleClose();
 									}}>
-										{showAddButtons? "Скрыть": "Показать"} кнопки "+"
+										<ListItemIcon>
+											{
+												showAddButtons ?
+													<VisibilityOffIcon fontSize="small" />
+													: <VisibilityIcon fontSize="small" />
+											}
+										</ListItemIcon>
+										{showAddButtons ? "Скрыть" : "Показать"} кнопки "+"
 									</MenuItem>
 								</Menu>
-								{/* <div style={{ justifyContent: "end", alignItems: "start" }}>
-									<Fab color="primary" aria-label="add">
-										<AddIcon />
-									</Fab>
-								</div> */}
-
 							</div>
 
 							<div className="c-answerEditor">
