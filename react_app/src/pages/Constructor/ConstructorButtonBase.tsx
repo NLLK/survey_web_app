@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux';
 
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { Button, Menu, MenuItem, MenuItemClasses, MenuItemProps, MenuProps, SxProps, Typography } from "@mui/material";
 
 import { Question } from './Models/Models'
 import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from './Reducer/ConstructorReducerTypes'
@@ -10,23 +10,25 @@ import { HtmlTooltipViewerButton } from '../Common/HtmlTooltip'
 
 export enum ButtonTypes { add = "add", content = "content", addParent = "addParent" }
 
+interface iStyling {
+    width: string;
+    height: string;
+}
+
 interface Props {
     //parentRegister?: Question;
     parentRegister?: string;
     type?: string;
     children?: string;
+    styling?: iStyling;
+    sxProps?: SxProps;
 }
 
-interface OnClickProps{
+interface OnClickProps {
     type: ButtonTypes
 }
 
-const ButtonSizes = {
-    width: "75px",
-    height: "30px" 
-}
-
-export default function ViewerButton({ parentRegister, type, children }: Props) {
+export default function ConstructorButtonBase({ parentRegister, type, children, styling, sxProps}: Props) {
 
     const dispatch = useDispatch()
 
@@ -56,7 +58,7 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
             }
             case ButtonTypes.content: {
                 parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
-                dispatch({ type: REGISTER_EDITOR_SET_REGISTER_ID, payload: parentReg.id.string})
+                dispatch({ type: REGISTER_EDITOR_SET_REGISTER_ID, payload: parentReg.id.string })
                 break;
             }
             case ButtonTypes.addParent: {
@@ -70,20 +72,20 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
     const [contextMenu, setContextMenu] = React.useState(null);
 
     const handleContextMenu = (event) => {
-      event.preventDefault();
-      setContextMenu(
-        contextMenu === null
-          ? {
-              mouseX: event.clientX - 2,
-              mouseY: event.clientY - 4,
-            }
-          : null,
-      );
-      event.stopPropagation();
+        event.preventDefault();
+        setContextMenu(
+            contextMenu === null
+                ? {
+                    mouseX: event.clientX - 2,
+                    mouseY: event.clientY - 4,
+                }
+                : null,
+        );
+        event.stopPropagation();
     };
-  
+
     const handleClose = () => {
-      setContextMenu(null);
+        setContextMenu(null);
     };
 
     return (
@@ -99,12 +101,12 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
                         </Typography>
                     </>
                 }>
-                    <Button variant="contained" style={ButtonSizes} onClick={onClick}>
+                    <Button variant="contained" style={styling} sx={sxProps} onClick={onClick}>
                         {children}
                     </Button>
                 </HtmlTooltipViewerButton>
                 :
-                <Button variant="contained" style={ButtonSizes} onClick={onClick}>
+                <Button variant="contained" style={styling} sx={sxProps} onClick={onClick}>
                     {children}
                 </Button>
             }
@@ -119,7 +121,7 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
                         : undefined
                 }
             >
-                <MenuItem onClick={handleClose}>BOBA</MenuItem>
+                <MenuItem onClick={handleClose}>ViewBoba</MenuItem>
             </Menu>
         </div>
 
