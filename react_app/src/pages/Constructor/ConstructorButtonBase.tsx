@@ -3,12 +3,10 @@ import { useDispatch } from 'react-redux';
 
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 
-import { ButtonSizes } from './Styling'
-
-import { Question } from '../Models/Models'
-import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from '../../Constructor/Reducer/ConstructorReducerTypes'
-import { REGISTER_EDITOR_SET_REGISTER_ID } from "../Reducer/RegisterEditorTypes"
-import { HtmlTooltipViewerButton } from '../../Common/HtmlTooltip'
+import { Question } from './Models/Models'
+import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from './Reducer/ConstructorReducerTypes'
+import { REGISTER_EDITOR_SET_REGISTER_ID } from "./Reducer/RegisterEditorTypes"
+import { HtmlTooltipViewerButton } from '../Common/HtmlTooltip'
 
 export enum ButtonTypes { add = "add", content = "content", addParent = "addParent" }
 
@@ -23,6 +21,10 @@ interface OnClickProps{
     type: ButtonTypes
 }
 
+const ButtonSizes = {
+    width: "75px",
+    height: "30px" 
+}
 
 export default function ViewerButton({ parentRegister, type, children }: Props) {
 
@@ -69,17 +71,13 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
 
     const handleContextMenu = (event) => {
       event.preventDefault();
-      //event.stopImmediatePropagation();
       setContextMenu(
         contextMenu === null
           ? {
               mouseX: event.clientX - 2,
               mouseY: event.clientY - 4,
             }
-          : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
-            // Other native context menus might behave different.
-            // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
-            null,
+          : null,
       );
       event.stopPropagation();
     };

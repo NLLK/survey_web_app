@@ -24,9 +24,8 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
     const [useToolTip, setUseToolTip] = React.useState(true);
     const [parentRegView, setParentRegView] = React.useState(new Question())
 
-    let parentReg: Question;
-
     React.useEffect(() => {
+        let parentReg: Question;
         if (type === ButtonTypes.addParent || type === ButtonTypes.add) {
             setUseToolTip(false);
         }
@@ -42,11 +41,11 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
             case ButtonTypes.add: {
                 parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
                 dispatch({ type: CONSTRUCTOR_ADD_BLANK_QUESTION, payload: parentReg.id.string })
-
                 break;
             }
             case ButtonTypes.content: {
-                dispatch({ type: REGISTER_EDITOR_SET_REGISTER_ID, payload: parentReg.id.string })
+                parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
+                dispatch({ type: REGISTER_EDITOR_SET_REGISTER_ID, payload: parentReg.id.string})
                 break;
             }
             case ButtonTypes.addParent: {
@@ -56,6 +55,7 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
             default: break;
         }
     }
+
 
     const [contextMenu, setContextMenu] = React.useState(null);
 
