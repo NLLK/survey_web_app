@@ -23,6 +23,8 @@ const X_DIV: number = 100;
 
 export default function RegisterViewer(qFields: string, showAddButtons: boolean): JSX.Element {
 
+    //React.useEffect(()=>{}, [qFields])
+
     if (qFields === '{}' || qFields === undefined) {
         return (
             <div>

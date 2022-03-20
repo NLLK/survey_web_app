@@ -33,15 +33,20 @@ export const ConstructorReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 questionnaire: action.payload,
-                showAddButtons: true
+                showAddButtons: true,
+                register: null,
+                register_id: null,
             };
         }
         case CONSTRUCTOR_MODIFY_QUESTIONNAIRE: {
 
-            let newQ = ModifyQuestionnaire(JSON.stringify(state.questionnaire), action.payload)
+            let newQ = ModifyQuestionnaire(state.questionnaire, action.payload)
             console.log("newQ", newQ)
+
+            let newReg = FindRegisterById(state.questionnaire, action.payload.id.string)
             return {
                 ...state,
+                register: newReg,
                 questionnaire: newQ
             };
         }

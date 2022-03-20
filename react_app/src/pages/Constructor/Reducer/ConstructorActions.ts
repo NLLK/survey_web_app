@@ -1,12 +1,12 @@
 import { Question, QuestionId, Questionnaire } from "../Models/Models";
 
-export function ModifyQuestionnaire(origin: string, element: string): Questionnaire{
+export function ModifyQuestionnaire(origin: object, element: object): Questionnaire{
 
     let originQ: Questionnaire = new Questionnaire()
-    Object.assign(originQ, JSON.parse(origin))
+    Object.assign(originQ, JSON.parse(JSON.stringify(origin)))
 
     let elementQ: Question = new Question()
-    Object.assign(elementQ, JSON.parse(element))
+    Object.assign(elementQ, JSON.parse(JSON.stringify(element)))
 
     originQ.modifyQuestionnaire(elementQ)
     

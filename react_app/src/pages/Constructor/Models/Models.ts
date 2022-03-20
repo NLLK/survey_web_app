@@ -177,13 +177,13 @@ export class Questionnaire {
 
 export class Question {
 	text: string = "";
-	isQuestion: boolean = false;
-	answersList: Array<Question> = [];
-	id: QuestionId = new QuestionId();
+	isQuestion: boolean = false;//auto
+	answersList: Array<Question> = [];//auto
+	id: QuestionId = new QuestionId();//auto
 	haveSubquestion: boolean = false;
 	subText: string = "";
 	redirectTo: QuestionId = new QuestionId();
-	isAdditionalQuestion: boolean = false;
+	isAdditionalQuestion: boolean = false;//auto
 	type: QuestionTypes = QuestionTypes.string;
 
 	// constructor() {

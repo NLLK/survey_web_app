@@ -1,0 +1,25 @@
+.answer-editor {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
+  grid-template-rows: 0.9fr 0.1fr;
+  grid-auto-columns: 1fr;
+  gap: 0px 0px;
+  /* grid-auto-flow: row; */
+  grid-template-areas:
+    "ae-first ae-second"
+    "ae-buttons ae-buttons";
+}
+
+.ae-first {
+  grid-area: ae-first;
+  border-right: 2px solid black;
+}
+
+.ae-second {
+  grid-area: ae-second;
+}
+
+.ae-buttons {
+  grid-area: ae-buttons;
+}
