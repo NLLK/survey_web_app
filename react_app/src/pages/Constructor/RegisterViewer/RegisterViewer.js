@@ -17,20 +17,18 @@ function RegisterViewer(props) {
 
     }, [props])
 
-    if (props.qFields === '{}' || props.qFields === undefined) {
-        return (
-            <div>
-            </div>
-        )
-    }
-
-    console.log('regViewer', props.qFields)
-    let fields = JSON.parse(props.qFields)
     let returnPage  = [];
 
-    fields.forEach(rootQuestion => {
-        returnPage.push(RenderQuestion(rootQuestion,props.showAddButtons))
-    });
+    if (props.qFields !== '{}' && props.qFields !== undefined) {
+        console.log('regViewer', props.qFields)
+        let fields = JSON.parse(props.qFields)
+    
+        fields.forEach(rootQuestion => {
+            returnPage.push(RenderQuestion(rootQuestion,props.showAddButtons))
+        });
+    }
+
+
 
     return (
         <>

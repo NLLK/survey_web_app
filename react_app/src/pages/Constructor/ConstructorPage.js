@@ -20,6 +20,7 @@ import { Questionnaire } from "./Models/Models";
 import RegisterViewer from './RegisterViewer/RegisterViewer'
 import RegisterEditor from './RegisterEditor/RegisterEditor'
 import AnswerEditor from './AnswerEditor/AnswerEditor'
+import Notifier from "./Notifier/Notifier";
 
 export default function ConstructorPage(props) {
 	let params = useParams();
@@ -50,9 +51,9 @@ export default function ConstructorPage(props) {
 
 	const getQuestionnaire = async (id) => {
 
-		const qInfo = Questionnaire.test()//await GetQuestionnaireById(setQuestionnaireInfo, id)
-		console.log('or', await GetQuestionnaireById(setQuestionnaireInfo, id))
-		console.log('test', qInfo)
+		const qInfo = await GetQuestionnaireById(setQuestionnaireInfo, id)//Questionnaire.test()//await GetQuestionnaireById(setQuestionnaireInfo, id)
+		//console.log('or', await GetQuestionnaireById(setQuestionnaireInfo, id))
+		console.log('or', qInfo)
 
 		let qTest = {
 			...qInfo,
@@ -90,6 +91,7 @@ export default function ConstructorPage(props) {
 			{/* <UserPermissionsWrapper permission={2} /> */}
 			{
 				questionnaire ? <>
+					<Notifier/>
 					<SideBarHandler page_name={"Конструктор анкет: " + questionnaire.name} width={300} menu_type={CONSTRUCTOR_MENU} />
 					<div className="constructor">
 						<div className="c-left-part">

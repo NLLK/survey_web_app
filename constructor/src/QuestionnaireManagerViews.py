@@ -50,7 +50,7 @@ class CreateQuestionnaire(APIView):
 
 
 class EditQuestionnaire(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]#IsAuthenticated
 
     def post(self, request, format=None):
         serializer = QuestionnaireEditSerializer(data=request.data) #full

@@ -9,6 +9,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import SaveIcon from '@mui/icons-material/Save';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { SaveQuestionnaireDispatch } from '../../Constructor/ConstructorSidebarActions';
 
 export const SELECT_QUESTIONNAIRE_MENU = "SELECT_QUESTIONNAIRE_MENU"
 export const CONSTRUCTOR_MENU = "CONSTRUCTOR_MENU"
@@ -18,6 +20,7 @@ export const BLANK_MENU = "BLANK_MENU"
 
 export default function SideBarList(props) {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     switch (props.menu_type) {
         case SELECT_QUESTIONNAIRE_MENU:
             return (
@@ -45,18 +48,19 @@ export default function SideBarList(props) {
                         </ListItemIcon>
                         <ListItemText primary="Выбрать/Создать анкету" />
                     </ListItem>
+                    <ListItem button onClick={()=>SaveQuestionnaireDispatch(dispatch)}>
+                        <ListItemIcon>
+                            <SaveIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Сохранить" />
+                    </ListItem>
                     <ListItem button onClick={() => navigate('/constructor/description')}>
                         <ListItemIcon>
                             <InfoIcon  />
                         </ListItemIcon>
                         <ListItemText primary="Свойства анкеты" />
                     </ListItem>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <SaveIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Сохранить" />
-                    </ListItem>
+
                     <ListItem button>
                         <ListItemIcon>
                             <SaveAltIcon />

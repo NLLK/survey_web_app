@@ -58,7 +58,7 @@ export default function QuestionnaireCard(props) {
     };
 
     const handleEditAction = () => {
-        navigate('edit/' + props.cardInfo.id)
+        navigate('selectQuestionnaire/edit/' + props.cardInfo.id)
     }
 
     const cardOnClick = () => {

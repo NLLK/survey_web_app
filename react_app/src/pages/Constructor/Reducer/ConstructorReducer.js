@@ -4,7 +4,9 @@ CONSTRUCTOR_SET_QUESTIONNAIRE,
 CONSTRUCTOR_MODIFY_QUESTIONNAIRE,
 CONSTRUCTOR_ADD_BLANK_QUESTION,
 CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION,
-CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS
+CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS,
+CONSTRUCTOR_REQUEST_SAVING,
+CONSTRUCTOR_SAVING_COMPLETE
 } from "./ConstructorReducerTypes";
 
 import { REGISTER_EDITOR_SET_REGISTER_ID } from "./RegisterEditorTypes";
@@ -16,7 +18,8 @@ const defaultState = {
     questionnaire: null,
     register: null,
     register_id: null,
-    showAddButtons: false
+    showAddButtons: false,
+    saving: false
 };
 
 export const ConstructorReducer = (state = defaultState, action) => {
@@ -85,6 +88,19 @@ export const ConstructorReducer = (state = defaultState, action) => {
                 ...state,  
                 showAddButtons: newShowAddButtons
             };
+        }
+        //TODO: новое для отчета
+        case CONSTRUCTOR_REQUEST_SAVING: {
+            return{
+                ...state,
+                saving: true
+            }
+        }
+        case CONSTRUCTOR_SAVING_COMPLETE: {
+            return{
+                ...state,
+                saving: false
+            }
         }
     }
     switch (action.type) {
