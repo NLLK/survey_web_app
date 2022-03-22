@@ -44,7 +44,7 @@ export default function ViewerButton({ parentRegister, type, children }: Props) 
 
     return (
          <div /*onContextMenu={handleContextMenu}*/>
-            <ConstructorButtonBase parentRegister={parentRegister} type={type}>
+            <ConstructorButtonBase parentRegister={parentRegister} type={type} sxProps={{width: "fit-content" }}>
                 {children}
             </ConstructorButtonBase>
             {/* <Menu
