@@ -15,10 +15,9 @@ import { GetQuestionnaireById, QuestionnaireTemplate } from "../SelectQuestionna
 
 import { CONSTRUCTOR_SET_QUESTIONNAIRE, CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS } from "./Reducer/ConstructorReducerTypes";
 
-import RegisterViewer from './RegisterViewer/RegisterViewer'
-import ViewerButton from "./RegisterViewer/ViewerButton";
 import { Questionnaire } from "./Models/Models";
 
+import RegisterViewer from './RegisterViewer/RegisterViewer'
 import RegisterEditor from './RegisterEditor/RegisterEditor'
 import AnswerEditor from './AnswerEditor/AnswerEditor'
 
@@ -96,9 +95,9 @@ export default function ConstructorPage(props) {
 						<div className="c-left-part">
 							<div className="c-registerViewer" style={{ overflow: "auto" }} onContextMenu={handleContextMenu}>
 								<div >
-									{
-										RegisterViewer(questionnaire.fields, showAddButtons)
-									}
+									<RegisterViewer>
+
+									</RegisterViewer>
 								</div>
 								<Menu
 									transitionDuration={100}

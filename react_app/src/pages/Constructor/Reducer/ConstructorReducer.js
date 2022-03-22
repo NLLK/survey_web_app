@@ -43,7 +43,7 @@ export const ConstructorReducer = (state = defaultState, action) => {
             let newQ = ModifyQuestionnaire(state.questionnaire, action.payload)
             console.log("newQ", newQ)
 
-            let newReg = FindRegisterById(state.questionnaire, action.payload.id.string)
+            let newReg = FindRegisterById(newQ, action.payload.id.string)
             return {
                 ...state,
                 register: newReg,

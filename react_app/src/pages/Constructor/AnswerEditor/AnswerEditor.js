@@ -26,7 +26,7 @@ function AnswerEditor(props) {
 
     React.useEffect(()=>{ 
         setRegInfo(props.register)
-        console.log("rerender answerEditor")
+
     }, [props])
 
 

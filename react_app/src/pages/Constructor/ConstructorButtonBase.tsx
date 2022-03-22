@@ -46,7 +46,7 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
             parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
             setParentRegView(parentReg)
         }
-    }, [])
+    }, [parentRegister])
 
     const onClick = () => {
         let parentReg: Question;

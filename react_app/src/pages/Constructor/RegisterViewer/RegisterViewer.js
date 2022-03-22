@@ -1,54 +1,46 @@
 import * as React from 'react'
 
-
-
 import { Question } from "../Models/Models";
 import DivWithCoords from "./DivWithCoords"
 import ViewerButton from "./ViewerButton"
 
 import { ButtonTypes } from './ViewerButton'
-import { start } from 'repl';
+import { connect } from 'react-redux';
 
-const X_DIV: number = 100;
+const X_DIV = 100;
 
-// class Point {
-//     x: number = 0;
-//     y: number = 0;
+function RegisterViewer(props) {
 
-//     constructor(x: number, y: number) {
-//         this.x = x;
-//         this.y = y;
-//     }
-// }
+    React.useEffect(()=>{
 
-export default function RegisterViewer(qFields: string, showAddButtons: boolean): JSX.Element {
+        console.log("registerViewer rerender")
 
-    //React.useEffect(()=>{}, [qFields])
+    }, [props])
 
-    if (qFields === '{}' || qFields === undefined) {
+    if (props.qFields === '{}' || props.qFields === undefined) {
         return (
             <div>
             </div>
         )
     }
 
-    console.log('regViewer', qFields)
-    let fields: Array<Question> = JSON.parse(qFields)
-    let returnPage: Array<JSX.Element> = [];
+    console.log('regViewer', props.qFields)
+    let fields = JSON.parse(props.qFields)
+    let returnPage  = [];
 
     fields.forEach(rootQuestion => {
-        returnPage.push(RenderQuestion(rootQuestion,showAddButtons))
+        returnPage.push(RenderQuestion(rootQuestion,props.showAddButtons))
     });
 
     return (
         <>
             <div style={{ position: "relative", paddingLeft: "10 px", display: "flex", flexDirection: 'column' }}>
                 {
-                    returnPage.map((item: JSX.Element, index: number) =>
+                    returnPage.map((item, index) =>
                         <div key={index}>{item}</div>
                     )}
                 {
-                showAddButtons? 
+                props.showAddButtons? 
                 <ViewerButton type={ButtonTypes.addParent}>+</ViewerButton>
                 : <></>
                 }
@@ -57,7 +49,7 @@ export default function RegisterViewer(qFields: string, showAddButtons: boolean)
     )
 }
 
-function RenderQuestion(question: Question, showAddButtons: boolean): JSX.Element {
+function RenderQuestion(question, showAddButtons) {
 
     return (
         <div style={{ position: "relative", display: "flex", flexDirection: 'column' }}>
@@ -69,7 +61,7 @@ function RenderQuestion(question: Question, showAddButtons: boolean): JSX.Elemen
                 {question.isQuestion ?
                     <>
                         {
-                            question.answersList.map((item: Question, index: number) => (
+                            question.answersList.map((item, index) => (
                                 !item.isQuestion ?
                                     <ViewerButton key={index} parentRegister={JSON.stringify(item)} type={ButtonTypes.content}>
                                         {item.id.string}
@@ -89,3 +81,11 @@ function RenderQuestion(question: Question, showAddButtons: boolean): JSX.Elemen
         </div>
     )
 } 
+const mapStateToProps = (state) => {
+    return{
+        qFields: state.constructor.questionnaire.fields,
+        showAddButtons: state.constructor.showAddButtons
+    }
+}
+
+export default connect(mapStateToProps)(RegisterViewer)
