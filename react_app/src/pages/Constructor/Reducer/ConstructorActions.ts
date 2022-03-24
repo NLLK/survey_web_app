@@ -19,7 +19,7 @@ export function AddParentQuestion(origin: string): Questionnaire{
     Object.assign(originQ, JSON.parse(origin))
     originQ.autoSetQuestionList();
 
-    originQ.addRootQuestion(new Question())
+    originQ.addRootQuestion()
 
     return originQ;
 }

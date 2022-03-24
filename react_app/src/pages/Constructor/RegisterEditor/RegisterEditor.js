@@ -18,7 +18,7 @@ function RegisterEditor(props) {
     const fields = () => {
 
         if (!props.register)
-            return (<>Ашипка</>)
+            return (<></>)
 
         return (
             <>

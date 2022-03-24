@@ -44,6 +44,21 @@ export class QuestionId {
 		this.string = QuestionId.getStringByArray(newArray);
 		this.array = newArray;
 	}
+//TODO: report
+	isParentQuestion():boolean
+	{
+		console.log('here')
+		if (this.array.length > 1) return false;
+		else return true;
+	}
+	static isParentQuestion(idStr: string):boolean
+	{
+		let newQId = new QuestionId()
+		newQId.setWithString(idStr)
+
+		if (newQId.array.length > 1) return false;
+		else return true;
+	}
 
 	static getArrayByString(string: string): Array<number> {
 		let strArray = string.split(".");
@@ -70,18 +85,23 @@ export class Questionnaire {
 	name: string;
 	comment: string;
 	questionList: Array<Question> = [];
-	addRootQuestion(question: Question) {
+	addRootQuestion() {
 		let id: number = -1;
 		if (this.questionList.length === 0) id = 1;
 		else id = this.questionList.length + 1;
 
 		let qid = new QuestionId();
 		qid.setWithString(id.toString());
+
+		let question = new Question();
+		question.constructorQuestion("*Введите текст*");
+
 		question.id = qid;
+		question.haveSubquestion = false;
 
 		this.questionList.push(question);
 
-		question.isQuestion = true;
+
 
 		this.autoSetFields()
 	}
@@ -107,10 +127,24 @@ export class Questionnaire {
 			else {
 				let newQ = new Question();
 				newQ.constructorAnswer("*Введите текст*", QuestionTypes.string);
+
 				newQ.id = new QuestionId();
 				newQ.id.setForNewQuestion(qId,currentQuestionList[index].answersList.length+1)
 				currentQuestionList[index].answersList.push(newQ);
-				currentQuestionList[index].isQuestion = true;
+
+				//currentQuestionList[index].answerToQuestion()
+				// currentQuestionList[index].isQuestion = true;
+
+				let parentQ = new Question()
+				Object.assign(parentQ,currentQuestionList[index])
+
+				parentQ.answerToQuestion()
+				currentQuestionList[index] = parentQ
+
+				// if (parentId.isParentQuestion())
+				// 	currentQuestionList[index].haveSubquestion = false
+				// else currentQuestionList[index].haveSubquestion = true
+				
 				break;
 			}
 		}
@@ -194,6 +228,7 @@ export class Question {
 		this.text = text;
 
 		this.isQuestion = true;
+		this.haveSubquestion = true;
 	}
 
 	constructorAnswer(text: string, type: QuestionTypes) {
@@ -203,8 +238,18 @@ export class Question {
 		this.isQuestion = false;
 	}
 
-	questionToAnswer() { }
-	answerToQuestion() { }
+	questionToAnswer() {
+		this.isQuestion = false;
+		if (!QuestionId.isParentQuestion(this.id.string)){
+			this.haveSubquestion = false;
+		}
+	}
+	answerToQuestion() {
+		this.isQuestion = true;
+		if (!QuestionId.isParentQuestion(this.id.string)){
+			this.haveSubquestion = true;
+		}
+	}
 
 	addAnswer(text: string, type: QuestionTypes) {
 		let answer: Question = new Question();
@@ -214,7 +259,7 @@ export class Question {
 		let newId: QuestionId = new QuestionId();
 		newId.setWithString(parrentId.string);
 
-		let newNum: number = this.answersList.length + 1;
+		let newNum: number = this.answersList.length + 1;//TODO: govno, peredelai
 
 		newId.addElementForAnswer(newNum);
 		answer.id = newId;
@@ -224,6 +269,7 @@ export class Question {
 	addQuestion(question: Question) {
 		this.answersList.push(question);
 	}
+
 	// addQuestion(text: string, ){
 	//     let question :Question = new Question();
 
