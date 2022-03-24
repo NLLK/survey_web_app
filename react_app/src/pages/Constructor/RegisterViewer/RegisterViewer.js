@@ -35,7 +35,7 @@ function RegisterViewer(props) {
             <div style={{ position: "relative", paddingLeft: "10 px", display: "flex", flexDirection: 'column' }}>
                 {
                     returnPage.map((item, index) =>
-                        <div key={index}>{item}</div>
+                        <div style={{display: "flex",}} key={index}>{item}</div>
                     )}
                 {
                 props.showAddButtons? 
