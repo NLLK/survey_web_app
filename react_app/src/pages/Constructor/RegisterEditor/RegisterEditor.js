@@ -25,7 +25,7 @@ function RegisterEditor(props) {
                 <div style={{ display: "block", alignItems: "flex-start", justifyItems: "center" }}>
                     <div style={{ padding: "10px" }}>
                         <Typography>
-                            {props.register.id.string} : {props.register.text}
+                            {props.register.id.string} : {props.register.text} {(props.register.subText? "- " + props.register.subText : "")}
                         </Typography>
                     </div>
 

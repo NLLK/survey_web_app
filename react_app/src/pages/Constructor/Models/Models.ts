@@ -51,10 +51,10 @@ export class QuestionId {
 //TODO: report
 	isParentQuestion():boolean
 	{
-		console.log('here')
 		if (this.array.length > 1) return false;
 		else return true;
 	}
+
 	static isParentQuestion(idStr: string):boolean
 	{
 		let newQId = new QuestionId()
@@ -62,6 +62,15 @@ export class QuestionId {
 
 		if (newQId.array.length > 1) return false;
 		else return true;
+	}
+
+	couldBeAdditional(): boolean
+	{
+		if (!this.isParentQuestion())
+		{
+			if (this.array[this.array.length-1] != 1) return true;
+		}
+		return false
 	}
 
 	static getArrayByString(string: string): Array<number> {
@@ -129,26 +138,19 @@ export class Questionnaire {
 				currentQuestionList = currentQuestionList[index].answersList;
 			}
 			else {
+				let parentQ = new Question()
+				Object.assign(parentQ,currentQuestionList[index])
+
 				let newQ = new Question();
-				newQ.constructorAnswer("*Введите текст*", QuestionTypes.text);
+				newQ.constructorAnswer("*Введите текст*", parentQ.type);
 
 				newQ.id = new QuestionId();
 				newQ.id.setForNewQuestion(qId,currentQuestionList[index].answersList.length+1)
 				currentQuestionList[index].answersList.push(newQ);
 
-				//currentQuestionList[index].answerToQuestion()
-				// currentQuestionList[index].isQuestion = true;
-
-				let parentQ = new Question()
-				Object.assign(parentQ,currentQuestionList[index])
-
 				parentQ.answerToQuestion()
 				currentQuestionList[index] = parentQ
 
-				// if (parentId.isParentQuestion())
-				// 	currentQuestionList[index].haveSubquestion = false
-				// else currentQuestionList[index].haveSubquestion = true
-				
 				break;
 			}
 		}
@@ -166,7 +168,12 @@ export class Questionnaire {
 				currentQuestionList = currentQuestionList[index].answersList;
 			}
 			else {
+				question.answersList.forEach(element => {
+					if (!element.isQuestion)
+						element.type = question.type
+				});
 				currentQuestionList[index] = question;
+
 			}
 		}
 

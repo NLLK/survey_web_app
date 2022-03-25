@@ -8,3 +8,11 @@ export function isIdParent(id: object): boolean{
 
     return originQId.isParentQuestion();
 }
+
+export function couldBeAdditional(id: object): boolean {
+    let originQId: QuestionId = new QuestionId()
+    Object.assign(originQId, JSON.parse(JSON.stringify(id)))
+
+
+    return originQId.couldBeAdditional();
+}

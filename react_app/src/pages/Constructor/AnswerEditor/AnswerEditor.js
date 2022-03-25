@@ -1,8 +1,8 @@
 import * as React from 'react'
 import TextField from '@mui/material/TextField';
 
-import { Question, QuestionTypes } from "../Models/Models"
-import { Button, FormControl, InputLabel, ListItemIcon, MenuItem, Select } from "@mui/material";
+import { Question, QuestionId, QuestionTypes } from "../Models/Models"
+import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, ListItemIcon, MenuItem, Select } from "@mui/material";
 import TextFieldsIcon from '@mui/icons-material/TextFields';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
@@ -18,7 +18,7 @@ import { connect, RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 
 import { CONSTRUCTOR_MODIFY_QUESTIONNAIRE } from "../../Constructor/Reducer/ConstructorReducerTypes"
 
-import { isIdParent } from "./AnswerEditorActions.ts"
+import { isIdParent, couldBeAdditional } from "./AnswerEditorActions.ts"
 
 const RegisterTemplate = {
     text: "",
@@ -57,7 +57,12 @@ function AnswerEditor(props) {
                     subText: value
                 }));
                 break;
-
+            case "is_additionalQ_checkbox":
+                setRegInfo(prevState => ({
+                    ...prevState,
+                    isAdditionalQuestion: e.target.checked
+                }));
+                break;
             default:
                 console.log(e)
                 break;
@@ -73,6 +78,9 @@ function AnswerEditor(props) {
 
     const divStyle = { style: { position: "relative", width: "100%", flex: "0 0 48%", maxWidth: "48%" } }
 
+    const iconStyle = { height: "0.75em" }
+    const textFieldStyle = { marginTop: "15px" }
+
     return (
         <>
             {
@@ -87,6 +95,7 @@ function AnswerEditor(props) {
                                 onChange={handleChange}
                                 multiline
                                 fullWidth
+
                             />
                             {
                                 (regInfo.haveSubquestion
@@ -98,81 +107,97 @@ function AnswerEditor(props) {
                                         onChange={handleChange}
                                         multiline
                                         fullWidth
+                                        style={textFieldStyle}
                                     /> : <></>)
                             }
 
                         </div>
-                        <div style={{ width: "2px", margin: "5px", marginTop: "0px", marginBottom: "0px", backgroundColor: "black" }}></div>
+                        <div style={{ width: "2px", marginRight: "10px", marginLeft: "10px", marginTop: "0px", marginBottom: "0px", backgroundColor: "black" }}></div>
                         <div style={divStyle.style}>
                             {
-                                regInfo.isQuestion ?
-                                    <>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="type_select_label">Тип регистра</InputLabel>
-                                            <Select
-                                                labelId="type_select_label"
-                                                id="type_select"
-                                                value={regInfo.type}
-                                                label="Тип регистра"
-                                                onChange={handleChangeTypeSelect}
-                                            >
-                                                <MenuItem value={QuestionTypes.text}>
-                                                    <ListItemIcon>
-                                                        <TextFieldsIcon />
-                                                    </ListItemIcon>
-                                                    Текст
-                                                </MenuItem>
-                                                <MenuItem value={QuestionTypes.number}>
-                                                    <ListItemIcon>
-                                                        <NumbersIcon />
-                                                    </ListItemIcon>
-                                                    Число
-                                                </MenuItem>
-                                                <MenuItem value={QuestionTypes.radio_button}>
-                                                    <ListItemIcon>
-                                                        <RadioButtonCheckedIcon />
-                                                    </ListItemIcon>
-                                                    Один из списка
-                                                </MenuItem>
-                                                <MenuItem value={QuestionTypes.check_box}>
-                                                    <ListItemIcon>
-                                                        <CheckBoxIcon />
-                                                    </ListItemIcon>
-                                                    Многие из списка</MenuItem>
-                                                <MenuItem value={QuestionTypes.date}>
-                                                    <ListItemIcon>
-                                                        <CalendarTodayIcon />
-                                                    </ListItemIcon>
-                                                    Дата
-                                                </MenuItem>
-                                                <MenuItem value={QuestionTypes.time}>
-                                                    <ListItemIcon>
-                                                        <AccessTimeIcon />
-                                                    </ListItemIcon>
-                                                    Время
-                                                </MenuItem>
-                                                <MenuItem value={QuestionTypes.order}>
-                                                    <ListItemIcon>
-                                                        <SortIcon />
-                                                    </ListItemIcon>
-                                                    Порядковая шкала
-                                                </MenuItem>
-                                                <MenuItem value={QuestionTypes.intervals}>
-                                                    <ListItemIcon>
-                                                        <FormatListNumberedIcon />
-                                                    </ListItemIcon>
-                                                    Интервальная шкала
-                                                </MenuItem>
-                                                <MenuItem value={QuestionTypes.rating}>
-                                                    <ListItemIcon>
-                                                        <ThumbsUpDownIcon />
-                                                    </ListItemIcon>
-                                                    Рейтинговая шкала
-                                                </MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                    </>
-                                    : <></>
+                                <>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="type_select_label">Тип регистра</InputLabel>
+                                        <Select
+                                            labelId="type_select_label"
+                                            id="type_select"
+                                            value={regInfo.type}
+                                            label="Тип регистра"
+                                            disabled={regInfo.isQuestion ? false : true}
+                                            onChange={handleChangeTypeSelect}
+                                        >
+                                            <MenuItem value={QuestionTypes.text}>
+                                                <ListItemIcon >
+                                                    <TextFieldsIcon style={iconStyle} />
+                                                </ListItemIcon>
+                                                Текст
+                                            </MenuItem>
+                                            <MenuItem value={QuestionTypes.number}>
+                                                <ListItemIcon>
+                                                    <NumbersIcon style={iconStyle} />
+                                                </ListItemIcon>
+                                                Число
+                                            </MenuItem>
+                                            <MenuItem value={QuestionTypes.radio_button}>
+                                                <ListItemIcon>
+                                                    <RadioButtonCheckedIcon style={iconStyle} />
+                                                </ListItemIcon>
+                                                Один из списка
+                                            </MenuItem>
+                                            <MenuItem value={QuestionTypes.check_box}>
+                                                <ListItemIcon>
+                                                    <CheckBoxIcon style={iconStyle} />
+                                                </ListItemIcon>
+                                                Многие из списка</MenuItem>
+                                            <MenuItem value={QuestionTypes.date}>
+                                                <ListItemIcon>
+                                                    <CalendarTodayIcon style={iconStyle} />
+                                                </ListItemIcon>
+                                                Дата
+                                            </MenuItem>
+                                            <MenuItem value={QuestionTypes.time}>
+                                                <ListItemIcon>
+                                                    <AccessTimeIcon style={iconStyle} />
+                                                </ListItemIcon>
+                                                Время
+                                            </MenuItem>
+                                            <MenuItem value={QuestionTypes.order}>
+                                                <ListItemIcon>
+                                                    <SortIcon style={iconStyle} />
+                                                </ListItemIcon>
+                                                Порядковая шкала
+                                            </MenuItem>
+                                            <MenuItem value={QuestionTypes.intervals}>
+                                                <ListItemIcon>
+                                                    <FormatListNumberedIcon style={iconStyle} />
+                                                </ListItemIcon>
+                                                Интервальная шкала
+                                            </MenuItem>
+                                            <MenuItem value={QuestionTypes.rating}>
+                                                <ListItemIcon>
+                                                    <ThumbsUpDownIcon style={iconStyle} />
+                                                </ListItemIcon>
+                                                Рейтинговая шкала
+                                            </MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    {
+                                       couldBeAdditional(regInfo.id) ?
+                                        <FormGroup style={{ marginTop: "20px" }}>
+                                            <FormControlLabel control={
+                                                <Checkbox
+                                                    id="is_additionalQ_checkbox"
+                                                    checked={regInfo.isAdditionalQuestion}
+                                                    onChange={handleChange}
+                                                />}
+                                                label="Дополнительный вопрос?"
+                                            />
+                                        </FormGroup>
+                                        : <></>
+                                    }
+
+                                </>
+
                             }
 
                         </div>
