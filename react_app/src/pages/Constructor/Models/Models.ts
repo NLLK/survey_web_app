@@ -1,9 +1,13 @@
 export enum QuestionTypes {
-	string,
-	checkbox,
-	open_question,
-	checkbox_open,
-	number,
+	text,			//many
+	number,			//one
+	radio_button,	//many
+	check_box,		//many
+	date,			//one
+	time,			//one
+	order,			//many
+	intervals,		//many
+	rating			//many
 }
 
 export class QuestionId {
@@ -126,7 +130,7 @@ export class Questionnaire {
 			}
 			else {
 				let newQ = new Question();
-				newQ.constructorAnswer("*Введите текст*", QuestionTypes.string);
+				newQ.constructorAnswer("*Введите текст*", QuestionTypes.text);
 
 				newQ.id = new QuestionId();
 				newQ.id.setForNewQuestion(qId,currentQuestionList[index].answersList.length+1)
@@ -214,11 +218,11 @@ export class Question {
 	isQuestion: boolean = false;//auto
 	answersList: Array<Question> = [];//auto
 	id: QuestionId = new QuestionId();//auto
-	haveSubquestion: boolean = false;
+	haveSubquestion: boolean = false;//auto
 	subText: string = "";
 	redirectTo: QuestionId = new QuestionId();
-	isAdditionalQuestion: boolean = false;//auto
-	type: QuestionTypes = QuestionTypes.string;
+	isAdditionalQuestion: boolean = false;
+	type: QuestionTypes = QuestionTypes.text;
 
 	// constructor() {
 
@@ -280,8 +284,8 @@ export class Question {
 		q.constructorQuestion("Какого вы пола?");
 		q.id = new QuestionId();
 		q.id.setWithString("1");
-		q.addAnswer("мужской", QuestionTypes.string);
-		q.addAnswer("женский", QuestionTypes.string);
+		q.addAnswer("мужской", QuestionTypes.text);
+		q.addAnswer("женский", QuestionTypes.text);
 		return q;
 	}
 }
