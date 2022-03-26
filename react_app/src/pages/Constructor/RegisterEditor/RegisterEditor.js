@@ -111,13 +111,13 @@ function RegisterEditor(props) {
                                         <ListItemIcon>
                                             <StarHalfIcon fontSize="small" />
                                         </ListItemIcon>
-                                        Оцените 0..10
+                                        Оцените 1..5
                                     </MenuItem>
                                     <MenuItem onClick={handleTemplateButtons} id="template_button_segments">
                                         <ListItemIcon>
                                             <CommitIcon fontSize="small" />
                                         </ListItemIcon>
-                                        Интервалы
+                                        Возраст
                                     </MenuItem>
                                 </Menu>
                             </div>

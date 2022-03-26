@@ -26,20 +26,20 @@ export class QuestionId {
 		this.string = QuestionId.getStringByArray(array);
 	}
 
-	update(){
+	update() {
 		if (this.array !== []) this.setWithArray(this.array)
 		else if (this.string) this.setWithString(this.string)
 	}
 
-	setForNewQuestion(parrentId: QuestionId,lastIndex: number){
+	setForNewQuestion(parrentId: QuestionId, lastIndex: number) {
 		this.array = parrentId.array;
 		this.array.push(lastIndex)
 		this.update()
 	}
 
-	setIdNextToId(myId: QuestionId){
+	setIdNextToId(myId: QuestionId) {
 		this.setWithArray(myId.array)
-		this.array[this.array.length-1] = this.array[this.array.length-1]+1 
+		this.array[this.array.length - 1] = this.array[this.array.length - 1] + 1
 		this.update()
 	}
 
@@ -49,15 +49,13 @@ export class QuestionId {
 		this.array.push(id)
 		this.update()
 	}
-//TODO: report
-	isParentQuestion():boolean
-	{
+	//TODO: report
+	isParentQuestion(): boolean {
 		if (this.array.length > 1) return false;
 		else return true;
 	}
 
-	static isParentQuestion(idStr: string):boolean
-	{
+	static isParentQuestion(idStr: string): boolean {
 		let newQId = new QuestionId()
 		newQId.setWithString(idStr)
 
@@ -65,11 +63,9 @@ export class QuestionId {
 		else return true;
 	}
 
-	couldBeAdditional(): boolean
-	{
-		if (!this.isParentQuestion())
-		{
-			if (this.array[this.array.length-1] != 1) return true;
+	couldBeAdditional(): boolean {
+		if (!this.isParentQuestion()) {
+			if (this.array[this.array.length - 1] != 1) return true;
 		}
 		return false
 	}
@@ -98,6 +94,7 @@ export class Questionnaire {
 	id: number = -1;
 	name: string;
 	comment: string;
+	introduction: string;
 	questionList: Array<Question> = [];
 	addRootQuestion() {
 		let id: number = -1;
@@ -115,8 +112,6 @@ export class Questionnaire {
 
 		this.questionList.push(question);
 
-
-
 		this.autoSetFields()
 	}
 	autoSetQuestionList() {
@@ -128,7 +123,7 @@ export class Questionnaire {
 		this.fields = JSON.stringify(this.questionList)
 	}
 
-	addQuestionById(qId: QuestionId){
+	addQuestionById(qId: QuestionId) {
 		this.autoSetQuestionList();
 
 		let qIdArray = qId.array;
@@ -140,13 +135,13 @@ export class Questionnaire {
 			}
 			else {
 				let parentQ = new Question()
-				Object.assign(parentQ,currentQuestionList[index])
+				Object.assign(parentQ, currentQuestionList[index])
 
 				let newQ = new Question();
 				newQ.constructorAnswer("*Введите текст*", parentQ.type);
 
 				newQ.id = new QuestionId();
-				newQ.id.setForNewQuestion(qId,currentQuestionList[index].answersList.length+1)
+				newQ.id.setForNewQuestion(qId, currentQuestionList[index].answersList.length + 1)
 				currentQuestionList[index].answersList.push(newQ);
 
 				parentQ.answerToQuestion()
@@ -156,7 +151,7 @@ export class Questionnaire {
 			}
 		}
 		this.autoSetFields();
-	}	
+	}
 
 	modifyQuestionnaire(question: Question) {
 		this.autoSetQuestionList();
@@ -181,7 +176,7 @@ export class Questionnaire {
 		this.autoSetFields();
 	}
 
-	findQuestionById(qId: QuestionId): Question{
+	findQuestionById(qId: QuestionId): Question {
 		this.autoSetQuestionList();
 
 		let qIdArray = qId.array;
@@ -197,8 +192,8 @@ export class Questionnaire {
 		}
 	}
 
-	getLastChildIdById(qId: QuestionId): QuestionId{
-		
+	getLastChildIdById(qId: QuestionId): QuestionId {
+
 		let parentQuestion = this.findQuestionById(qId);
 		let lastChildIndex = parentQuestion.answersList.length - 1
 
@@ -208,13 +203,33 @@ export class Questionnaire {
 
 	}
 
-	addQuestionsWithTemplate(template: TemplateTypes, question: Question){
-		switch (template){
+	addQuestionsWithTemplate(template: TemplateTypes, question: Question) {
+		switch (template) {
 			case TemplateTypes.yes_no:
 				{
 					question.type = QuestionTypes.radio_button
 					question.addAnswer("Да")
 					question.addAnswer("Нет")
+					break;
+				}
+			case TemplateTypes.rate:
+				{
+					question.type = QuestionTypes.rating
+					let i = 1;
+					for (i; i <= 5; i++) {
+						question.addAnswer(i.toString())
+					}
+					break;
+				}
+			case TemplateTypes.segments:
+				{
+					question.type = QuestionTypes.intervals
+					question.addAnswer("14..18")
+					question.addAnswer("19..25")
+					question.addAnswer("26..35")
+					question.addAnswer("36..55")
+					question.addAnswer("55..99")
+					break;
 				}
 		}
 		this.modifyQuestionnaire(question)
@@ -253,13 +268,13 @@ export class Question {
 
 	questionToAnswer() {
 		this.isQuestion = false;
-		if (!QuestionId.isParentQuestion(this.id.string)){
+		if (!QuestionId.isParentQuestion(this.id.string)) {
 			this.haveSubquestion = false;
 		}
 	}
 	answerToQuestion() {
 		this.isQuestion = true;
-		if (!QuestionId.isParentQuestion(this.id.string)){
+		if (!QuestionId.isParentQuestion(this.id.string)) {
 			this.haveSubquestion = true;
 		}
 	}
@@ -276,7 +291,7 @@ export class Question {
 		let parrentId = this.id;
 		let newId = new QuestionId();
 
-		newId.addElementForAnswer(parrentId, this.answersList.length+1)
+		newId.addElementForAnswer(parrentId, this.answersList.length + 1)
 
 
 		answer.id = newId;

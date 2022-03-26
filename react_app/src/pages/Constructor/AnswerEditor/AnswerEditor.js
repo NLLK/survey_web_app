@@ -9,12 +9,13 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import StarIcon from '@mui/icons-material/Star';
 import SortIcon from '@mui/icons-material/Sort';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 
 import "./styles.css"
-import { connect, RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { CONSTRUCTOR_MODIFY_QUESTIONNAIRE } from "../../Constructor/Reducer/ConstructorReducerTypes"
 
@@ -175,7 +176,7 @@ function AnswerEditor(props) {
                                             </MenuItem>
                                             <MenuItem value={QuestionTypes.rating}>
                                                 <ListItemIcon>
-                                                    <ThumbsUpDownIcon style={iconStyle} />
+                                                    <StarIcon style={iconStyle} />
                                                 </ListItemIcon>
                                                 Рейтинговая шкала
                                             </MenuItem>
