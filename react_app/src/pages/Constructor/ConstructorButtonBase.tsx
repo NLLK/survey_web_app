@@ -8,7 +8,7 @@ import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION }
 import { REGISTER_EDITOR_SET_REGISTER_ID } from "./Reducer/RegisterEditorTypes"
 import { HtmlTooltipViewerButton } from '../Common/HtmlTooltip'
 
-export enum ButtonTypes { add = "add", content = "content", addParent = "addParent" }
+export enum ButtonTypes { add = "add", content = "content", addParent = "addParent", addTemplate = "template" }
 
 interface iStyling {
     width: string;
@@ -24,29 +24,27 @@ interface Props {
     sxProps?: SxProps;
 }
 
-interface OnClickProps {
-    type: ButtonTypes
-}
-
 export default function ConstructorButtonBase({ parentRegister, type, children, styling, sxProps }: Props) {
 
     const dispatch = useDispatch()
 
     const [useToolTip, setUseToolTip] = React.useState(true);
-    const [parentRegView, setParentRegView] = React.useState(new Question())
-
-    let parentReg: Question;
+    const [parentRegView, setParentRegView] = React.useState(new Question());
+    const [showTemplateMenu, setShowTemplateMenu] = React.useState(false);
 
     React.useEffect(() => {
         let parentReg: Question;
-        // if (type === ButtonTypes.addParent || type === ButtonTypes.add) {
-        //     setUseToolTip(false);
-        // }
         if (parentRegister !== undefined) {
             parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
             setParentRegView(parentReg)
         }
     }, [parentRegister])
+
+    const toogle = (settter) => {
+        settter(prevState => (
+            prevState ? false : true
+        ));
+    }
 
     const onClick = () => {
         let parentReg: Question;
@@ -63,6 +61,10 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
             }
             case ButtonTypes.addParent: {
                 dispatch({ type: CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION })
+                break;
+            }
+            case ButtonTypes.addTemplate: {
+                toogle(setShowTemplateMenu);
                 break;
             }
             default: break;
@@ -88,29 +90,36 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
         setContextMenu(null);
     };
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
+
     return (
-        <div style={{ margin: 5 + "px"}} onContextMenu={handleContextMenu}>
+        <div style={{ margin: 5 + "px" }} onContextMenu={handleContextMenu}>
             {useToolTip ?
                 (
                     <HtmlTooltipViewerButton title={
-                        (type == ButtonTypes.add || type == ButtonTypes.addParent) ? (
+                        (type !== ButtonTypes.content) ? (
                             <>
                                 <Typography variant="body2">
-                                    *Добавить*
+                                    {children}
                                 </Typography>
                             </>
                         ) : (
-                        <>
-                            <Typography variant="body2">
-                                {parentRegView.text}
-                            </Typography>
-                            <Typography variant="body2">
-                                {parentRegView.subText}
-                            </Typography>
-                        </>)
-
+                            <>
+                                <Typography variant="body2">
+                                    {parentRegView.text} {parentRegView.subText ? "-" : ""}
+                                </Typography>
+                                <Typography variant="body2">
+                                    {parentRegView.subText}
+                                </Typography>
+                            </>)
                     }>
-
                         <Button variant="contained" style={styling} sx={sxProps} onClick={onClick}>
                             {children}
                         </Button>

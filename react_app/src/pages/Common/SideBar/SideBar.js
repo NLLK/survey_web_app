@@ -220,8 +220,6 @@ export default function MiniDrawer(props) {
           </CardActions>
         </Card>
 
-
-
         <Divider />
         <List>
           <ListItem button onClick={() => navigate('/constructor')}>
@@ -236,12 +234,12 @@ export default function MiniDrawer(props) {
             </ListItemIcon>
             <ListItemText primary="Анкетирование" />
           </ListItem>
-          <ListItem button onClick={() => navigate('/dataAnalysis')}>
+          {/* <ListItem button onClick={() => navigate('/dataAnalysis')}>
             <ListItemIcon>
               <AnalyticsIcon />
             </ListItemIcon>
             <ListItemText primary="Анализ данных" />
-          </ListItem>
+          </ListItem> */}
         </List>
 
         <Divider />

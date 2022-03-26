@@ -31,7 +31,10 @@
 
 .c-answerEditor {
   grid-area: c-answerEditor;
-  border: 2px solid gray;
+
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
+  border-left: 2px solid gray;
   /* background-color: rgb(212, 191, 177); */
 }
 
