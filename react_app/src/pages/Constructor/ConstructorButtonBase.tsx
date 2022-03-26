@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { useDispatch } from 'react-redux';
 
-import { Button, Menu, MenuItem, MenuItemClasses, MenuItemProps, MenuProps, SxProps, Typography } from "@mui/material";
+import { Button, Menu, MenuItem, SxProps, Typography } from "@mui/material";
 
 import { Question } from './Models/Models'
 import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION } from './Reducer/ConstructorReducerTypes'
 import { REGISTER_EDITOR_SET_REGISTER_ID } from "./Reducer/RegisterEditorTypes"
 import { HtmlTooltipViewerButton } from '../Common/HtmlTooltip'
 
-export enum ButtonTypes { add = "add", content = "content", addParent = "addParent", addTemplate = "template" }
+export enum ButtonTypes { add = "add", content = "content", addParent = "addParent"}
 
 interface iStyling {
     width: string;
@@ -63,10 +63,6 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
                 dispatch({ type: CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION })
                 break;
             }
-            case ButtonTypes.addTemplate: {
-                toogle(setShowTemplateMenu);
-                break;
-            }
             default: break;
         }
     }
@@ -88,15 +84,6 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
 
     const handleClose = () => {
         setContextMenu(null);
-    };
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleCloseMenu = () => {
-        setAnchorEl(null);
     };
 
     return (

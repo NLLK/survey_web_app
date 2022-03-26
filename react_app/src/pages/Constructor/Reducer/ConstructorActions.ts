@@ -1,4 +1,5 @@
 import { Question, QuestionId, Questionnaire } from "../Models/Models";
+import { TemplateTypes } from "../Templates/TemplateTypes";
 
 export function ModifyQuestionnaire(origin: object, element: object): Questionnaire{
 
@@ -13,7 +14,6 @@ export function ModifyQuestionnaire(origin: object, element: object): Questionna
     return originQ;
 
 }
-
 export function AddParentQuestion(origin: string): Questionnaire{
     let originQ: Questionnaire = new Questionnaire()
     Object.assign(originQ, JSON.parse(origin))
@@ -36,7 +36,6 @@ export function AddQuestion(origin: string, id: string): Questionnaire{
 
     return originQ;
 }
-
 export function FindRegisterById(origin: object, idString: string): Question{
 
     let originQ: Questionnaire = new Questionnaire()
@@ -58,4 +57,17 @@ export function FindRegisterByIdNext(origin: object, idString: string): Question
     let newQId = originQ.getLastChildIdById(originQID)
 
     return originQ.findQuestionById(newQId);
+}
+export function AddWithTemplate(origin: object, template: TemplateTypes, register: object): Questionnaire{
+
+    let originQ: Questionnaire = new Questionnaire()
+    Object.assign(originQ, JSON.parse(JSON.stringify(origin)))
+    
+    let question = new Question()
+    Object.assign(question, JSON.parse(JSON.stringify(register)))
+
+    originQ.addQuestionsWithTemplate(template, question)
+
+    return originQ;
+
 }

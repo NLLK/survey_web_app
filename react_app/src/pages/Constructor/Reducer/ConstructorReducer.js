@@ -6,12 +6,13 @@ CONSTRUCTOR_ADD_BLANK_QUESTION,
 CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION,
 CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS,
 CONSTRUCTOR_REQUEST_SAVING,
-CONSTRUCTOR_SAVING_COMPLETE
+CONSTRUCTOR_SAVING_COMPLETE,
+CONSTRUCTOR_ADD_WITH_TEMPLATE
 } from "./ConstructorReducerTypes";
 
 import { REGISTER_EDITOR_SET_REGISTER_ID } from "./RegisterEditorTypes";
 
-import { ModifyQuestionnaire, AddQuestion, AddParentQuestion, FindRegisterById, FindRegisterByIdNext } from './ConstructorActions'
+import { ModifyQuestionnaire, AddQuestion, AddParentQuestion, FindRegisterById, FindRegisterByIdNext, AddWithTemplate } from './ConstructorActions'
 
 const defaultState = {
     working_on_id: -1,
@@ -100,6 +101,13 @@ export const ConstructorReducer = (state = defaultState, action) => {
             return{
                 ...state,
                 saving: false
+            }
+        }
+        case CONSTRUCTOR_ADD_WITH_TEMPLATE: {
+            let newQ = AddWithTemplate(state.questionnaire, action.payload, state.register)
+            return{
+                ...state,
+                questionnaire: newQ
             }
         }
     }

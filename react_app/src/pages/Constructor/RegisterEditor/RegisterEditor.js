@@ -1,14 +1,21 @@
-import { Button, Menu, MenuItem, Typography } from '@mui/material';
-import * as React from 'react'
-import { connect } from "react-redux";
+import { Button, ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
+import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
+import CommitIcon from '@mui/icons-material/Commit';
 
+import * as React from 'react'
+import { connect, useDispatch } from "react-redux";
 
 import EditorButton from "./EditorButton"
 import { ButtonTypes } from '../ConstructorButtonBase';
+import {TemplateTypes} from "../Templates/TemplateTypes"
+import {addRegisterWithTemplate} from "../Templates/TemplateActions"
 
 function RegisterEditor(props) {
 
     //const register = useSelector(state => state.constructor.register)
+
+    const dispatch = useDispatch()
 
     React.useEffect(() => {
 
@@ -17,10 +24,25 @@ function RegisterEditor(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
+        setAnchorEl(event.currentTarget);
     };
-    const handleClose = () => {
-      setAnchorEl(null);
+    const handleTemplateButtons = (e) => {
+        console.log(e.target.id)
+
+        switch (e.target.id) {
+            case "template_button_yes_no":
+                addRegisterWithTemplate(TemplateTypes.yes_no, dispatch)
+                break;  
+            case "template_button_rate":
+                addRegisterWithTemplate(TemplateTypes.rate, dispatch)
+                break;
+            case "template_button_segments":
+                addRegisterWithTemplate(TemplateTypes.segments, dispatch)
+                break;
+
+        }
+
+        setAnchorEl(null);
     };
 
     return (
@@ -60,9 +82,9 @@ function RegisterEditor(props) {
                                     aria-expanded={open ? 'true' : undefined}
                                     onClick={handleClick}
                                     variant="contained"
-                                    style = {{margin: "15px",display: "block", width: "-webkit-fill-available"}}
+                                    style={{ margin: "15px", display: "block", width: "-webkit-fill-available" }}
                                 >
-                                    Dashboard
+                                    *Добавить по шаблону*
                                 </Button>
                                 <Menu
                                     id="basic-menu"
@@ -70,18 +92,33 @@ function RegisterEditor(props) {
                                     anchorOrigin={{
                                         vertical: 'bottom',
                                         horizontal: 'center',
-                                      }}
-                                    sx = {{width: "-webkit-fill-available"}}
+                                    }}
+                                    sx={{ width: "-webkit-fill-available" }}
                                     open={open}
-                                    onClose={handleClose}
+                                    onClose={handleTemplateButtons}
                                     MenuListProps={{
                                         'aria-labelledby': 'basic-button',
                                     }}
-                                    
+
                                 >
-                                    <MenuItem onClick={handleClose}>Да / Нет</MenuItem>
-                                    <MenuItem onClick={handleClose}>Оцените 0..10</MenuItem>
-                                    <MenuItem onClick={handleClose}>Интервалы</MenuItem>
+                                    <MenuItem onClick={handleTemplateButtons} id="template_button_yes_no">
+                                        <ListItemIcon>
+                                            <ThumbsUpDownIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        Да / Нет
+                                    </MenuItem>
+                                    <MenuItem onClick={handleTemplateButtons} id="template_button_rate">
+                                        <ListItemIcon>
+                                            <StarHalfIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        Оцените 0..10
+                                    </MenuItem>
+                                    <MenuItem onClick={handleTemplateButtons} id="template_button_segments">
+                                        <ListItemIcon>
+                                            <CommitIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        Интервалы
+                                    </MenuItem>
                                 </Menu>
                             </div>
 

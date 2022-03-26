@@ -1,3 +1,6 @@
+import { ThirtyFpsSelectRounded } from "@mui/icons-material";
+import { TemplateTypes } from "../Templates/TemplateTypes";
+
 export enum QuestionTypes {
 	text,			//many
 	number,			//one
@@ -35,18 +38,16 @@ export class QuestionId {
 	}
 
 	setIdNextToId(myId: QuestionId){
-		this.array = myId.array;
+		this.setWithArray(myId.array)
 		this.array[this.array.length-1] = this.array[this.array.length-1]+1 
 		this.update()
 	}
 
 	//TODO: сделать метод сонст + передавать в него парент и намбер
-	addElementForAnswer(id: number) {
-		let newArray: Array<number> = this.array;
-		newArray.push(id);
-
-		this.string = QuestionId.getStringByArray(newArray);
-		this.array = newArray;
+	addElementForAnswer(parrentId: QuestionId, id: number) {
+		this.setWithString(parrentId.string)
+		this.array.push(id)
+		this.update()
 	}
 //TODO: report
 	isParentQuestion():boolean
@@ -207,17 +208,18 @@ export class Questionnaire {
 
 	}
 
-	static test(): Questionnaire {
-		let newQ: Questionnaire = new Questionnaire();
-		newQ.questionList.push(Question.test());
-		newQ.name = "Тест";
-		newQ.id = 12;
-		newQ.comment = "Комментарий";
-
-		newQ.autoSetFields()
-
-		return newQ;
+	addQuestionsWithTemplate(template: TemplateTypes, question: Question){
+		switch (template){
+			case TemplateTypes.yes_no:
+				{
+					question.type = QuestionTypes.radio_button
+					question.addAnswer("Да")
+					question.addAnswer("Нет")
+				}
+		}
+		this.modifyQuestionnaire(question)
 	}
+
 }
 
 export class Question {
@@ -262,37 +264,26 @@ export class Question {
 		}
 	}
 
-	addAnswer(text: string, type: QuestionTypes) {
-		let answer: Question = new Question();
+	addAnswer(text: string) {
+		if (!this.isQuestion)
+			this.answerToQuestion()
+
+		let type = this.type
+
+		let answer = new Question();
 		answer.constructorAnswer(text, type);
 
-		let parrentId: QuestionId = this.id;
-		let newId: QuestionId = new QuestionId();
-		newId.setWithString(parrentId.string);
+		let parrentId = this.id;
+		let newId = new QuestionId();
 
-		let newNum: number = this.answersList.length + 1;//TODO: govno, peredelai
+		newId.addElementForAnswer(parrentId, this.answersList.length+1)
 
-		newId.addElementForAnswer(newNum);
+
 		answer.id = newId;
 
 		this.answersList.push(answer);
 	}
 	addQuestion(question: Question) {
 		this.answersList.push(question);
-	}
-
-	// addQuestion(text: string, ){
-	//     let question :Question = new Question();
-
-	//     this.answersList.push(question)
-	// }
-	static test(): Question {
-		let q = new Question();
-		q.constructorQuestion("Какого вы пола?");
-		q.id = new QuestionId();
-		q.id.setWithString("1");
-		q.addAnswer("мужской", QuestionTypes.text);
-		q.addAnswer("женский", QuestionTypes.text);
-		return q;
 	}
 }

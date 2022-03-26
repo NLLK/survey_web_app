@@ -1,0 +1,1 @@
+export enum TemplateTypes {yes_no, rate, segments}
