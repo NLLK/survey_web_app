@@ -94,7 +94,7 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
                         (type !== ButtonTypes.content) ? (
                             <>
                                 <Typography variant="body2">
-                                    {children}
+                                    {(type !== ButtonTypes.add && type !== ButtonTypes.addParent)? children : "*Добавить*"} 
                                 </Typography>
                             </>
                         ) : (
