@@ -8,7 +8,7 @@ import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION }
 import { REGISTER_EDITOR_SET_REGISTER_ID } from "./Reducer/RegisterEditorTypes"
 import { HtmlTooltipViewerButton } from '../Common/HtmlTooltip'
 
-export enum ButtonTypes { add = "add", content = "content", addParent = "addParent"}
+export enum ButtonTypes { add = "add", content = "content", addParent = "addParent" }
 
 interface iStyling {
     width: string;
@@ -82,35 +82,30 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
 
     return (
         <div style={{ margin: 5 + "px" }} onContextMenu={handleContextMenu}>
-            {useToolTip ?
-                (
-                    <HtmlTooltipViewerButton title={
-                        (type !== ButtonTypes.content) ? (
-                            <>
-                                <Typography variant="body2">
-                                    {(type !== ButtonTypes.add && type !== ButtonTypes.addParent)? children : "*Добавить*"} 
-                                </Typography>
-                            </>
-                        ) : (
-                            <>
-                                <Typography variant="body2">
-                                    {parentRegView.text} {parentRegView.subText ? "-" : ""}
-                                </Typography>
-                                <Typography variant="body2">
-                                    {parentRegView.subText}
-                                </Typography>
-                            </>)
-                    }>
-                        <Button variant="contained" style={styling} sx={sxProps} onClick={onClick}>
-                            {children}
-                        </Button>
-                    </HtmlTooltipViewerButton>
-                )
-                :
+
+            <HtmlTooltipViewerButton title={
+                (type !== ButtonTypes.content) ? (
+                    <>
+                        <Typography variant="body2">
+                            {(type !== ButtonTypes.add && type !== ButtonTypes.addParent) ? children : "*Добавить*"}
+                        </Typography>
+                    </>
+                ) : (
+                    <>
+                        <Typography variant="body2">
+                            {parentRegView.text} {parentRegView.subText ? "-" : ""}
+                        </Typography>
+                        <Typography variant="body2">
+                            {parentRegView.subText}
+                        </Typography>
+                    </>)
+            }>
                 <Button variant="contained" style={styling} sx={sxProps} onClick={onClick}>
                     {children}
                 </Button>
-            }
+            </HtmlTooltipViewerButton>
+
+
             <Menu
                 transitionDuration={100}
                 open={contextMenu !== null}

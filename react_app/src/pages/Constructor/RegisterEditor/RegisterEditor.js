@@ -41,7 +41,7 @@ function RegisterEditor(props) {
             case "template_button_segments":
                 addRegisterWithTemplate(TemplateTypes.segments, dispatch)
                 break;
-
+            default: break;
         }
 
         setAnchorEl(null);
@@ -70,7 +70,7 @@ function RegisterEditor(props) {
                                 }
                             </div>
 
-                            <div style={{ marginTop: props.register.answersList.length == 0 ? "0px" : "40px" }}>
+                            <div style={{ marginTop: props.register.answersList.length === 0 ? "0px" : "40px" }}>
                                 <EditorButton parentRegister={JSON.stringify(props.register)} type={ButtonTypes.add}>
                                     *Добавить*
                                 </EditorButton>

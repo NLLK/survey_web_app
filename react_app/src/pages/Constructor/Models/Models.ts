@@ -1,4 +1,3 @@
-import { AccessibleForward, PlayCircleOutlineOutlined, Rtt, ThirtyFpsSelectRounded } from "@mui/icons-material";
 import { TemplateTypes } from "../Templates/TemplateTypes";
 
 export enum QuestionTypes {
@@ -65,7 +64,7 @@ export class QuestionId {
 
 	couldBeAdditional(): boolean {
 		if (!this.isParentQuestion()) {
-			if (this.array[this.array.length - 1] != 1) return true;
+			if (this.array[this.array.length - 1] !== 1) return true;
 		}
 		return false
 	}

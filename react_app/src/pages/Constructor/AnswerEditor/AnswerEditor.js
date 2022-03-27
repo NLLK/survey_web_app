@@ -19,13 +19,11 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { CONSTRUCTOR_MODIFY_QUESTIONNAIRE } from "../../Constructor/Reducer/ConstructorReducerTypes"
 
-import { isIdParent, couldBeAdditional, getQuestionIdByString, getRootQuestion } from "./AnswerEditorActions.ts"
+import { isIdParent, couldBeAdditional, getQuestionIdByString, getRootQuestion, setIdNextToId } from "./AnswerEditorActions.ts"
+import { NoEncryption } from '@mui/icons-material';
 
-const RegisterTemplate = {
-    text: "",
-    type: QuestionTypes.text
-}
 
+const DEFAULT_TEXT = "По умолчанию"
 
 function AnswerEditor(props) {
 
@@ -71,10 +69,11 @@ function AnswerEditor(props) {
         }
         if (id.includes("redirect_autocomplete")) {
             console.log(e.target.textContent)
-            setRegInfo(prevState => ({
-                ...prevState,
-                redirectTo: getQuestionIdByString(e.target.textContent)
-            }));
+                setRegInfo(prevState => ({
+                    ...prevState,
+                    redirectTo: e.target.textContent !== DEFAULT_TEXT ? getQuestionIdByString(e.target.textContent) : new QuestionId()
+                }));
+
         }
     }
     const handleChangeTypeSelect = e => {
@@ -92,6 +91,7 @@ function AnswerEditor(props) {
 
     const idList = () => {
         let list = []
+        list.push(DEFAULT_TEXT)
         if (props.questionnaire) {
 
             let thisRootReg = getRootQuestion(props.register.id)
@@ -105,7 +105,6 @@ function AnswerEditor(props) {
                     list.push(element.id.string)
             });
         }
-
 
         return list
     }
@@ -234,6 +233,9 @@ function AnswerEditor(props) {
                                             renderInput={(params) => <TextField {...params} label="Переход к ..." />}
                                             noOptionsText="Не найдено"
                                             onChange={handleChange}
+                                            isOptionEqualToValue = {(option, value)=>{
+                                                return true;
+                                            }}
                                         /> : <></>
                                 }
 

@@ -122,8 +122,6 @@ export const ConstructorReducer = (state = defaultState, action) => {
                 questionnaire: newQ
             }
         }
-    }
-    switch (action.type) {
         case REGISTER_EDITOR_SET_REGISTER_ID: {
 
             let register = FindRegisterById(state.questionnaire, action.payload)

@@ -1,7 +1,4 @@
 import * as React from 'react'
-
-import { Question } from "../Models/Models";
-import DivWithCoords from "./DivWithCoords"
 import ViewerButton from "./ViewerButton"
 
 import { ButtonTypes } from './ViewerButton'
@@ -12,9 +9,6 @@ const X_DIV = 100;
 function RegisterViewer(props) {
 
     React.useEffect(()=>{
-
-        console.log("registerViewer rerender")
-
     }, [props])
 
     let returnPage  = [];
@@ -50,8 +44,8 @@ function RegisterViewer(props) {
 function RenderQuestion(question, showAddButtons) {
 
     return (
-        <div style={{ position: "relative", display: "flex", flexDirection: 'column' }}>
-            <ViewerButton parentRegister={JSON.stringify(question)} type={ButtonTypes.content}>
+        <div style={{ position: "relative", display: "flex", flexDirection: 'column' }} key={question.id.string+"r"}>
+            <ViewerButton key={question.id.string} parentRegister={JSON.stringify(question)} type={ButtonTypes.content}>
                 {question.id.string}
             </ViewerButton>
 
@@ -61,17 +55,17 @@ function RenderQuestion(question, showAddButtons) {
                         {
                             question.answersList.map((item, index) => (
                                 !item.isQuestion ?
-                                    <ViewerButton key={index} parentRegister={JSON.stringify(item)} type={ButtonTypes.content}>
+                                    <ViewerButton key={item.id.string} parentRegister={JSON.stringify(item)} type={ButtonTypes.content}>
                                         {item.id.string}
                                     </ViewerButton>
                                     :
                                     RenderQuestion(item, showAddButtons)
                             ))
                         }
-                        {showAddButtons? <ViewerButton type={ButtonTypes.add} parentRegister={JSON.stringify(question)}>+</ViewerButton> : <></>}
+                        {showAddButtons? <ViewerButton type={ButtonTypes.add} key={question.id.string+"+"} parentRegister={JSON.stringify(question)}>+</ViewerButton> : <></>}
                     </>
                     :
-                    showAddButtons? <ViewerButton type={ButtonTypes.add} parentRegister={JSON.stringify(question)}>+</ViewerButton> : <></>
+                    showAddButtons? <ViewerButton type={ButtonTypes.add} key={question.id.string+"+"} parentRegister={JSON.stringify(question)}>+</ViewerButton> : <></>
                 }
             </div>
 

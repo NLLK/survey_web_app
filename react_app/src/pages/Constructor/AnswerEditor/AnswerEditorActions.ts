@@ -31,3 +31,12 @@ export function getRootQuestion(idObj: object): QuestionId{
 
     return parent
 }
+export function setIdNextToId(idObj: object): QuestionId{
+    let id = new QuestionId()
+    Object.assign(id, idObj)
+
+    let newId = new QuestionId()
+    newId.setIdNextToId(id)
+
+    return newId
+}
