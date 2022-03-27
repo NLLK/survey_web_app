@@ -23,14 +23,13 @@ export function AddParentQuestion(origin: string): Questionnaire{
 
     return originQ;
 }
-export function AddQuestion(origin: string, id: string): Questionnaire{
+export function AddQuestion(origin: object, id: string): Questionnaire{
     let originQID: QuestionId = new QuestionId()
     originQID.setWithString(id)
     
 
     let originQ: Questionnaire = new Questionnaire()
-    Object.assign(originQ, JSON.parse(origin))
-    originQ.autoSetQuestionList();
+    Object.assign(originQ, JSON.parse(JSON.stringify(origin)))
     
     originQ.addQuestionById(originQID)
 

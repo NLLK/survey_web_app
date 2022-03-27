@@ -8,7 +8,8 @@ import {
     CONSTRUCTOR_REQUEST_SAVING,
     CONSTRUCTOR_SAVING_COMPLETE,
     CONSTRUCTOR_ADD_WITH_TEMPLATE,
-    CONSTRUCTOR_DELETE_QUESTION
+    CONSTRUCTOR_DELETE_QUESTION,
+    CONSTRUCTOR_ADD_SUB_QUESTION
 } from "./ConstructorReducerTypes";
 
 import { REGISTER_EDITOR_SET_REGISTER_ID } from "./RegisterEditorTypes";
@@ -75,7 +76,7 @@ export const ConstructorReducer = (state = defaultState, action) => {
             };
         }
         case CONSTRUCTOR_ADD_BLANK_QUESTION: {
-            let newQ = AddQuestion(JSON.stringify(state.questionnaire), action.payload)
+            let newQ = AddQuestion(state.questionnaire, action.payload)
             console.log('newQ', newQ)
             let lastParent = FindRegisterByIdNext(newQ, action.payload)
 
@@ -122,6 +123,17 @@ export const ConstructorReducer = (state = defaultState, action) => {
                 questionnaire: newQ
             }
         }
+
+        case CONSTRUCTOR_ADD_SUB_QUESTION: {
+            let newQ = AddQuestion(state.questionnaire, state.register.id.string)
+            let register = FindRegisterById(newQ, state.register.id.string)
+            return {
+                ...state,
+                register: register,
+                questionnaire: newQ
+            }
+        }
+
         case REGISTER_EDITOR_SET_REGISTER_ID: {
 
             let register = FindRegisterById(state.questionnaire, action.payload)
