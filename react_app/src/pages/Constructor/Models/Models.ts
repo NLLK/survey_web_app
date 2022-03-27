@@ -69,15 +69,15 @@ export class QuestionId {
 		return false
 	}
 
-	whoIsParent(): QuestionId{
+	whoIsParent(): QuestionId {
 		let parent = new QuestionId()
 		parent.setWithString(this.string)
-		parent.array = parent.array.slice(0,this.array.length-1)
+		parent.array = parent.array.slice(0, this.array.length - 1)
 		parent.update()
 		return parent
 	}
 
-	getRootQuestion(): QuestionId{
+	getRootQuestion(): QuestionId {
 		let root = new QuestionId()
 
 		root.setWithString(this.string)
@@ -254,10 +254,12 @@ export class Questionnaire {
 		this.modifyQuestionnaire(question)
 	}
 
-	deleteQuestion(qId: QuestionId){
+	deleteQuestion(qId: QuestionId) {
 		this.autoSetQuestionList();
 
 		let qIdArray = qId.array;
+		let parentId = qId.whoIsParent()
+
 		let currentQuestionList: Array<Question> = this.questionList;
 		for (let i: number = 0; i < qIdArray.length; i++) {
 			let index = qIdArray[i] - 1;
@@ -266,16 +268,35 @@ export class Questionnaire {
 			}
 			else {
 				currentQuestionList.splice(index, 1)
-				let parentId = qId.whoIsParent()
 				currentQuestionList = this.renameChildren(currentQuestionList, parentId)
 			}
 		}
 
+		if (currentQuestionList.length === 0) {
+			
+			let parentIdArray = parentId.array
+
+			currentQuestionList = this.questionList;
+			for (let i: number = 0; i < parentIdArray.length; i++) {
+				let index = parentIdArray[i] - 1;
+				if (i !== parentIdArray.length - 1) {
+					currentQuestionList = currentQuestionList[index].answersList;
+				}
+				else {
+					let parQ = new Question()
+					Object.assign(parQ, currentQuestionList[index])
+					parQ.questionToAnswer()
+					currentQuestionList[index] = parQ
+				}
+			}
+		}
+
+
 		this.autoSetFields();
 	}
 
-	renameChildren(questionList: Array<Question>, parentId: QuestionId): Array<Question>{
-		
+	renameChildren(questionList: Array<Question>, parentId: QuestionId): Array<Question> {
+
 		let index = 1;
 
 		questionList.forEach(question => {

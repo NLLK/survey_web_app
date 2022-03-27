@@ -73,7 +73,6 @@ function AnswerEditor(props) {
                     ...prevState,
                     redirectTo: e.target.textContent !== DEFAULT_TEXT ? getQuestionIdByString(e.target.textContent) : new QuestionId()
                 }));
-
         }
     }
     const handleChangeTypeSelect = e => {
@@ -219,7 +218,7 @@ function AnswerEditor(props) {
                                     </Select>
                                 </FormControl>
                                 {
-                                    couldBeAdditional(regInfo.id) ?
+                                    regInfo.isQuestion && couldBeAdditional(regInfo.id) ?
                                         <FormGroup style={{ marginTop: "15px" }}>
                                             <FormControlLabel control={
                                                 <Checkbox
@@ -235,7 +234,7 @@ function AnswerEditor(props) {
                                 {
                                     !isIdParent(regInfo.id) ?
                                         <Autocomplete
-                                            sx={{ marginTop: "15rpx" }}
+                                            sx={{ marginTop: "15px" }}
                                             disablePortal
                                             id="redirect_autocomplete"
                                             options={idList()}

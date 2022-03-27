@@ -15,9 +15,15 @@ interface Props {
 
 export default function EditorButton({ parentRegister, type, children }: Props) {
 
+    React.useEffect(()=>{
+        console.log(children)
+    }, [children])
+
     return (
         <ConstructorButtonBase parentRegister={parentRegister} type={type} sxProps={{ display: "block", width: "-webkit-fill-available", margin: "10px" }}>
-            {children}
+            {
+                children[2].length < 50 ? children : children[0]+children[1]+children[2].slice(0,50)+"..."
+            }
         </ConstructorButtonBase>
 
     );
