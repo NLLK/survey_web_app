@@ -17,7 +17,7 @@ import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 import "./styles.css"
 import { connect, useDispatch, useSelector } from 'react-redux';
 
-import { CONSTRUCTOR_MODIFY_QUESTIONNAIRE } from "../../Constructor/Reducer/ConstructorReducerTypes"
+import { CONSTRUCTOR_ADD_SUB_QUESTION, CONSTRUCTOR_MODIFY_QUESTIONNAIRE } from "../../Constructor/Reducer/ConstructorReducerTypes"
 
 import { isIdParent, couldBeAdditional, getQuestionIdByString, getRootQuestion, setIdNextToId } from "./AnswerEditorActions.ts"
 import { NoEncryption } from '@mui/icons-material';
@@ -136,7 +136,17 @@ function AnswerEditor(props) {
                                         multiline
                                         fullWidth
                                         style={textFieldStyle}
-                                    /> : <></>)
+                                    /> : 
+                                    <>
+                                        <Button variant = "contained" 
+                                        sx={{marginTop: "15px", width: "-webkit-fill-available", height: "56px"}}
+                                        onClick={()=>{
+                                            dispatch({type: CONSTRUCTOR_ADD_SUB_QUESTION})
+                                        }}
+                                        >
+                                            Добавить подвопрос
+                                        </Button>
+                                    </>)
                             }
 
                         </div>
@@ -210,7 +220,7 @@ function AnswerEditor(props) {
                                 </FormControl>
                                 {
                                     couldBeAdditional(regInfo.id) ?
-                                        <FormGroup style={{ marginTop: "20px" }}>
+                                        <FormGroup style={{ marginTop: "15px" }}>
                                             <FormControlLabel control={
                                                 <Checkbox
                                                     id="is_additionalQ_checkbox"
@@ -225,7 +235,7 @@ function AnswerEditor(props) {
                                 {
                                     !isIdParent(regInfo.id) ?
                                         <Autocomplete
-                                            sx={{ marginTop: "20px" }}
+                                            sx={{ marginTop: "15rpx" }}
                                             disablePortal
                                             id="redirect_autocomplete"
                                             options={idList()}
