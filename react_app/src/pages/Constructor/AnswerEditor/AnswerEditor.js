@@ -2,7 +2,7 @@ import * as React from 'react'
 import TextField from '@mui/material/TextField';
 
 import { Question, QuestionId, QuestionTypes } from "../Models/Models"
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, ListItemIcon, MenuItem, Select } from "@mui/material";
+import { Autocomplete, Button, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, ListItemIcon, MenuItem, Select } from "@mui/material";
 import TextFieldsIcon from '@mui/icons-material/TextFields';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
@@ -19,7 +19,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { CONSTRUCTOR_MODIFY_QUESTIONNAIRE } from "../../Constructor/Reducer/ConstructorReducerTypes"
 
-import { isIdParent, couldBeAdditional } from "./AnswerEditorActions.ts"
+import { isIdParent, couldBeAdditional, getQuestionIdByString, getRootQuestion } from "./AnswerEditorActions.ts"
 
 const RegisterTemplate = {
     text: "",
@@ -67,6 +67,14 @@ function AnswerEditor(props) {
             default:
                 console.log(e)
                 break;
+
+        }
+        if (id.includes("redirect_autocomplete")) {
+            console.log(e.target.textContent)
+            setRegInfo(prevState => ({
+                ...prevState,
+                redirectTo: getQuestionIdByString(e.target.textContent)
+            }));
         }
     }
     const handleChangeTypeSelect = e => {
@@ -81,6 +89,26 @@ function AnswerEditor(props) {
 
     const iconStyle = { height: "0.75em" }
     const textFieldStyle = { marginTop: "15px" }
+
+    const idList = () => {
+        let list = []
+        if (props.questionnaire) {
+
+            let thisRootReg = getRootQuestion(props.register.id)
+
+            if (!props.questionnaire.questionList) {
+                props.questionnaire.questionList = JSON.parse(props.questionnaire.fields)
+            }
+
+            props.questionnaire.questionList.forEach(element => {
+                if (element.id.string !== thisRootReg.string)
+                    list.push(element.id.string)
+            });
+        }
+
+
+        return list
+    }
 
     return (
         <>
@@ -115,75 +143,74 @@ function AnswerEditor(props) {
                         </div>
                         <div style={{ width: "2px", marginRight: "10px", marginLeft: "10px", marginTop: "0px", marginBottom: "0px", backgroundColor: "gray" }}></div>
                         <div style={divStyle.style}>
-                            {
-                                <>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="type_select_label">Тип регистра</InputLabel>
-                                        <Select
-                                            labelId="type_select_label"
-                                            id="type_select"
-                                            value={regInfo.type}
-                                            label="Тип регистра"
-                                            disabled={regInfo.isQuestion ? false : true}
-                                            onChange={handleChangeTypeSelect}
-                                        >
-                                            <MenuItem value={QuestionTypes.text}>
-                                                <ListItemIcon >
-                                                    <TextFieldsIcon style={iconStyle} />
-                                                </ListItemIcon>
-                                                Текст
-                                            </MenuItem>
-                                            <MenuItem value={QuestionTypes.number}>
-                                                <ListItemIcon>
-                                                    <NumbersIcon style={iconStyle} />
-                                                </ListItemIcon>
-                                                Число
-                                            </MenuItem>
-                                            <MenuItem value={QuestionTypes.radio_button}>
-                                                <ListItemIcon>
-                                                    <RadioButtonCheckedIcon style={iconStyle} />
-                                                </ListItemIcon>
-                                                Один из списка
-                                            </MenuItem>
-                                            <MenuItem value={QuestionTypes.check_box}>
-                                                <ListItemIcon>
-                                                    <CheckBoxIcon style={iconStyle} />
-                                                </ListItemIcon>
-                                                Многие из списка</MenuItem>
-                                            <MenuItem value={QuestionTypes.date}>
-                                                <ListItemIcon>
-                                                    <CalendarTodayIcon style={iconStyle} />
-                                                </ListItemIcon>
-                                                Дата
-                                            </MenuItem>
-                                            <MenuItem value={QuestionTypes.time}>
-                                                <ListItemIcon>
-                                                    <AccessTimeIcon style={iconStyle} />
-                                                </ListItemIcon>
-                                                Время
-                                            </MenuItem>
-                                            <MenuItem value={QuestionTypes.order}>
-                                                <ListItemIcon>
-                                                    <SortIcon style={iconStyle} />
-                                                </ListItemIcon>
-                                                Порядковая шкала
-                                            </MenuItem>
-                                            <MenuItem value={QuestionTypes.intervals}>
-                                                <ListItemIcon>
-                                                    <FormatListNumberedIcon style={iconStyle} />
-                                                </ListItemIcon>
-                                                Интервальная шкала
-                                            </MenuItem>
-                                            <MenuItem value={QuestionTypes.rating}>
-                                                <ListItemIcon>
-                                                    <StarIcon style={iconStyle} />
-                                                </ListItemIcon>
-                                                Рейтинговая шкала
-                                            </MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    {
-                                       couldBeAdditional(regInfo.id) ?
+                            <>
+                                <FormControl fullWidth>
+                                    <InputLabel id="type_select_label">Тип регистра</InputLabel>
+                                    <Select
+                                        labelId="type_select_label"
+                                        id="type_select"
+                                        value={regInfo.type}
+                                        label="Тип регистра"
+                                        disabled={regInfo.isQuestion ? false : true}
+                                        onChange={handleChangeTypeSelect}
+                                    >
+                                        <MenuItem value={QuestionTypes.text}>
+                                            <ListItemIcon >
+                                                <TextFieldsIcon style={iconStyle} />
+                                            </ListItemIcon>
+                                            Текст
+                                        </MenuItem>
+                                        <MenuItem value={QuestionTypes.number}>
+                                            <ListItemIcon>
+                                                <NumbersIcon style={iconStyle} />
+                                            </ListItemIcon>
+                                            Число
+                                        </MenuItem>
+                                        <MenuItem value={QuestionTypes.radio_button}>
+                                            <ListItemIcon>
+                                                <RadioButtonCheckedIcon style={iconStyle} />
+                                            </ListItemIcon>
+                                            Один из списка
+                                        </MenuItem>
+                                        <MenuItem value={QuestionTypes.check_box}>
+                                            <ListItemIcon>
+                                                <CheckBoxIcon style={iconStyle} />
+                                            </ListItemIcon>
+                                            Многие из списка</MenuItem>
+                                        <MenuItem value={QuestionTypes.date}>
+                                            <ListItemIcon>
+                                                <CalendarTodayIcon style={iconStyle} />
+                                            </ListItemIcon>
+                                            Дата
+                                        </MenuItem>
+                                        <MenuItem value={QuestionTypes.time}>
+                                            <ListItemIcon>
+                                                <AccessTimeIcon style={iconStyle} />
+                                            </ListItemIcon>
+                                            Время
+                                        </MenuItem>
+                                        <MenuItem value={QuestionTypes.order}>
+                                            <ListItemIcon>
+                                                <SortIcon style={iconStyle} />
+                                            </ListItemIcon>
+                                            Порядковая шкала
+                                        </MenuItem>
+                                        <MenuItem value={QuestionTypes.intervals}>
+                                            <ListItemIcon>
+                                                <FormatListNumberedIcon style={iconStyle} />
+                                            </ListItemIcon>
+                                            Интервальная шкала
+                                        </MenuItem>
+                                        <MenuItem value={QuestionTypes.rating}>
+                                            <ListItemIcon>
+                                                <StarIcon style={iconStyle} />
+                                            </ListItemIcon>
+                                            Рейтинговая шкала
+                                        </MenuItem>
+                                    </Select>
+                                </FormControl>
+                                {
+                                    couldBeAdditional(regInfo.id) ?
                                         <FormGroup style={{ marginTop: "20px" }}>
                                             <FormControlLabel control={
                                                 <Checkbox
@@ -195,11 +222,22 @@ function AnswerEditor(props) {
                                             />
                                         </FormGroup>
                                         : <></>
-                                    }
+                                }
+                                {
+                                    !isIdParent(regInfo.id) ?
+                                        <Autocomplete
+                                            sx={{ marginTop: "20px" }}
+                                            disablePortal
+                                            id="redirect_autocomplete"
+                                            options={idList()}
+                                            value={regInfo.redirectTo.string}
+                                            renderInput={(params) => <TextField {...params} label="Переход к ..." />}
+                                            noOptionsText="Не найдено"
+                                            onChange={handleChange}
+                                        /> : <></>
+                                }
 
-                                </>
-
-                            }
+                            </>
 
                         </div>
                     </div>
@@ -218,7 +256,8 @@ function AnswerEditor(props) {
 
 const mapStateToProps = (state) => {
     return {
-        register: state.constructor.register
+        register: state.constructor.register,
+        questionnaire: state.constructor.questionnaire
     }
 }
 

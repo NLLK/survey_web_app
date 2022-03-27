@@ -1,4 +1,4 @@
-import { AccessibleForward, ThirtyFpsSelectRounded } from "@mui/icons-material";
+import { AccessibleForward, PlayCircleOutlineOutlined, Rtt, ThirtyFpsSelectRounded } from "@mui/icons-material";
 import { TemplateTypes } from "../Templates/TemplateTypes";
 
 export enum QuestionTypes {
@@ -76,6 +76,17 @@ export class QuestionId {
 		parent.array = parent.array.slice(0,this.array.length-1)
 		parent.update()
 		return parent
+	}
+
+	getRootQuestion(): QuestionId{
+		let root = new QuestionId()
+
+		root.setWithString(this.string)
+		root.array = root.array.slice(0, 1)
+
+		root.update()
+
+		return root
 	}
 
 
