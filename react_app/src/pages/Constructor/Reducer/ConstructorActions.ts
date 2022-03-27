@@ -69,5 +69,16 @@ export function AddWithTemplate(origin: object, template: TemplateTypes, registe
     originQ.addQuestionsWithTemplate(template, question)
 
     return originQ;
+}
 
+export function DeleteQuestion(origin: object, questionId: object): Questionnaire {
+    let originQ: Questionnaire = new Questionnaire()
+    Object.assign(originQ, JSON.parse(JSON.stringify(origin)))
+    
+    let originId = new QuestionId()
+    Object.assign(originId, JSON.parse(JSON.stringify(questionId)))
+
+    originQ.deleteQuestion(originId)
+
+    return originQ; 
 }

@@ -8,7 +8,7 @@ import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION }
 import { REGISTER_EDITOR_SET_REGISTER_ID } from "./Reducer/RegisterEditorTypes"
 import { HtmlTooltipViewerButton } from '../Common/HtmlTooltip'
 
-export enum ButtonTypes { add = "add", content = "content", addParent = "addParent"}
+export enum ButtonTypes { add = "add", content = "content", addParent = "addParent", delete = "delete"}
 
 interface iStyling {
     width: string;

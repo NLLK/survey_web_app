@@ -8,8 +8,9 @@ import { connect, useDispatch } from "react-redux";
 
 import EditorButton from "./EditorButton"
 import { ButtonTypes } from '../ConstructorButtonBase';
-import {TemplateTypes} from "../Templates/TemplateTypes"
-import {addRegisterWithTemplate} from "../Templates/TemplateActions"
+import { TemplateTypes } from "../Templates/TemplateTypes"
+import { addRegisterWithTemplate } from "../Templates/TemplateActions"
+import { CONSTRUCTOR_DELETE_QUESTION } from '../Reducer/ConstructorReducerTypes';
 
 function RegisterEditor(props) {
 
@@ -32,7 +33,7 @@ function RegisterEditor(props) {
         switch (e.target.id) {
             case "template_button_yes_no":
                 addRegisterWithTemplate(TemplateTypes.yes_no, dispatch)
-                break;  
+                break;
             case "template_button_rate":
                 addRegisterWithTemplate(TemplateTypes.rate, dispatch)
                 break;
@@ -50,15 +51,15 @@ function RegisterEditor(props) {
             {
                 !props.register ?
                     <></> :
-                    <>
-                        <div style={{ display: "block", alignItems: "flex-start", justifyItems: "center" }}>
+                    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                        <div style={{ flexGrow: 1 }}>
                             <div style={{ padding: "10px" }}>
                                 <Typography>
                                     {props.register.id.string} : {props.register.text} {(props.register.subText ? "- " + props.register.subText : "")}
                                 </Typography>
                             </div>
 
-                            <div style={{ display: "block", alignItems: "flex-start", justifyItems: "center" }}>
+                            <div>
                                 {
                                     props.register.answersList.map((item, index) => (
                                         <EditorButton key={index} parentRegister={JSON.stringify(item)} type={ButtonTypes.content}>
@@ -68,13 +69,10 @@ function RegisterEditor(props) {
                                 }
                             </div>
 
-                            <div style={{ marginTop: "40px" }}>
+                            <div style={{ marginTop: props.register.answersList.length == 0 ? "0px" : "40px" }}>
                                 <EditorButton parentRegister={JSON.stringify(props.register)} type={ButtonTypes.add}>
                                     *Добавить*
                                 </EditorButton>
-                                {/* <EditorButton parentRegister={JSON.stringify(props.register)} type={ButtonTypes.addTemplate}>
-                                    *Добавить по шаблону*
-                                </EditorButton> */}
                                 <Button
                                     id="basic-button"
                                     aria-controls={open ? 'basic-menu' : undefined}
@@ -121,11 +119,20 @@ function RegisterEditor(props) {
                                     </MenuItem>
                                 </Menu>
                             </div>
-
+                        </div>
+                        <div>
+                            <Button
+                                variant="contained" color="error"
+                                sx={{ width: "-webkit-fill-available", margin: "15px" }}
+                                onClick={()=>{
+                                    dispatch({type: CONSTRUCTOR_DELETE_QUESTION})
+                                }}
+                            >
+                                *Удалить*
+                            </Button>
 
                         </div>
-
-                    </>
+                    </div>
             }
         </>
     )

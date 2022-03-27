@@ -1,4 +1,4 @@
-import { ThirtyFpsSelectRounded } from "@mui/icons-material";
+import { AccessibleForward, ThirtyFpsSelectRounded } from "@mui/icons-material";
 import { TemplateTypes } from "../Templates/TemplateTypes";
 
 export enum QuestionTypes {
@@ -69,6 +69,15 @@ export class QuestionId {
 		}
 		return false
 	}
+
+	whoIsParent(): QuestionId{
+		let parent = new QuestionId()
+		parent.setWithString(this.string)
+		parent.array = parent.array.slice(0,this.array.length-1)
+		parent.update()
+		return parent
+	}
+
 
 	static getArrayByString(string: string): Array<number> {
 		let strArray = string.split(".");
@@ -233,6 +242,43 @@ export class Questionnaire {
 				}
 		}
 		this.modifyQuestionnaire(question)
+	}
+
+	deleteQuestion(qId: QuestionId){
+		this.autoSetQuestionList();
+
+		let qIdArray = qId.array;
+		let currentQuestionList: Array<Question> = this.questionList;
+		for (let i: number = 0; i < qIdArray.length; i++) {
+			let index = qIdArray[i] - 1;
+			if (i !== qIdArray.length - 1) {
+				currentQuestionList = currentQuestionList[index].answersList;
+			}
+			else {
+				currentQuestionList.splice(index, 1)
+				let parentId = qId.whoIsParent()
+				currentQuestionList = this.renameChildren(currentQuestionList, parentId)
+			}
+		}
+
+		this.autoSetFields();
+	}
+
+	renameChildren(questionList: Array<Question>, parentId: QuestionId): Array<Question>{
+		
+		let index = 1;
+
+		questionList.forEach(question => {
+			let newId = new QuestionId()
+			newId.addElementForAnswer(parentId, index)
+
+			let parId = new QuestionId()
+			parId.setWithString(newId.string)
+			question.id = parId
+			index++;
+		});
+
+		return questionList
 	}
 
 }
