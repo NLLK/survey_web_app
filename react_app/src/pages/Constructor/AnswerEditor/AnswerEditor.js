@@ -12,7 +12,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import StarIcon from '@mui/icons-material/Star';
 import SortIcon from '@mui/icons-material/Sort';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 
 import "./styles.css"
 import { connect, useDispatch, useSelector } from 'react-redux';
@@ -20,8 +19,6 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { CONSTRUCTOR_ADD_SUB_QUESTION, CONSTRUCTOR_MODIFY_QUESTIONNAIRE } from "../../Constructor/Reducer/ConstructorReducerTypes"
 
 import { isIdParent, couldBeAdditional, getQuestionIdByString, getRootQuestion, setIdNextToId } from "./AnswerEditorActions.ts"
-import { NoEncryption } from '@mui/icons-material';
-
 
 const DEFAULT_TEXT = "По умолчанию"
 
@@ -31,14 +28,9 @@ function AnswerEditor(props) {
 
     const [regInfo, setRegInfo] = React.useState(new Question())
 
-    //const register = useSelector((state: RootStateOrAny) => state.constructor.register)
-
-
     React.useEffect(() => {
         setRegInfo(props.register)
-
     }, [props])
-
 
     const handleChange = e => {
         const { id, value } = e.target;
@@ -65,7 +57,6 @@ function AnswerEditor(props) {
             default:
                 console.log(e)
                 break;
-
         }
         if (id.includes("redirect_autocomplete")) {
             console.log(e.target.textContent)
@@ -122,7 +113,6 @@ function AnswerEditor(props) {
                                 onChange={handleChange}
                                 multiline
                                 fullWidth
-
                             />
                             {
                                 (regInfo.haveSubquestion
@@ -247,9 +237,7 @@ function AnswerEditor(props) {
                                             }}
                                         /> : <></>
                                 }
-
                             </>
-
                         </div>
                     </div>
                     <div style={{ display: "flex", justifyContent: "end", margin: "15px" }}>
@@ -259,8 +247,6 @@ function AnswerEditor(props) {
                     </div>
                 </div>) : <></>
             }
-
-
         </>
     )
 }

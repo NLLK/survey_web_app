@@ -1,7 +1,4 @@
 import * as React from 'react'
-import { useDispatch } from 'react-redux';
-
-import { Menu, MenuItem } from "@mui/material";
 
 import ConstructorButtonBase from '../ConstructorButtonBase';
 
@@ -14,11 +11,6 @@ interface Props {
 }
 
 export default function EditorButton({ parentRegister, type, children }: Props) {
-
-    React.useEffect(()=>{
-        console.log(children)
-    }, [children])
-
     return (
         <ConstructorButtonBase parentRegister={parentRegister} type={type} sxProps={{ display: "block", width: "-webkit-fill-available", margin: "10px" }}>
             {
