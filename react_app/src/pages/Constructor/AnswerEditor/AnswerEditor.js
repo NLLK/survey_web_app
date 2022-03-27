@@ -113,7 +113,7 @@ function AnswerEditor(props) {
                             }
 
                         </div>
-                        <div style={{ width: "2px", marginRight: "10px", marginLeft: "10px", marginTop: "0px", marginBottom: "0px", backgroundColor: "black" }}></div>
+                        <div style={{ width: "2px", marginRight: "10px", marginLeft: "10px", marginTop: "0px", marginBottom: "0px", backgroundColor: "gray" }}></div>
                         <div style={divStyle.style}>
                             {
                                 <>

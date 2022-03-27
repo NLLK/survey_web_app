@@ -8,7 +8,7 @@ import { CONSTRUCTOR_ADD_BLANK_QUESTION, CONSTRUCTOR_ADD_BLANK_PARENT_QUESTION }
 import { REGISTER_EDITOR_SET_REGISTER_ID } from "./Reducer/RegisterEditorTypes"
 import { HtmlTooltipViewerButton } from '../Common/HtmlTooltip'
 
-export enum ButtonTypes { add = "add", content = "content", addParent = "addParent", delete = "delete"}
+export enum ButtonTypes { add = "add", content = "content", addParent = "addParent"}
 
 interface iStyling {
     width: string;
@@ -39,12 +39,6 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
             setParentRegView(parentReg)
         }
     }, [parentRegister])
-
-    const toogle = (settter) => {
-        settter(prevState => (
-            prevState ? false : true
-        ));
-    }
 
     const onClick = () => {
         let parentReg: Question;

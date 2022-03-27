@@ -11,12 +11,13 @@ import { ButtonTypes } from '../ConstructorButtonBase';
 import { TemplateTypes } from "../Templates/TemplateTypes"
 import { addRegisterWithTemplate } from "../Templates/TemplateActions"
 import { CONSTRUCTOR_DELETE_QUESTION } from '../Reducer/ConstructorReducerTypes';
-
+import {toogle} from "../../Common/Utils"
 function RegisterEditor(props) {
 
     //const register = useSelector(state => state.constructor.register)
 
     const dispatch = useDispatch()
+    const [showDeleteButtons, setShowDeleteButtons] = React.useState(false)
 
     React.useEffect(() => {
 
@@ -122,16 +123,39 @@ function RegisterEditor(props) {
                         </div>
                         <div>
                             <Button
-                                variant="contained" color="error"
+                                variant="contained"
                                 sx={{ width: "-webkit-fill-available", margin: "15px" }}
-                                onClick={()=>{
-                                    dispatch({type: CONSTRUCTOR_DELETE_QUESTION})
+                                onClick={() => {
+                                    toogle(setShowDeleteButtons)
                                 }}
                             >
                                 *Удалить*
                             </Button>
 
+                            <div style={{ display: showDeleteButtons? "flex": "none", direction: "row", columnGap: "5px", justifyContent: "space-between", marginLeft: "15px", marginRight: "15px", marginBottom: "15px" }}>
+                                <Button
+                                    variant="contained" color="error"
+                                    onClick={() => {
+                                        dispatch({ type: CONSTRUCTOR_DELETE_QUESTION })
+                                        toogle(setShowDeleteButtons)
+                                    }}
+                                    sx={{ flexGrow: 1 }}
+                                >
+                                    *Удалить*
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    onClick={() => {
+                                        toogle(setShowDeleteButtons)
+                                    }}
+                                    sx={{ flexGrow: 1 }}
+                                >
+                                    *Отмена*
+                                </Button>
+                            </div>
                         </div>
+
+
                     </div>
             }
         </>
