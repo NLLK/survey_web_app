@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
 import { styled, useTheme } from '@mui/material/styles';
@@ -117,7 +117,7 @@ const BorderedAvatar = styled(Avatar)`
 //   border: 3px solid lightseagreen;
 // `;
 
-export default function MiniDrawer(props) {
+function MiniDrawer(props) {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -140,7 +140,7 @@ export default function MiniDrawer(props) {
       setGreetings("Добрый день")
     else if (time >= 17 && time <= 20)
       setGreetings("Добрый вечер")
-  }, [])
+  }, [props])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -150,11 +150,10 @@ export default function MiniDrawer(props) {
     setOpen(false);
   };
 
-  const page_name = useSelector(state => state.sideBar.page_name)
-  const width = useSelector(state => state.sideBar.width)
-  const menu_type = useSelector(state => state.sideBar.menu_type)
-
-  const user = useSelector(state => state.login.user)
+  const page_name = props.page_name
+  const width = props.width
+  const menu_type = props.menu_type
+  const user = props.user
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -228,18 +227,12 @@ export default function MiniDrawer(props) {
             </ListItemIcon>
             <ListItemText primary="Конструктор анкет" />
           </ListItem>
-          <ListItem button onClick={() => navigate('/quetionnaireViewer')}>
+          <ListItem button onClick={() => navigate('/browser')}>
             <ListItemIcon>
               <QuestionAnswerIcon />
             </ListItemIcon>
             <ListItemText primary="Анкетирование" />
           </ListItem>
-          {/* <ListItem button onClick={() => navigate('/dataAnalysis')}>
-            <ListItemIcon>
-              <AnalyticsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Анализ данных" />
-          </ListItem> */}
         </List>
 
         <Divider />
@@ -252,3 +245,14 @@ export default function MiniDrawer(props) {
     </Box>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+      page_name: state.sideBar.page_name,
+      width: state.sideBar.width,
+      menu_type: state.sideBar.menu_type,
+      user:state.login.user,
+  }
+}
+
+export default connect(mapStateToProps)(MiniDrawer)

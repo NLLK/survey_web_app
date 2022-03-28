@@ -29,7 +29,7 @@ export default function QuestionnaireCard(props) {
 
     const [open, setOpen] = React.useState(false);
 
-    useEffect(()=>{},[])
+    useEffect(() => { }, [])
 
     const handleClose = () => {
         setOpen(false);
@@ -62,34 +62,39 @@ export default function QuestionnaireCard(props) {
     }
 
     const cardOnClick = () => {
-        dispatch({
+        if (props.buttons) {
+            dispatch({
                 type: CONSTRUCTOR_SET_QUESTIONNAIRE_ID,
                 payload: props.cardInfo.id
             }
-        )
-        navigate('/constructor/'+props.cardInfo.id)
-
+            )
+            navigate('/constructor/' + props.cardInfo.id)
+        }
+        else{
+            navigate('/browser/' + props.cardInfo.id)
+        }
     }
 
     return (
         <div>
-            <Card className="card" sx={{ width: 300}}> {/*maxWidth: 345, minWidth: 200 , height: 200*/}
+            <Card className="card" sx={{ width: 300 }}> {/*maxWidth: 345, minWidth: 200 , height: 200*/}
                 <CardActionArea onClick={cardOnClick}>
-                    <CardContent sx={{height: 150 }}>
+                    <CardContent sx={{ height: 150 }}>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             Наименование:
                         </Typography>
-                        <TextBoxWithDots variant = "h5"  max_length = {15} text = {props.cardInfo.name}/>
+                        <TextBoxWithDots variant="h5" max_length={15} text={props.cardInfo.name} />
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             Описание:
                         </Typography>
-                        <TextBoxWithDots variant = "body2" max_length = {69} text = {props.cardInfo.comment}/>
+                        <TextBoxWithDots variant="body2" max_length={69} text={props.cardInfo.comment} />
                     </CardContent>
                 </CardActionArea>
-                <CardActions>
-                    <Button size="small" onClick={handleDeleteAction}>Удалить</Button>
-                    <Button size="small" onClick={handleEditAction}>Изменить</Button>
-                </CardActions>
+                {props.buttons ?
+                    <CardActions>
+                        <Button size="small" onClick={handleDeleteAction}>Удалить</Button>
+                        <Button size="small" onClick={handleEditAction}>Изменить</Button>
+                    </CardActions> : <></>}
             </Card>
             <Dialog
                 open={open}

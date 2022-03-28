@@ -28,7 +28,7 @@ export default function SelectQuestionnairePage(props) {
     return (
         <div>
             <UserPermissionsWrapper permission={2} />
-            <SideBarHandler page_name="Выбор анкеты" menu_type={SELECT_QUESTIONNAIRE_MENU} />
+            <SideBarHandler page_name="Конструктор анкет: Выбор анкеты" menu_type={SELECT_QUESTIONNAIRE_MENU} />
             <div style={{ marginBottom: "5px" }}>
                 <div style={{ display: "inline" }}>
                     <Button
@@ -47,7 +47,7 @@ export default function SelectQuestionnairePage(props) {
             <div style={{ display: "inline" }}> {
                 questionnaires.map((item, index) =>
                     <div key={index} style={{ display: 'inline-block', marginRight: 15 + "px" }}>
-                        <QuestionnaireCard cardInfo={item} />
+                        <QuestionnaireCard cardInfo={item} buttons={true}/>
                     </div>
                 )}
             </div>
