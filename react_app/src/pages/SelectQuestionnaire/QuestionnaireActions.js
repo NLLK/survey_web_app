@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const GetQuestionnaireById = async (setQInfo, qId) => {
+export const GetQuestionnaireById = async (qId) => {
     const data = {
         'id': Number(qId)
     }
@@ -20,15 +20,7 @@ export const GetQuestionnaireById = async (setQInfo, qId) => {
             q.comment = dataR.comment
             q.fields = dataR.fields
 
-            setQInfo(q)
             console.log('got questionnaire', q)
         })
     return q;
-}
-
-export const QuestionnaireTemplate = {
-    id: 0,
-    name: "",
-    comment: "",
-    fields: "{}"
 }

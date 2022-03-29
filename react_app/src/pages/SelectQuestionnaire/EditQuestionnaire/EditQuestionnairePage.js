@@ -12,11 +12,10 @@ import { BLANK_MENU } from "../../Common/SideBar/SideBarList";
 
 import "../../Common/styles.css";
 import SideBarHandler from "../../Common/SideBar/SideBarHandler";
-import { GetQuestionnaireById, QuestionnaireTemplate } from "../QuestionnaireActions";
+import { GetQuestionnaireById} from "../QuestionnaireActions";
+import { Questionnaire } from "../../Constructor/Models/Models";
 
 export default function EditQuestionnairePage() {
-
-
     let params = useParams();
     const navigate = useNavigate()
 
@@ -26,7 +25,7 @@ export default function EditQuestionnairePage() {
     const [commentError, setCommentError] = useState("")
     const [commentHelperText, setCommentHelperText] = useState("")
 
-    let qInfoDefault = QuestionnaireTemplate
+    let qInfoDefault = new Questionnaire()
 
     const [qInfo, setQInfo] = useState(qInfoDefault)
 

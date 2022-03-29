@@ -12,14 +12,15 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { GetQuestionnaireById, QuestionnaireTemplate } from "../SelectQuestionnaire/QuestionnaireActions";
+import { GetQuestionnaireById} from "../SelectQuestionnaire/QuestionnaireActions";
+import { Questionnaire } from "./Models/Models";
 
 
 export default function DescriptionPage(props) {
 
     const working_on_id = useSelector(state => state.constructor.working_on_id)
 
-    let qInfoDefault = QuestionnaireTemplate
+    let qInfoDefault = new Questionnaire()
 
     const [questionnaire, setQuestionnaire] = useState(qInfoDefault)
 

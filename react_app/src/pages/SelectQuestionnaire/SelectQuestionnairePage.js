@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import 'react-splitter-layout/lib/index.css';
 
-import QuestionnaireCard from "./QuestionnaireCard"
+import QuestionnaireCard, { QuestionCardTypes } from "./QuestionnaireCard"
 
 import './styles.css'
 
@@ -47,7 +47,7 @@ export default function SelectQuestionnairePage(props) {
             <div style={{ display: "inline" }}> {
                 questionnaires.map((item, index) =>
                     <div key={index} style={{ display: 'inline-block', marginRight: 15 + "px" }}>
-                        <QuestionnaireCard cardInfo={item} buttons={true}/>
+                        <QuestionnaireCard cardInfo={item} type={QuestionCardTypes.Constructor}/>
                     </div>
                 )}
             </div>

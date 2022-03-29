@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import SideBarHandler from "../Common/SideBar/SideBarHandler";
 import { BLANK_MENU } from "../Common/SideBar/SideBarList";
 import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
-import QuestionnaireCard from "../SelectQuestionnaire/QuestionnaireCard";
+import QuestionnaireCard, { QuestionCardTypes } from "../SelectQuestionnaire/QuestionnaireCard";
 import { getQuestionnaireList } from "../SelectQuestionnaire/SelectQuestionnaireActions";
 
 function SelectQForBrowser(props) {
@@ -28,7 +28,7 @@ function SelectQForBrowser(props) {
             <div style={{ display: "inline" }}> {
                 questionnaires.map((item, index) =>
                     <div key={index} style={{ display: 'inline-block', marginRight: 15 + "px" }}>
-                        <QuestionnaireCard cardInfo={item} buttons={false}/>
+                        <QuestionnaireCard cardInfo={item} type={QuestionCardTypes.Browser}/>
                     </div>
                 )}
             </div>

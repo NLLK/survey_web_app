@@ -8,7 +8,6 @@ from authentication.models import User
 
 AUTHOR_PLACEHOLDER = "Не известно"
 
-
 class Questionnaire(models.Model):
     name = models.CharField(max_length=150)
     author = models.ForeignKey(

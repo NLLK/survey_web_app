@@ -28,7 +28,6 @@ export default function ConstructorPage(props) {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
-	const [questionnaireInfo, setQuestionnaireInfo] = useState(QuestionnaireTemplate)
 	const questionnaire = useSelector(state => state.constructor.questionnaire)
 	const showAddButtons = useSelector(state => state.constructor.showAddButtons)
 
@@ -50,17 +49,8 @@ export default function ConstructorPage(props) {
 	}, [navigate, params, props])
 
 	const getQuestionnaire = async (id) => {
-
-		const qInfo = await GetQuestionnaireById(setQuestionnaireInfo, id)//Questionnaire.test()//await GetQuestionnaireById(setQuestionnaireInfo, id)
-		//console.log('or', await GetQuestionnaireById(setQuestionnaireInfo, id))
-		console.log('or', qInfo)
-
-		let qTest = {
-			...qInfo,
-			fields: qInfo.fields
-		}
-
-		dispatch({ type: CONSTRUCTOR_SET_QUESTIONNAIRE, payload: qTest })
+		const qInfo = await GetQuestionnaireById(id)
+		dispatch({ type: CONSTRUCTOR_SET_QUESTIONNAIRE, payload: qInfo })
 	}
 
 

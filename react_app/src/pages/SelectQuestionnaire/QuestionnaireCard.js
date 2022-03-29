@@ -22,6 +22,8 @@ import ButtonEnter from "../Common/ButtonEnter";
 import TextBoxWithDots from '../Common/TextBoxWithDots'
 import { CONSTRUCTOR_SET_QUESTIONNAIRE as CONSTRUCTOR_SET_QUESTIONNAIRE_ID } from "../Constructor/Reducer/ConstructorReducerTypes";
 
+export const QuestionCardTypes = { Constructor: 0, Browser: 1 }
+
 export default function QuestionnaireCard(props) {
 
     const dispatch = useDispatch()
@@ -62,16 +64,20 @@ export default function QuestionnaireCard(props) {
     }
 
     const cardOnClick = () => {
-        if (props.buttons) {
-            dispatch({
-                type: CONSTRUCTOR_SET_QUESTIONNAIRE_ID,
-                payload: props.cardInfo.id
+        switch (props.type) {
+            case QuestionCardTypes.Constructor: {
+                dispatch({
+                    type: CONSTRUCTOR_SET_QUESTIONNAIRE_ID,
+                    payload: props.cardInfo.id
+                }
+                )
+                navigate('/constructor/' + props.cardInfo.id)
+                break;
             }
-            )
-            navigate('/constructor/' + props.cardInfo.id)
-        }
-        else{
-            navigate('/browser/' + props.cardInfo.id)
+            case QuestionCardTypes.Browser: {
+                navigate('/browser/' + props.cardInfo.id)
+                break;
+            }
         }
     }
 
@@ -90,7 +96,7 @@ export default function QuestionnaireCard(props) {
                         <TextBoxWithDots variant="body2" max_length={69} text={props.cardInfo.comment} />
                     </CardContent>
                 </CardActionArea>
-                {props.buttons ?
+                {props.type === QuestionCardTypes.Constructor ?
                     <CardActions>
                         <Button size="small" onClick={handleDeleteAction}>Удалить</Button>
                         <Button size="small" onClick={handleEditAction}>Изменить</Button>
