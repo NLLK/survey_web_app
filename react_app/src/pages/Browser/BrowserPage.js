@@ -7,6 +7,7 @@ import { BLANK_MENU } from "../Common/SideBar/SideBarList";
 import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
 import { Questionnaire } from "../Constructor/Models/Models";
 import { GetQuestionnaireById } from "../SelectQuestionnaire/QuestionnaireActions";
+import QuestionCard from "./QuestionCard/QuestionCard";
 import { BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReducerTypes"
 
 
@@ -26,25 +27,25 @@ function BrowserPage(props) {
         dispatch({ type: BROWSER_SET_QUESTIONNAIRE, payload: qInfo })
     }
 
-    let returnPage  = [];
+    let returnPage = [];
 
     if (props.questionnaire != undefined && props.questionnaire.fields !== null && props.questionnaire.fields !== '{}') {
         console.log('browser', props.questionnaire.fields)
         let fields = JSON.parse(props.questionnaire.fields)
 
         fields.forEach(rootQuestion => {
-            returnPage.push(RenderQuestion(rootQuestion))
+            returnPage.push(<QuestionCard question={rootQuestion} />)
         });
     }
 
     return (
         <div>
             {/* <UserPermissionsWrapper permission={1} /> */}
-            <SideBarHandler page_name={"Анкетирование: " + (props.questionnaire ? props.questionnaire.name: "")} menu_type={BLANK_MENU} />
-            <div style={{ position: "relative", paddingLeft: "10 px", display: "flex", flexDirection: 'column' }}>
+            <SideBarHandler page_name={"Анкетирование: " + (props.questionnaire ? props.questionnaire.name : "")} menu_type={BLANK_MENU} />
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                 {
                     returnPage.map((item, index) =>
-                        <div style={{ display: "flex" }} key={index}>{item}</div>
+                        <div key={index}>{item}</div>
                     )
                 }
             </div>
@@ -65,7 +66,7 @@ function RenderQuestion(question) {
                         {
                             question.answersList.map((item, index) => (
                                 !item.isQuestion ?
-                                   <p> {item.id.string + " " + item.text}</p>
+                                    <p> {item.id.string + " " + item.text}</p>
                                     :
                                     RenderQuestion(item)
                             ))

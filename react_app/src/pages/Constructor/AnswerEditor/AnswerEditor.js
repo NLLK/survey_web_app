@@ -107,7 +107,7 @@ function AnswerEditor(props) {
                         <div style={divStyle.style}>
                             <TextField
                                 id="text_field"
-                                label="Текст вопроса: "
+                                label={regInfo.isQuestion ? "Текст вопроса: " : "Текст ответа: "}
                                 type="text"
                                 value={regInfo.text}
                                 onChange={handleChange}
@@ -192,7 +192,7 @@ function AnswerEditor(props) {
                                                 <SortIcon style={iconStyle} />
                                             </ListItemIcon>
                                             Порядковая шкала
-                                        </MenuItem>
+                                        </MenuItem>зменить" для а
                                         <MenuItem value={QuestionTypes.intervals}>
                                             <ListItemIcon>
                                                 <FormatListNumberedIcon style={iconStyle} />

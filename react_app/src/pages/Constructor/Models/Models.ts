@@ -268,7 +268,8 @@ export class Questionnaire {
 			}
 			else {
 				currentQuestionList.splice(index, 1)
-				currentQuestionList = this.renameChildren(currentQuestionList, parentId)
+				if (!parentId.isParentQuestion)
+					currentQuestionList = this.renameChildren(currentQuestionList, parentId)
 			}
 		}
 
