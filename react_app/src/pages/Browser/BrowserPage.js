@@ -42,10 +42,10 @@ function BrowserPage(props) {
         <div>
             {/* <UserPermissionsWrapper permission={1} /> */}
             <SideBarHandler page_name={"Анкетирование: " + (props.questionnaire ? props.questionnaire.name : "")} menu_type={BLANK_MENU} />
-            <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "rgb(210 210 210 / 58%)", padding: "20px"}}>
                 {
                     returnPage.map((item, index) =>
-                        <div key={index}>{item}</div>
+                        <div key={index} style={{margin: "10px"}}>{item}</div>
                     )
                 }
             </div>
