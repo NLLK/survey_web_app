@@ -8,6 +8,8 @@ import { RadioButtons } from "./Inputs/RadioButtons"
 import TextInput from "./Inputs/TextInput"
 import TimePicker from "./Inputs/TimePicker"
 import OrderScale from "./Inputs/OrderScale"
+import NumberInput from "./Inputs/NumberInput"
+import RatingInput from "./Inputs/RatingInput"
 const TypeSwitch = (question) => {
     switch (question.type) {
         case QuestionTypes.radio_button:
@@ -22,6 +24,13 @@ const TypeSwitch = (question) => {
             return <TimePicker question={question} />
         case QuestionTypes.order:
             return <OrderScale question={question} />
+        case QuestionTypes.intervals:
+            return <NumberInput question={question}/>
+        case QuestionTypes.number:
+            return <NumberInput question={question}/>
+        case QuestionTypes.rating:
+            return <RatingInput question={question}/>
+        default: return <p>Ошибка!</p>
     }
 
 }
@@ -29,7 +38,7 @@ const TypeSwitch = (question) => {
 
 function QuestionCard(props) {
     return (
-        <Paper sx={{ minWidth: "500px", padding: "20px" }}>
+        <Paper sx={{ minWidth: "600px", padding: "20px" }}>
             <Typography>{props.question.id.string}. {props.question.text}</Typography>
             <div>
                 {

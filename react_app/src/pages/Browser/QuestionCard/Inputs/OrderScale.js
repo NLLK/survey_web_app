@@ -36,12 +36,11 @@ export default class OrderScale extends Component {
 
         return (
             <>
+            <Typography variant="subtitle1" sx={{color: "rgba(0, 0, 0, 0.6)"}}>Расположите в порядке убывания (выше - лучше)</Typography>
                 <ReactDragListView {...dragProps}>
-                    <List
-                        subheader={<ListSubheader>Расположите в порядке приоритета (выше - лучше)</ListSubheader>}
-                    >
+                    <List>
                         {this.state.data.map((item, index) => (
-                            <ListItem>
+                            <ListItem key={index}>
                                 <ListItemIcon>
                                     <DragIndicatorIcon />
                                 </ListItemIcon>

@@ -17,7 +17,6 @@ export default function TimePicker(props) {
                 type="time"
                 fullWidth
                 defaultValue={today}
-                //sx={{ width: 220 }}
                 InputLabelProps={{
                     shrink: true,
                 }}
