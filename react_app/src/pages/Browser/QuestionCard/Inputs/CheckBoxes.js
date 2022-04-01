@@ -12,7 +12,10 @@ export function CheckBoxes(props) {
                             name={props.id + "-radio-buttons-group"}
                         >
                             {props.question.answersList.map((item, index) => (
-                                <FormControlLabel control={<Checkbox name={item.id.string + " name"} />} label={item.text} key={index} />
+                                <FormControlLabel 
+                                control={<Checkbox id={item.id.string+' '+item.type} />}
+                                label={item.text} 
+                                key={index} />
                             ))}
                         </FormGroup>
                     </FormControl>

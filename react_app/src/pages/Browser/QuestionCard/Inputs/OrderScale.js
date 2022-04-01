@@ -12,7 +12,9 @@ export default class OrderScale extends Component {
 
         props.question.answersList.forEach(element => {
             data.push({
-                title: element.text
+                title: element.text,
+                id: element.id.string,
+                type: element.type
             });
         });
 
@@ -38,13 +40,13 @@ export default class OrderScale extends Component {
             <>
             <Typography variant="subtitle1" sx={{color: "rgba(0, 0, 0, 0.6)"}}>Расположите в порядке убывания (выше - лучше)</Typography>
                 <ReactDragListView {...dragProps}>
-                    <List>
+                    <List id = {this.props.question.id.string+' '+this.props.question.type}>
                         {this.state.data.map((item, index) => (
                             <ListItem key={index}>
                                 <ListItemIcon>
                                     <DragIndicatorIcon />
                                 </ListItemIcon>
-                                <ListItemText
+                                <ListItemText id={item.id+' '+item.type}
                                     primary={item.title}
                                 />
                             </ListItem>

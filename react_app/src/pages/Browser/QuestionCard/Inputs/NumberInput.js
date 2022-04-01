@@ -24,9 +24,9 @@ export default function NumberInput(props) {
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        if (value < startFrom || value > endTo)  setError(true) 
+        if (value < startFrom || value > endTo) setError(true)
         else setError(false);
-        setValue(value); 
+        setValue(value);
     }
 
     const [value, setValue] = useState(startFrom)
@@ -39,16 +39,21 @@ export default function NumberInput(props) {
                     type="number"
                     inputProps={{ max: endTo, min: startFrom }}
                     onChange={handleChange}
-                    value = {value}
-                    error = {error}
-                    helperText = {error ? "Число не находится в заданном диапазоне!":""}
+                    value={value}
+                    error={error}
+                    helperText={error ? "Число не находится в заданном диапазоне!" : ""}
+                    id={props.question.answersList[0].id.string + ' ' + props.question.type}
                     fullWidth />
             </>
             :
 
             <>
                 <Typography variant="subtitle1" sx={{ color: "rgba(0, 0, 0, 0.6)" }}>Введите число</Typography>
-                <TextField type="number" inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} fullWidth />
+                <TextField
+                    type="number"
+                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                    id={props.question.answersList[0].id.string + ' ' + props.question.type}
+                    fullWidth />
             </>
 
 
