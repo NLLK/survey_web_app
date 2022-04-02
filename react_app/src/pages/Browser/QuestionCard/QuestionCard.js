@@ -35,10 +35,9 @@ const TypeSwitch = (question) => {
 
 }
 
-
 function QuestionCard(props) {
     return (
-        <Paper sx={{ minWidth: "600px", padding: "20px" }}>
+        <Paper sx={{ padding: "20px" }}>
             <Typography>{props.question.id.string}. {props.question.text}</Typography>
             <div>
                 {

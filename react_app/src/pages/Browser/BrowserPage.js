@@ -39,47 +39,30 @@ function BrowserPage(props) {
     }
 
     return (
-        <div>
+        <div style={{ backgroundColor: "rgb(210 210 210 / 58%)" }}>
             {/* <UserPermissionsWrapper permission={1} /> */}
             <SideBarHandler page_name={"Анкетирование: " + (props.questionnaire ? props.questionnaire.name : "")} menu_type={BLANK_MENU} />
-            <div style={{display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "rgb(210 210 210 / 58%)", padding: "20px"}}>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "20px",
+                width: "700px",
+                marginLeft: "auto",
+                marginRight: "auto"
+            }}>
                 {
                     returnPage.map((item, index) =>
-                        <div key={index} style={{margin: "10px"}}>{item}</div>
+                        <div key={index} style={{ margin: "10px", width: "-webkit-fill-available" }}>{item}</div>
                     )
                 }
+                <div style={{ alignSelf: "end", margin: "10px", marginTop: "25px" }}>
+                    <Button variant="contained">Сохранить</Button>
+                </div>
             </div>
         </div>
     );
 }
-
-function RenderQuestion(question) {
-
-    return (
-        <div style={{ position: "relative", display: "flex", flexDirection: 'column' }} key={question.id.string + "r"}>
-
-            <p>{question.id.string} - {question.text}</p>
-
-            <div style={{ position: "relative", display: "flex", flexDirection: 'column' }}>
-                {question.isQuestion ?
-                    <>
-                        {
-                            question.answersList.map((item, index) => (
-                                !item.isQuestion ?
-                                    <p> {item.id.string + " " + item.text}</p>
-                                    :
-                                    RenderQuestion(item)
-                            ))
-                        }
-                    </>
-                    :
-                    <></>
-                }
-            </div>
-        </div>
-    )
-}
-
 const mapStateToProps = (state) => {
     return {
         questionnaire: state.browser.questionnaire
