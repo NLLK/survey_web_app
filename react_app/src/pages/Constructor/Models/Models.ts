@@ -96,6 +96,9 @@ export class QuestionId {
 		return root
 	}
 
+	getLastElement(): number{
+		return this.array[this.array.length-1]
+	}
 
 	static getArrayByString(string: string): Array<number> {
 		let strArray = string.split(".");
