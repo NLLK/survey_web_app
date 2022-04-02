@@ -70,6 +70,14 @@ export class QuestionId {
 	}
 
 	whoIsParent(): QuestionId {
+
+		if (this.array.length <= 1){
+			let newQId = new QuestionId()
+			newQId.setWithString("-1");
+			return newQId
+		}
+
+
 		let parent = new QuestionId()
 		parent.setWithString(this.string)
 		parent.array = parent.array.slice(0, this.array.length - 1)
@@ -268,13 +276,14 @@ export class Questionnaire {
 			}
 			else {
 				currentQuestionList.splice(index, 1)
-				if (!parentId.isParentQuestion)
+				if (parentId.array[0] !== -1)
 					currentQuestionList = this.renameChildren(currentQuestionList, parentId)
+				else currentQuestionList = this.renameRoot(currentQuestionList, qId)
 			}
 		}
 
 		if (currentQuestionList.length === 0) {
-			
+
 			let parentIdArray = parentId.array
 
 			currentQuestionList = this.questionList;
@@ -296,6 +305,24 @@ export class Questionnaire {
 		this.autoSetFields();
 	}
 
+	renameRoot(questionList: Question[], qId: QuestionId): Question[] {
+		for (let index: number = qId.array[0] - 1; index < questionList.length; index++) {
+			
+			let rootId = new QuestionId()
+			let newArrray = new Array<number>();
+			newArrray.push(index+1);
+			rootId.setWithArray(newArrray)
+			questionList[index].id = rootId;
+
+			if (questionList[index].answersList.length !== 0){
+				this.renameChildren(questionList[index].answersList, rootId)
+			}
+			
+		}
+
+		return questionList;
+	}
+
 	renameChildren(questionList: Array<Question>, parentId: QuestionId): Array<Question> {
 
 		let index = 1;
@@ -307,6 +334,11 @@ export class Questionnaire {
 			let parId = new QuestionId()
 			parId.setWithString(newId.string)
 			question.id = parId
+
+			if (question.answersList.length !== 0){
+				this.renameChildren(question.answersList, parId)
+			}
+
 			index++;
 		});
 
