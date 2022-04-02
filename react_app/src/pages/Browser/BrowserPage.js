@@ -5,11 +5,77 @@ import { useNavigate, useParams } from "react-router-dom";
 import SideBarHandler from "../Common/SideBar/SideBarHandler";
 import { BLANK_MENU } from "../Common/SideBar/SideBarList";
 import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
-import { Questionnaire } from "../Constructor/Models/Models";
+import { Questionnaire, QuestionTypes } from "../Constructor/Models/Models";
 import { GetQuestionnaireById } from "../SelectQuestionnaire/QuestionnaireActions";
 import QuestionCard from "./QuestionCard/QuestionCard";
 import { BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReducerTypes"
 
+function dataObject(idString, dataString) {
+    return { id: idString, data: dataString }
+}
+
+function getData(question) {
+
+    let data = []
+
+    question.answersList.forEach(q => {
+
+        let elementId = q.id.string + ' ' + q.type
+
+        let element = document.getElementById(elementId)
+        if (element != null) {
+            switch (question.type) {
+                case QuestionTypes.radio_button:
+                case QuestionTypes.check_box: {
+                    if (element.checked)
+                        data.push(dataObject(q.id.string, 1))
+                    else data.push(dataObject(q.id.string, 0))
+                    break;
+                }
+                case QuestionTypes.text:
+                case QuestionTypes.date:
+                case QuestionTypes.time:
+                case QuestionTypes.intervals:
+                case QuestionTypes.number: {
+                    data.push(dataObject(q.id.string, element.value))
+                }
+                // case QuestionTypes.order:{
+                //     let index = 1;
+                //     element.children.forEach(el => {
+                        
+                //         if (el.value)
+                //         index ++
+                //     });
+                // }
+
+            }
+        }
+        else data.push(dataObject(q.id.string, 0))
+
+        if (q.answersList !== 0) {
+            data = data.concat(getData(q));
+        }
+
+    });
+
+    return data
+}
+
+function CollectData(questionnaire) {
+    let data = []
+
+    let questionnaireCopy = JSON.parse(JSON.stringify(questionnaire))
+
+    if (questionnaireCopy.questionList === undefined) {
+        questionnaireCopy.questionList = JSON.parse(questionnaireCopy.fields)
+    }
+
+    questionnaireCopy.questionList.forEach(element => {
+        data = data.concat(getData(element))
+    });
+
+    console.log(data)
+}
 
 function BrowserPage(props) {
     let params = useParams();
@@ -57,7 +123,7 @@ function BrowserPage(props) {
                     )
                 }
                 <div style={{ alignSelf: "end", margin: "10px", marginTop: "25px" }}>
-                    <Button variant="contained">Сохранить</Button>
+                    <Button variant="contained" onClick={() => { CollectData(props.questionnaire) }}>Сохранить</Button>
                 </div>
             </div>
         </div>
