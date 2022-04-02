@@ -111,8 +111,10 @@ export const ConstructorReducer = (state = defaultState, action) => {
         }
         case CONSTRUCTOR_ADD_WITH_TEMPLATE: {
             let newQ = AddWithTemplate(state.questionnaire, action.payload, state.register)
+            let register = FindRegisterById(newQ, state.register.id.string)
             return {
                 ...state,
+                register: register,
                 questionnaire: newQ
             }
         }
@@ -120,6 +122,7 @@ export const ConstructorReducer = (state = defaultState, action) => {
             let newQ = DeleteQuestion(state.questionnaire, state.register.id)
             return {
                 ...state,
+                register: null,
                 questionnaire: newQ
             }
         }

@@ -82,7 +82,7 @@ function AnswerEditor(props) {
     const idList = () => {
         let list = []
         list.push(DEFAULT_TEXT)
-        if (props.questionnaire) {
+        if (props.questionnaire && props.register) {
 
             let thisRootReg = getRootQuestion(props.register.id)
 
