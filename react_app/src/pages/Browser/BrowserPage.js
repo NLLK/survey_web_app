@@ -11,6 +11,7 @@ import QuestionCard from "./QuestionCard/QuestionCard";
 import { BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReducerTypes"
 
 import { getIntervalsArray, getParent } from "./QuestionCard/Actions"
+import axios from "axios";
 
 function dataObject(idString, dataString) {
     return { id: idString, data: dataString }
@@ -49,15 +50,6 @@ function getData(question) {
                     data.push(dataObject(q.id.string, element.value))
                     break;
                 }
-
-                // case QuestionTypes.intervals: {
-                //     let borders = getIntervalsArray(q.text)
-                //     if (element.value >= borders[0] && element.value <= borders[1])
-                //         data.push(dataObject(q.id.string, 1))
-                //     else data.push(dataObject(q.id.string, 0))
-                //     break;
-                // }
-
                 case QuestionTypes.order: {
                     let index = 1;
                     for (let i = 0; i < element.children.length; i++) {
@@ -101,22 +93,19 @@ function getDataFromIntervals(question) {
     return data
 }
 
-function CollectData(questionnaire) {
-    let data = []
+function SendData(data, questionnaireId) {
+    console.log("got data: ", data, "qId: ", questionnaireId)
 
-    let questionnaireCopy = JSON.parse(JSON.stringify(questionnaire))
+    let sendingData = { data: data, questionnaireId: questionnaireId}
 
-    if (questionnaireCopy.questionList === undefined) {
-        questionnaireCopy.questionList = JSON.parse(questionnaireCopy.fields)
-    }
+    axios.post("/api/dataStoring/sendInfo/", sendingData)
+        .then(() => {
+            console.log('ok')
+        })
+        .catch(() => {
+            console.log('ne ok')
+        })
 
-    questionnaireCopy.questionList.forEach(element => {
-        if (element.type !== QuestionTypes.intervals)
-            data = data.concat(getData(element))
-        else data = data.concat(getDataFromIntervals(element))
-    });
-
-    console.log(data)
 }
 
 function BrowserPage(props) {
@@ -146,6 +135,24 @@ function BrowserPage(props) {
         });
     }
 
+    const CollectData = () => {
+        let data = []
+
+        let questionnaireCopy = JSON.parse(JSON.stringify(props.questionnaire))
+
+        if (questionnaireCopy.questionList === undefined) {
+            questionnaireCopy.questionList = JSON.parse(questionnaireCopy.fields)
+        }
+
+        questionnaireCopy.questionList.forEach(element => {
+            if (element.type !== QuestionTypes.intervals)
+                data = data.concat(getData(element))
+            else data = data.concat(getDataFromIntervals(element))
+        });
+
+        SendData(data, questionnaireCopy.id)
+    }
+
     return (
         <div style={{ backgroundColor: "rgb(210 210 210 / 58%)" }}>
             {/* <UserPermissionsWrapper permission={1} /> */}
@@ -165,7 +172,7 @@ function BrowserPage(props) {
                     )
                 }
                 <div style={{ alignSelf: "end", margin: "10px", marginTop: "25px" }}>
-                    <Button variant="contained" onClick={() => { CollectData(props.questionnaire) }}>Сохранить</Button>
+                    <Button variant="contained" onClick={CollectData}>Сохранить</Button>
                 </div>
             </div>
         </div>
@@ -173,7 +180,7 @@ function BrowserPage(props) {
 }
 const mapStateToProps = (state) => {
     return {
-        questionnaire: state.browser.questionnaire
+        questionnaire: state.browser.questionnaire,
     }
 }
 

@@ -27,11 +27,3 @@ class Questionnaire(models.Model):
             self.createdDate = timezone.now()
         self.lastEdited = timezone.now()
         return super(Questionnaire, self).save(*args, **kwargs)
-
-
-class DataStorage(models.Model):
-    questionnaire = models.ForeignKey(
-        Questionnaire, on_delete=models.CASCADE)
-    author = models.ForeignKey(
-        User, on_delete=models.SET_DEFAULT, default=AUTHOR_PLACEHOLDER)
-    data = models.TextField()
