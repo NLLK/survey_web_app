@@ -10,6 +10,8 @@ import { GetQuestionnaireById } from "../SelectQuestionnaire/QuestionnaireAction
 import QuestionCard from "./QuestionCard/QuestionCard";
 import { BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReducerTypes"
 
+import { getParent } from "./QuestionCard/Actions"
+
 function dataObject(idString, dataString) {
     return { id: idString, data: dataString }
 }
@@ -21,8 +23,15 @@ function getData(question) {
     question.answersList.forEach(q => {
 
         let elementId = q.id.string + ' ' + q.type
+        let element = null;
+        if (question.type != QuestionTypes.order)
+            element = document.getElementById(elementId)
+        else {
+            let parId = getParent(q.id)
+            let parString = parId.string + ' ' + q.type
+            element = document.getElementById(parString)
+        }
 
-        let element = document.getElementById(elementId)
         if (element != null) {
             switch (question.type) {
                 case QuestionTypes.radio_button:
@@ -36,17 +45,20 @@ function getData(question) {
                 case QuestionTypes.date:
                 case QuestionTypes.time:
                 case QuestionTypes.intervals:
-                case QuestionTypes.number: {
+                case QuestionTypes.number:
+                case QuestionTypes.rating: {
                     data.push(dataObject(q.id.string, element.value))
                 }
-                // case QuestionTypes.order:{
-                //     let index = 1;
-                //     element.children.forEach(el => {
-                        
-                //         if (el.value)
-                //         index ++
-                //     });
-                // }
+                case QuestionTypes.order: {
+                    let index = 1;
+                    for (let i = 0; i < element.children.length; i++) {
+                        if (element.children[i].id === elementId) {
+                            data.push(dataObject(q.id.string, index))
+                            break;
+                        }
+                        index++
+                    }
+                }
 
             }
         }

@@ -18,3 +18,10 @@ export function findRegisterInRegister(registerOrigin: object, qIdOrigin: string
     return register.answersList[lastElementIndex]
 
 }
+
+export function getParent(qIdOrigin: object): QuestionId {
+    let qId = new QuestionId()
+    Object.assign(qId, JSON.parse(JSON.stringify(qIdOrigin)))
+
+    return qId.whoIsParent()
+}

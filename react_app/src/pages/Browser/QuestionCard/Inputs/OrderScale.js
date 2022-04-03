@@ -38,15 +38,15 @@ export default class OrderScale extends Component {
 
         return (
             <>
-            <Typography variant="subtitle1" sx={{color: "rgba(0, 0, 0, 0.6)"}}>Расположите в порядке убывания (выше - лучше)</Typography>
+                <Typography variant="subtitle1" sx={{ color: "rgba(0, 0, 0, 0.6)" }}>Расположите в порядке убывания (выше - лучше)</Typography>
                 <ReactDragListView {...dragProps}>
-                    <List id = {this.props.question.id.string+' '+this.props.question.type}>
+                    <List id={this.props.question.id.string + ' ' + this.props.question.type}>
                         {this.state.data.map((item, index) => (
-                            <ListItem key={index}>
+                            <ListItem id={item.id + ' ' + item.type} key={index}>
                                 <ListItemIcon>
                                     <DragIndicatorIcon />
                                 </ListItemIcon>
-                                <ListItemText id={item.id+' '+item.type}
+                                <ListItemText
                                     primary={item.title}
                                 />
                             </ListItem>
