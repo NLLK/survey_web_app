@@ -36,11 +36,6 @@ export default function SelectQuestionnairePage(props) {
                         style={buttonStyle}
                         onClick={() => navigate('/constructor/selectQuestionnaire/create/')}
                     >Создать анкету</Button>
-                    <Button
-                        variant="contained"
-                        style={buttonStyle}
-                        onClick={() => navigate('/constructor/selectQuestionnaire/import/')}
-                    >Импорт из файла</Button>
                 </div>
             </div>
 

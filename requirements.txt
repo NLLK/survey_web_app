@@ -4,3 +4,4 @@ django-cors-headers
 django-rest-auth
 psycopg2
 django-cors-headers
+XlsxWriter

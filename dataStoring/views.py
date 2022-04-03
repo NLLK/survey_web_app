@@ -1,5 +1,5 @@
-from distutils import command
-from traceback import print_tb
+from django.core.files import File
+from django.http import FileResponse, HttpResponse
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,6 +8,9 @@ from rest_framework import status
 from authentication.models import User
 from constructor.models import Questionnaire
 from dataStoring.models import DataStorage
+from django_project.settings import MEDIA_ROOT
+
+from .excelFunctions import ExcelFunctions
 
 class SendInfo(APIView):
     permission_classes = [AllowAny]  # IsAuthenticated
@@ -19,9 +22,9 @@ class SendInfo(APIView):
         questionnaire = Questionnaire.objects.get(id=qId)
 
         record = DataStorage(
-            questionnaire = questionnaire,
-            author = current_user,
-            data = fields
+            questionnaire=questionnaire,
+            author=current_user,
+            data=fields
         )
         record.save()
 
@@ -30,5 +33,20 @@ class SendInfo(APIView):
         # content = objects
         return Response({"aboba": 'a'})
 
+
+class DownloadExcel(APIView):
+    permission_classes = [AllowAny]  # IsAuthenticated
+
+    def get(self, request):
+        qId = request.query_params['id']
+        questionnaire = Questionnaire.objects.get(id = qId)
+        ExcelFunctions.CreateExcel(questionnaire.name+'('+str(questionnaire.id)+')')
+        #my_file = open(MEDIA_ROOT+"/file.txt", "w+")
+
+        #my_file.write("aboba")
+        #my_file.close()
+       
+        response = FileResponse(open(MEDIA_ROOT+"/file.txt", 'rb'))
+        return response
 
 # Create your views here.

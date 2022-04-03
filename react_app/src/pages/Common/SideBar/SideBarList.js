@@ -31,12 +31,6 @@ export default function SideBarList(props) {
                         </ListItemIcon>
                         <ListItemText primary="Создать" />
                     </ListItem>
-                    <ListItem button onClick={() => navigate('/constructor/selectQuestionnaire/import')}>
-                        <ListItemIcon>
-                            <ImportExportIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Импорт" />
-                    </ListItem>
                 </List>
             );
         case CONSTRUCTOR_MENU:
@@ -71,20 +65,7 @@ export default function SideBarList(props) {
             );
         case ACCOUNT_MANAGE_MENU:
             return (
-                <List>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <CreateIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Создать" />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <ImportExportIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Импорт" />
-                    </ListItem>
-                </List>
+                <div></div>
             );
         case BLANK_MENU:
             return(

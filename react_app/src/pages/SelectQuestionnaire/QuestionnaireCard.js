@@ -7,12 +7,13 @@ import axios from "axios";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { Button, CardActionArea, CardActions, IconButton } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 import './questionnaireCard.css'
 import '../Common/styles.css'
@@ -21,6 +22,7 @@ import { getQuestionnaireList } from './SelectQuestionnaireActions'
 import ButtonEnter from "../Common/ButtonEnter";
 import TextBoxWithDots from '../Common/TextBoxWithDots'
 import { CONSTRUCTOR_SET_QUESTIONNAIRE as CONSTRUCTOR_SET_QUESTIONNAIRE_ID } from "../Constructor/Reducer/ConstructorReducerTypes";
+import { HtmlTooltip } from "../Common/HtmlTooltip";
 
 export const QuestionCardTypes = { Constructor: 0, Browser: 1 }
 
@@ -63,6 +65,21 @@ export default function QuestionnaireCard(props) {
         navigate('selectQuestionnaire/edit/' + props.cardInfo.id)
     }
 
+    const handleExportButtonClick = () => {
+        axios({
+            url: 'api/dataStoring/downloadExcel/?id='+props.cardInfo.id, //your url
+            method: 'GET',
+            responseType: 'blob', // important 
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', props.cardInfo.name + "(" + props.cardInfo.id + ")" + '.txt'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        });
+    }
+
     const cardOnClick = () => {
         switch (props.type) {
             case QuestionCardTypes.Constructor: {
@@ -100,6 +117,11 @@ export default function QuestionnaireCard(props) {
                     <CardActions>
                         <Button size="small" onClick={handleDeleteAction}>Удалить</Button>
                         <Button size="small" onClick={handleEditAction}>Изменить</Button>
+                        <HtmlTooltip title="Экспорт">
+                            <IconButton aria-label="delete" onClick={handleExportButtonClick}>
+                                <SaveAltIcon />
+                            </IconButton>
+                        </HtmlTooltip>
                     </CardActions> : <></>}
             </Card>
             <Dialog

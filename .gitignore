@@ -5,3 +5,4 @@
 docker-compose example.yml
 db.sqlite3
 main.js.LICENSE.txt
+media/*
