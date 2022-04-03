@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "corsheaders",
     'django.contrib.sites',
     'authentication',
-    'constructor'
+    'constructor',
+    'dataStoring'
 ]
 
 MIDDLEWARE = [

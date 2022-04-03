@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^api/auth/', include('authentication.urls')),
     re_path(r'^api/constructor/', include('constructor.urls')),
+    re_path(r'^api/dataStoring/', include('dataStoring.urls')),
 ]
