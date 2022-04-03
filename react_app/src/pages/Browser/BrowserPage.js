@@ -10,7 +10,7 @@ import { GetQuestionnaireById } from "../SelectQuestionnaire/QuestionnaireAction
 import QuestionCard from "./QuestionCard/QuestionCard";
 import { BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReducerTypes"
 
-import { getParent } from "./QuestionCard/Actions"
+import { getIntervalsArray, getParent } from "./QuestionCard/Actions"
 
 function dataObject(idString, dataString) {
     return { id: idString, data: dataString }
@@ -32,7 +32,7 @@ function getData(question) {
             element = document.getElementById(parString)
         }
 
-        if (element != null) {
+        if (element != null || question.type === QuestionTypes.intervals) {
             switch (question.type) {
                 case QuestionTypes.radio_button:
                 case QuestionTypes.check_box: {
@@ -44,11 +44,20 @@ function getData(question) {
                 case QuestionTypes.text:
                 case QuestionTypes.date:
                 case QuestionTypes.time:
-                case QuestionTypes.intervals:
                 case QuestionTypes.number:
                 case QuestionTypes.rating: {
                     data.push(dataObject(q.id.string, element.value))
+                    break;
                 }
+
+                // case QuestionTypes.intervals: {
+                //     let borders = getIntervalsArray(q.text)
+                //     if (element.value >= borders[0] && element.value <= borders[1])
+                //         data.push(dataObject(q.id.string, 1))
+                //     else data.push(dataObject(q.id.string, 0))
+                //     break;
+                // }
+
                 case QuestionTypes.order: {
                     let index = 1;
                     for (let i = 0; i < element.children.length; i++) {
@@ -58,16 +67,35 @@ function getData(question) {
                         }
                         index++
                     }
+                    break;
                 }
 
             }
         }
         else data.push(dataObject(q.id.string, 0))
 
-        if (q.answersList !== 0) {
+        if (q.answersList.length !== 0) {
             data = data.concat(getData(q));
         }
 
+    });
+
+    return data
+}
+
+function getDataFromIntervals(question) {
+    let data = []
+
+    let elementId = question.id.string + ' ' + question.type
+    let element = document.getElementById(elementId)
+
+    let value = element.value
+
+    question.answersList.forEach(answer => {
+        let borders = getIntervalsArray(answer.text)
+        if (element.value >= borders[0] && element.value <= borders[1])
+            data.push(dataObject(answer.id.string, 1))
+        else data.push(dataObject(answer.id.string, 0))
     });
 
     return data
@@ -83,7 +111,9 @@ function CollectData(questionnaire) {
     }
 
     questionnaireCopy.questionList.forEach(element => {
-        data = data.concat(getData(element))
+        if (element.type !== QuestionTypes.intervals)
+            data = data.concat(getData(element))
+        else data = data.concat(getDataFromIntervals(element))
     });
 
     console.log(data)

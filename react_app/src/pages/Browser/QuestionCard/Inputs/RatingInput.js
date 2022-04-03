@@ -29,7 +29,9 @@ export default function RatingInput(props) {
         <>
             <Typography variant="subtitle1" sx={{ color: "rgba(0, 0, 0, 0.6)" }}>Введите число</Typography>
             <Slider
-                id = {props.question.answersList[0].id.string+' '+props.question.type}
+                componentsProps={{
+                    input: {id :props.question.answersList[0].id.string+' '+props.question.type}
+                }}
                 aria-label="Always visible"
                 defaultValue={mid}
                 min = {min}

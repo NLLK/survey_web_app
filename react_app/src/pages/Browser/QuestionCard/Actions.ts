@@ -25,3 +25,14 @@ export function getParent(qIdOrigin: object): QuestionId {
 
     return qId.whoIsParent()
 }
+
+const INTERVAL_SEPARATOR = '.'
+export function getIntervalsArray(originString:string): Array<number>{
+    let splitArray = originString.split(INTERVAL_SEPARATOR)
+    let first = Number(splitArray[0])
+    let last = Number(splitArray[splitArray.length - 1])
+    let ret = new Array<number>()
+    ret.push(first);
+    ret.push(last) 
+    return ret
+}

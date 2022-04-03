@@ -1,25 +1,17 @@
 import { TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { QuestionTypes } from "../../../Constructor/Models/Models";
+import {getIntervalsArray} from "../Actions"
 
-const INTERVAL_SEPARATOR = '.'
 
 export default function NumberInput(props) {
-
-
-
-    // props.question.forEach(element => {
-
-    // });
-
-
     var startFrom = 0;
     var endTo = 100;
 
     if (props.question.type === QuestionTypes.intervals) {
-        startFrom = Number(props.question.answersList[0].text.split(INTERVAL_SEPARATOR, 1)[0])
-        let spltarr = props.question.answersList[props.question.answersList.length - 1].text.split(INTERVAL_SEPARATOR)
-        endTo = Number(spltarr[spltarr.length - 1])
+
+        startFrom = getIntervalsArray(props.question.answersList[0].text)[0] 
+        endTo = getIntervalsArray(props.question.answersList[props.question.answersList.length - 1].text)[1] 
     }
 
     const handleChange = (e) => {
@@ -42,7 +34,7 @@ export default function NumberInput(props) {
                     value={value}
                     error={error}
                     helperText={error ? "Число не находится в заданном диапазоне!" : ""}
-                    id={props.question.answersList[0].id.string + ' ' + props.question.type}
+                    id={props.question.id.string + ' ' + props.question.type}
                     fullWidth />
             </>
             :
