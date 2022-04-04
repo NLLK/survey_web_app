@@ -40,13 +40,14 @@ class DownloadExcel(APIView):
     def get(self, request):
         qId = request.query_params['id']
         questionnaire = Questionnaire.objects.get(id = qId)
-        ExcelFunctions.CreateExcel(questionnaire.name+'('+str(questionnaire.id)+')')
+        fileName1 = questionnaire.name+'('+str(questionnaire.id)+')'
+        fileName = ExcelFunctions.CreateExcel(fileName1, questionnaire.fields)
         #my_file = open(MEDIA_ROOT+"/file.txt", "w+")
 
         #my_file.write("aboba")
         #my_file.close()
        
-        response = FileResponse(open(MEDIA_ROOT+"/file.txt", 'rb'))
+        response = FileResponse(open(fileName, 'rb'))
         return response
 
 # Create your views here.

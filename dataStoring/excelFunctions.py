@@ -7,13 +7,20 @@ class ExcelFunctions():
 
     @staticmethod
     def RemoveSpecialSymbols(string):
-        return ''.join( c for c in string if  c not in '?:!/;' )
+        return ''.join(c for c in string if c not in '?:!/;')
+
     @staticmethod
-    def CreateExcel(name):
+    def CreateExcel(name, questionnaireFields):
 
-        pathName = MEDIA_ROOT+'/' + ExcelFunctions.RemoveSpecialSymbols(name)+ '.xlsx'
+        
 
-        workbook = xlsxwriter.Workbook(pathName)
+        fileName = MEDIA_ROOT+'/' + \
+            ExcelFunctions.RemoveSpecialSymbols(name) + '.xlsx'
+
+        workbook = xlsxwriter.Workbook(fileName)
         worksheet = workbook.add_worksheet()
-        worksheet.write('A1', 'Hello world')
+        worksheet.write(0, 5, 'Hello world')
         workbook.close()
+
+        return fileName
+
