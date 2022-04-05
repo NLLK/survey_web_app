@@ -1,5 +1,8 @@
+from traceback import print_tb
+from dataStoring.models import DataStorage
 from django_project.settings import MEDIA_ROOT
 import xlsxwriter
+import json
 
 
 class ExcelFunctions():
@@ -10,17 +13,49 @@ class ExcelFunctions():
         return ''.join(c for c in string if c not in '?:!/;')
 
     @staticmethod
-    def CreateExcel(name, questionnaireFields):
+    def getCollumnNamesFromQuestion(question):
+        array = []
+        for q in question['answersList']: #foreach subquestion in question
+            if q['isQuestion'] != True: #if it is not a 
+                array.append(q['id']['string'])
+            else:
+                array.append(q['id']['string'])
+                array.extend(ExcelFunctions.getCollumnNamesFromQuestion(q))
+
+        return array
+
+    @staticmethod
+    def getCollumnNamesFromQuestionnaire(questionnaire):
+        fields = json.loads(questionnaire)
+
+        array = []
+
+        for question in fields: #foreach question in questionnaire
+            print(question['text'])
+            array.extend(ExcelFunctions.getCollumnNamesFromQuestion(question))
+
+        return array
 
         
 
-        fileName = MEDIA_ROOT+'/' + \
-            ExcelFunctions.RemoveSpecialSymbols(name) + '.xlsx'
-
-        workbook = xlsxwriter.Workbook(fileName)
+    @staticmethod
+    def CreateExcel(fileName, questionnaireFields):
+        filePath = MEDIA_ROOT+"/"+fileName+".xlsx"
+        workbook = xlsxwriter.Workbook(filePath)
         worksheet = workbook.add_worksheet()
-        worksheet.write(0, 5, 'Hello world')
+
+        collumns = ExcelFunctions.getCollumnNamesFromQuestionnaire(questionnaireFields)
+
+        print(collumns)
+        index = 0
+        for col in collumns:
+            worksheet.write(0, index, col)
+            index+=1
+
+        for row in DataStorage.objects:
+            print(row['id'])
+
         workbook.close()
 
-        return fileName
+        return filePath
 

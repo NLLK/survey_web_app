@@ -40,8 +40,8 @@ class DownloadExcel(APIView):
     def get(self, request):
         qId = request.query_params['id']
         questionnaire = Questionnaire.objects.get(id = qId)
-        fileName1 = questionnaire.name+'('+str(questionnaire.id)+')'
-        fileName = ExcelFunctions.CreateExcel(fileName1, questionnaire.fields)
+        fileName = ExcelFunctions.RemoveSpecialSymbols(questionnaire.name+'('+str(questionnaire.id)+')')
+        fileName = ExcelFunctions.CreateExcel(fileName, questionnaire.fields)
         #my_file = open(MEDIA_ROOT+"/file.txt", "w+")
 
         #my_file.write("aboba")
