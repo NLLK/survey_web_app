@@ -116,11 +116,14 @@ function BrowserPage(props) {
     let params = useParams();
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const [refreshHandle, setRefreshHandle] = useState({})
+
     useEffect(() => {
         if (params.id > -1) {
             getQuestionnaire(params.id)
         }
-    }, [dispatch])
+    }, [dispatch, props.toogle])
 
     const getQuestionnaire = async (id) => {
         const qInfo = await GetQuestionnaireById(params.id)//Questionnaire.test()//await GetQuestionnaireById(setQuestionnaireInfo, id)
@@ -143,8 +146,12 @@ function BrowserPage(props) {
             else data = data.concat(getDataFromIntervals(element))
         });
 
-        SendData(data, questionnaireCopy.id)
-        SoftReloadPage()
+        //SendData(data, questionnaireCopy.id)
+    
+        dispatch({type: "toogle", payload: refreshHandle})
+        toogle(setRefreshHandle)
+        //SoftReloadPage()
+        document.getElementById("1.2 2").checked = false
         window.scrollTo(0, 0)
     }
 
@@ -208,44 +215,43 @@ function BrowserPage(props) {
         });
     }
 
-    let returnPage = [];
-
-    if (props.questionnaire != undefined && props.questionnaire.fields !== null && props.questionnaire.fields !== '{}') {
-        console.log('browser', props.questionnaire.fields)
-        let fields = JSON.parse(props.questionnaire.fields)
-
-        fields.forEach(rootQuestion => {
-            returnPage.push(<QuestionCard question={rootQuestion} />)
-        });
-    }
     return (
         <div style={{ backgroundColor: "rgb(210 210 210 / 58%)" }}>
             {/* <UserPermissionsWrapper permission={1} /> */}
             <SideBarHandler page_name={"Анкетирование: " + (props.questionnaire ? props.questionnaire.name : "")} menu_type={BLANK_MENU} />
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "20px",
-                width: "700px",
-                marginLeft: "auto",
-                marginRight: "auto"
-            }}>
-                {
-                    returnPage.map((item, index) =>
-                        <div key={index} style={{ margin: "10px", width: "-webkit-fill-available" }}>{item}</div>
-                    )
-                }
-                <div style={{ alignSelf: "end", margin: "10px", marginTop: "25px" }}>
-                    <Button variant="contained" onClick={CollectData}>Сохранить</Button>
-                </div>
-            </div>
+            {
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        padding: "20px",
+                        width: "700px",
+                        marginLeft: "auto",
+                        marginRight: "auto"
+                    }}>
+                        {
+                            props.questionnaire && props.questionnaire.questionList !== undefined ?
+                                props.questionnaire.questionList.map((rootQuestion, index) =>
+                                    <div key={index} style={{ margin: "10px", width: "-webkit-fill-available" }}>
+                                        <QuestionCard question={rootQuestion} reset={false}/>
+                                    </div>
+                                ) : <></>
+
+                        }
+                        <div style={{ alignSelf: "end", margin: "10px", marginTop: "25px" }}>
+                            <Button variant="contained" onClick={CollectData}>Сохранить</Button>
+                        </div>
+                    </div>
+                    
+            }
+
         </div>
     );
 }
 const mapStateToProps = (state) => {
     return {
         questionnaire: state.browser.questionnaire,
+        toogle: state.browser.toogle
     }
 }
 

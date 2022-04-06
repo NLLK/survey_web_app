@@ -10,7 +10,7 @@ import TimePicker from "./Inputs/TimePicker"
 import OrderScale from "./Inputs/OrderScale"
 import NumberInput from "./Inputs/NumberInput"
 import RatingInput from "./Inputs/RatingInput"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getPureIdString, findRegisterInRegister } from "./Actions"
 
 import { FindRegisterById } from "../../Constructor/Reducer/ConstructorActions"
@@ -52,35 +52,44 @@ function QuestionCard(props) {
         else setAdditionalCard("")
     }
 
+    useEffect(() => {
+        console.log("reload")
+    }, [props])
+
     return (
-        <Paper sx={{ padding: "20px" }}>
-            <Typography>{props.question.id.string}. {props.question.haveSubquestion ? props.question.subText : props.question.text}</Typography>
-            <div>
-                {
-                    props.question.type !== QuestionTypes.radio_button ?
-                        TypeSwitch(props.question)
-                        : <>
-                            <FormControl>
-                                <FormLabel id={props.id + "-radio-buttons-group-label"}>Выберите из списка: </FormLabel>
-                                <RadioGroup
-                                    aria-labelledby={props.id + "-radio-buttons-group-label"}
-                                    name={props.question.id.string + ' ' + props.question.type}
-                                >
-                                    {props.question.answersList.map((item, index) => (
-                                        <FormControlLabel
-                                            value={item.id.string}
-                                            control={<Radio id={item.id.string + ' ' + item.type} />}
-                                            label={item.text}
-                                            onChange={handleRadioChange}
-                                            key={index} />
-                                    ))}
-                                </RadioGroup>
-                            </FormControl>
-                            {additionalCard ? <QuestionCard question={findRegisterInRegister(props.question, additionalCard)} /> : <></>}
-                        </>
-                }
-            </div>
-        </Paper>)
+        <div>
+            {
+                <Paper sx={{ padding: "20px" }}>
+                    <Typography>{props.question.id.string}. {props.question.haveSubquestion ? props.question.subText : props.question.text}</Typography>
+                    <div>
+                        {
+                            props.question.type !== QuestionTypes.radio_button ?
+                                TypeSwitch(props.question)
+                                : <>
+                                    <FormControl>
+                                        <FormLabel id={props.id + "-radio-buttons-group-label"}>Выберите из списка: </FormLabel>
+                                        <RadioGroup
+                                            aria-labelledby={props.id + "-radio-buttons-group-label"}
+                                            name={props.question.id.string + ' ' + props.question.type}
+                                        >
+                                            {props.question.answersList.map((item, index) => (
+                                                <FormControlLabel
+                                                    value={item.id.string}
+                                                    control={<Radio id={item.id.string + ' ' + item.type} />}
+                                                    label={item.text}
+                                                    onChange={handleRadioChange}
+                                                    key={index} />
+                                            ))}
+                                        </RadioGroup>
+                                    </FormControl>
+                                    {additionalCard ? <QuestionCard question={findRegisterInRegister(props.question, additionalCard)} /> : <></>}
+                                </>
+                        }
+                    </div>
+                </Paper>
+            }
+
+        </div>)
 }
 
 const mapStateToProps = (state) => {
