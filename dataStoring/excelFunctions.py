@@ -15,8 +15,8 @@ class ExcelFunctions():
     @staticmethod
     def getCollumnNamesFromQuestion(question):
         array = []
-        for q in question['answersList']: #foreach subquestion in question
-            if q['isQuestion'] != True: #if it is not a 
+        for q in question['answersList']:  # foreach subquestion in question
+            if q['isQuestion'] != True:  # if it is not a
                 array.append(q['id']['string'])
             else:
                 array.append(q['id']['string'])
@@ -30,13 +30,11 @@ class ExcelFunctions():
 
         array = []
 
-        for question in fields: #foreach question in questionnaire
+        for question in fields:  # foreach question in questionnaire
             print(question['text'])
             array.extend(ExcelFunctions.getCollumnNamesFromQuestion(question))
 
         return array
-
-        
 
     @staticmethod
     def CreateExcel(fileName, questionnaireFields):
@@ -44,18 +42,25 @@ class ExcelFunctions():
         workbook = xlsxwriter.Workbook(filePath)
         worksheet = workbook.add_worksheet()
 
-        collumns = ExcelFunctions.getCollumnNamesFromQuestionnaire(questionnaireFields)
+        collumns = ExcelFunctions.getCollumnNamesFromQuestionnaire(
+            questionnaireFields)
 
-        print(collumns)
         index = 0
         for col in collumns:
             worksheet.write(0, index, col)
-            index+=1
+            index += 1
 
-        for row in DataStorage.objects:
-            print(row['id'])
+        rowNumber = 1
+
+        for row in DataStorage.objects.all():
+            print(row.data)
+            data = json.loads(row.data.replace('\'', '\"'))
+            index = 0
+            for info in data:
+                worksheet.write(rowNumber, index, info['data'])
+                index += 1
+            rowNumber += 1
 
         workbook.close()
 
         return filePath
-
