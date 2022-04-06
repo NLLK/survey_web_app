@@ -42,8 +42,7 @@ class ExcelFunctions():
         workbook = xlsxwriter.Workbook(filePath)
         worksheet = workbook.add_worksheet()
 
-        collumns = ExcelFunctions.getCollumnNamesFromQuestionnaire(
-            questionnaireFields)
+        collumns = ExcelFunctions.getCollumnNamesFromQuestionnaire(questionnaireFields)
 
         index = 0
         for col in collumns:

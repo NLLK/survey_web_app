@@ -13,6 +13,8 @@ import { BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReducerTypes"
 import { getIntervalsArray, getParent } from "./QuestionCard/Actions"
 import axios from "axios";
 
+import { toogle } from "../Common/Utils";
+
 function dataObject(idString, dataString) {
     return { id: idString, data: dataString }
 }
@@ -61,10 +63,12 @@ function getData(question) {
                     }
                     break;
                 }
-
             }
         }
-        else data.push(dataObject(q.id.string, 0))
+        else {
+            if (question.type === QuestionTypes.text) data.push(dataObject(q.id.string, ""))
+            else data.push(dataObject(q.id.string, 0))
+        }
 
         if (q.answersList.length !== 0) {
             data = data.concat(getData(q));
@@ -96,7 +100,7 @@ function getDataFromIntervals(question) {
 function SendData(data, questionnaireId) {
     console.log("got data: ", data, "qId: ", questionnaireId)
 
-    let sendingData = { data: data, questionnaireId: questionnaireId}
+    let sendingData = { data: data, questionnaireId: questionnaireId }
 
     axios.post("/api/dataStoring/sendInfo/", sendingData)
         .then(() => {
@@ -124,17 +128,6 @@ function BrowserPage(props) {
         dispatch({ type: BROWSER_SET_QUESTIONNAIRE, payload: qInfo })
     }
 
-    let returnPage = [];
-
-    if (props.questionnaire != undefined && props.questionnaire.fields !== null && props.questionnaire.fields !== '{}') {
-        console.log('browser', props.questionnaire.fields)
-        let fields = JSON.parse(props.questionnaire.fields)
-
-        fields.forEach(rootQuestion => {
-            returnPage.push(<QuestionCard question={rootQuestion} />)
-        });
-    }
-
     const CollectData = () => {
         let data = []
 
@@ -151,8 +144,80 @@ function BrowserPage(props) {
         });
 
         SendData(data, questionnaireCopy.id)
+        SoftReloadPage()
+        window.scrollTo(0, 0)
     }
 
+    const SoftReloadItem = (question) => {
+        question.answersList.forEach(q => {
+
+            let elementId = q.id.string + ' ' + q.type
+            let element = null;
+            if (question.type != QuestionTypes.order)
+                element = document.getElementById(elementId)
+            else {
+                let parId = getParent(q.id)
+                let parString = parId.string + ' ' + q.type
+                element = document.getElementById(parString)
+            }
+
+            if (element != null || question.type === QuestionTypes.intervals) {
+                switch (question.type) {
+                    case QuestionTypes.radio_button:
+                    case QuestionTypes.check_box: {
+                        element.checked = false;
+                        break;
+                    }
+                    case QuestionTypes.text:
+                    case QuestionTypes.date:
+                    case QuestionTypes.time:
+                    case QuestionTypes.number:
+                    case QuestionTypes.rating: {
+                        element.value = null;
+                        break;
+                    }
+                    case QuestionTypes.order: {
+                        let index = 1;
+                        for (let i = 0; i < element.children.length; i++) {
+                            if (element.children[i].id === elementId) {
+                                //aaaaaaaaaaaaaaaaaaaaaa
+                                break;
+                            }
+                            index++
+                        }
+                        break;
+                    }
+                }
+            }
+
+            if (q.answersList.length !== 0) {
+                SoftReloadItem(q)
+            }
+        });
+    }
+
+    const SoftReloadPage = () => {
+        let questionnaireCopy = JSON.parse(JSON.stringify(props.questionnaire))
+
+        if (questionnaireCopy.questionList === undefined) {
+            questionnaireCopy.questionList = JSON.parse(questionnaireCopy.fields)
+        }
+
+        questionnaireCopy.questionList.forEach(element => {
+            SoftReloadItem(element)
+        });
+    }
+
+    let returnPage = [];
+
+    if (props.questionnaire != undefined && props.questionnaire.fields !== null && props.questionnaire.fields !== '{}') {
+        console.log('browser', props.questionnaire.fields)
+        let fields = JSON.parse(props.questionnaire.fields)
+
+        fields.forEach(rootQuestion => {
+            returnPage.push(<QuestionCard question={rootQuestion} />)
+        });
+    }
     return (
         <div style={{ backgroundColor: "rgb(210 210 210 / 58%)" }}>
             {/* <UserPermissionsWrapper permission={1} /> */}

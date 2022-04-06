@@ -27,11 +27,7 @@ class SendInfo(APIView):
             data=fields
         )
         record.save()
-
-        # objects = Questionnaire.objects.values(
-        #     'id', 'name', 'comment').order_by('-lastEdited')
-        # content = objects
-        return Response({"aboba": 'a'})
+        return Response(status=status.HTTP_200_OK)
 
 
 class DownloadExcel(APIView):
@@ -42,11 +38,7 @@ class DownloadExcel(APIView):
         questionnaire = Questionnaire.objects.get(id = qId)
         fileName = ExcelFunctions.RemoveSpecialSymbols(questionnaire.name+'('+str(questionnaire.id)+')')
         fileName = ExcelFunctions.CreateExcel(fileName, questionnaire.fields)
-        #my_file = open(MEDIA_ROOT+"/file.txt", "w+")
 
-        #my_file.write("aboba")
-        #my_file.close()
-       
         response = FileResponse(open(fileName, 'rb'))
         return response
 
