@@ -1,13 +1,26 @@
 import { TextField } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export default function DatePicker(props) {
-
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
     today = yyyy + '-'+mm + '-' + dd;
+
+    const [value, setValue] = useState(today)
+
+    const handleChange = (event) => {
+        setValue(event.target.value)
+    }
+
+    useEffect(()=>{
+        if (props.clear)
+        {
+            setValue(today)
+        }
+    }, [props.clear])
 
     return (
         <div style={{ paddingTop: "15px", paddingLeft: "10px", paddingRight: "10px" }}>
@@ -16,8 +29,8 @@ export default function DatePicker(props) {
                 label="Введитe дату"
                 type="date"
                 fullWidth
-                defaultValue={today}
-                //sx={{ width: 220 }}
+                value = {value}
+                onChange={handleChange}
                 InputLabelProps={{
                     shrink: true,
                 }}

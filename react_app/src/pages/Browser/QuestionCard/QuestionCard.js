@@ -1,5 +1,5 @@
 import { Paper, Typography } from "@mui/material"
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import { QuestionTypes } from "../../Constructor/Models/Models"
 import { CheckBoxes } from "./Inputs/CheckBoxes"
 import DatePicker from "./Inputs/DatePicker"
@@ -14,26 +14,27 @@ import { useEffect, useState } from "react"
 import { getPureIdString, findRegisterInRegister } from "./Actions"
 
 import { FindRegisterById } from "../../Constructor/Reducer/ConstructorActions"
-const TypeSwitch = (question) => {
+import { BROWSER_CLEAR, BROWSER_CLEARED, BROWSER_SET_INFO } from "../Reducer/BrowserReducerTypes"
+const TypeSwitch = (question, clear) => {
     switch (question.type) {
         // case QuestionTypes.radio_button:
         //     return <RadioButtons question={question} />
         case QuestionTypes.text:
-            return <TextInput question={question} />
+            return <TextInput question={question} clear={clear}/>
         case QuestionTypes.check_box:
-            return <CheckBoxes question={question} />
+            return <CheckBoxes question={question} clear={clear}/>
         case QuestionTypes.date:
-            return <DatePicker question={question} />
+            return <DatePicker question={question} clear={clear}/>
         case QuestionTypes.time:
-            return <TimePicker question={question} />
+            return <TimePicker question={question} clear={clear}/>
         case QuestionTypes.order:
-            return <OrderScale question={question} />
+            return <OrderScale question={question} clear={clear}/>
         case QuestionTypes.intervals:
-            return <NumberInput question={question} />
+            return <NumberInput question={question} clear={clear}/>
         case QuestionTypes.number:
-            return <NumberInput question={question} />
+            return <NumberInput question={question} clear={clear}/>
         case QuestionTypes.rating:
-            return <RatingInput question={question} />
+            return <RatingInput question={question} clear={clear}/>
         default: return <p>Ошибка!</p>
     }
 
@@ -41,7 +42,11 @@ const TypeSwitch = (question) => {
 
 function QuestionCard(props) {
 
+    const dispatch = useDispatch()
+
     const [additionalCard, setAdditionalCard] = useState("")
+
+    const [value, setValue] = useState(null)
 
     const handleRadioChange = (e) => {
         let idString = getPureIdString(e.target.id)
@@ -50,50 +55,60 @@ function QuestionCard(props) {
             setAdditionalCard(idString)
         }
         else setAdditionalCard("")
+
+        console.log('click')
+        setValue(e.target.value)
     }
 
     useEffect(() => {
-        console.log("reload")
-    }, [props])
+        console.log("reload", props.question.id.string)
+        if (props.clear){
+            setValue(null)
+            setAdditionalCard("")
+            dispatch({ type: BROWSER_CLEARED })
+        }
+    }, [props.clear])
 
     return (
-        <div>
-            {
-                <Paper sx={{ padding: "20px" }}>
-                    <Typography>{props.question.id.string}. {props.question.haveSubquestion ? props.question.subText : props.question.text}</Typography>
-                    <div>
-                        {
-                            props.question.type !== QuestionTypes.radio_button ?
-                                TypeSwitch(props.question)
-                                : <>
-                                    <FormControl>
-                                        <FormLabel id={props.id + "-radio-buttons-group-label"}>Выберите из списка: </FormLabel>
-                                        <RadioGroup
-                                            aria-labelledby={props.id + "-radio-buttons-group-label"}
-                                            name={props.question.id.string + ' ' + props.question.type}
-                                        >
-                                            {props.question.answersList.map((item, index) => (
-                                                <FormControlLabel
-                                                    value={item.id.string}
-                                                    control={<Radio id={item.id.string + ' ' + item.type} />}
-                                                    label={item.text}
-                                                    onChange={handleRadioChange}
-                                                    key={index} />
-                                            ))}
-                                        </RadioGroup>
-                                    </FormControl>
-                                    {additionalCard ? <QuestionCard question={findRegisterInRegister(props.question, additionalCard)} /> : <></>}
-                                </>
-                        }
-                    </div>
-                </Paper>
-            }
 
-        </div>)
+        <Paper sx={{ padding: "20px" }}>
+            <Typography>{props.question.id.string}. {props.question.haveSubquestion ? props.question.subText : props.question.text}</Typography>
+            <div>
+                {
+                    props.question.type !== QuestionTypes.radio_button ?
+                        TypeSwitch(props.question, props.clear)
+                        : <>
+                            <FormControl>
+                                <FormLabel id={props.id + "-radio-buttons-group-label"}>Выберите из списка: </FormLabel>
+                                <RadioGroup
+                                    aria-labelledby={props.id + "-radio-buttons-group-label"}
+                                    name={props.question.id.string + ' ' + props.question.type}
+                                    value={value}
+                                    onChange={handleRadioChange}
+                                >
+                                    {props.question.answersList.map((item, index) => (
+                                        <FormControlLabel
+                                            value={item.id.string}
+                                            control={
+                                                <Radio id={item.id.string + ' ' + item.type} />
+                                            }
+                                            label={item.text}
+                                            key={index} />
+                                    ))}
+                                </RadioGroup>
+                            </FormControl>
+                            {additionalCard ? <QuestionCard question={findRegisterInRegister(props.question, additionalCard)} /> : <></>}
+                        </>
+                }
+            </div>
+        </Paper>
+    )
 }
 
 const mapStateToProps = (state) => {
     return {
+        storage: state.browser.storage,
+        clear: state.browser.clear
     }
 }
 

@@ -8,7 +8,7 @@ import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
 import { Questionnaire, QuestionTypes } from "../Constructor/Models/Models";
 import { GetQuestionnaireById } from "../SelectQuestionnaire/QuestionnaireActions";
 import QuestionCard from "./QuestionCard/QuestionCard";
-import { BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReducerTypes"
+import { BROWSER_CLEAR, BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReducerTypes"
 
 import { getIntervalsArray, getParent } from "./QuestionCard/Actions"
 import axios from "axios";
@@ -148,10 +148,8 @@ function BrowserPage(props) {
 
         //SendData(data, questionnaireCopy.id)
     
-        dispatch({type: "toogle", payload: refreshHandle})
-        toogle(setRefreshHandle)
-        //SoftReloadPage()
-        document.getElementById("1.2 2").checked = false
+        dispatch({type: BROWSER_CLEAR})
+
         window.scrollTo(0, 0)
     }
 

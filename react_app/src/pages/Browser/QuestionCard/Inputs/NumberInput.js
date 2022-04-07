@@ -1,12 +1,17 @@
 import { TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QuestionTypes } from "../../../Constructor/Models/Models";
 import {getIntervalsArray} from "../Actions"
 
 
 export default function NumberInput(props) {
+
     var startFrom = 0;
     var endTo = 100;
+
+    const [value, setValue] = useState(startFrom)
+    const [error, setError] = useState(false)
+
 
     if (props.question.type === QuestionTypes.intervals) {
 
@@ -16,13 +21,23 @@ export default function NumberInput(props) {
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        if (value < startFrom || value > endTo) setError(true)
-        else setError(false);
+
+        if (props.question.type === QuestionTypes.intervals){
+            if (value < startFrom || value > endTo) setError(true)
+            else setError(false);
+        }
+
         setValue(value);
     }
 
-    const [value, setValue] = useState(startFrom)
-    const [error, setError] = useState(false)
+    useEffect(()=>{
+        if (props.clear)
+        {
+            setValue(startFrom)
+        }
+    }, [props.clear])
+
+
     return (
         props.question.type === QuestionTypes.intervals ?
             <>
@@ -45,6 +60,8 @@ export default function NumberInput(props) {
                     type="number"
                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                     id={props.question.answersList[0].id.string + ' ' + props.question.type}
+                    onChange={handleChange}
+                    value={value}
                     fullWidth />
             </>
 
