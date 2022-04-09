@@ -22,8 +22,6 @@ export function getTemplateForStorage(questionList){
     array.forEach(element => {
         dataMap[element.id] = null;
     });
-
-    console.log(dataMap)
     
     return dataMap
 

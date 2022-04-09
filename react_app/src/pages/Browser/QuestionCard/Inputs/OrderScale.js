@@ -22,6 +22,20 @@ export default class OrderScale extends Component {
             data
         };
     }
+    componentDidUpdate(props){
+        if (this.props.clear){
+            const data = [];
+
+            props.question.answersList.forEach(element => {
+                data.push({
+                    title: element.text,
+                    id: element.id.string,
+                    type: element.type
+                });
+            });
+            this.setState({ data });
+        }
+    }
 
     render() {
         const that = this;

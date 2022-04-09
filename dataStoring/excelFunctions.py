@@ -52,7 +52,6 @@ class ExcelFunctions():
         rowNumber = 1
 
         for row in DataStorage.objects.all():
-            print(row.data)
             data = json.loads(row.data.replace('\'', '\"'))
             index = 0
             for info in data:

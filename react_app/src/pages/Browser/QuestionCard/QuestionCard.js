@@ -55,13 +55,10 @@ function QuestionCard(props) {
             setAdditionalCard(idString)
         }
         else setAdditionalCard("")
-
-        console.log('click')
         setValue(e.target.value)
     }
 
     useEffect(() => {
-        console.log("reload", props.question.id.string)
         if (props.clear){
             setValue(null)
             setAdditionalCard("")

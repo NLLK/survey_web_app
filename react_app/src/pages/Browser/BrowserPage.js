@@ -13,8 +13,6 @@ import { BROWSER_CLEAR, BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReduc
 import { getIntervalsArray, getParent } from "./QuestionCard/Actions"
 import axios from "axios";
 
-import { toogle } from "../Common/Utils";
-
 function dataObject(idString, dataString) {
     return { id: idString, data: dataString }
 }
@@ -85,8 +83,6 @@ function getDataFromIntervals(question) {
     let elementId = question.id.string + ' ' + question.type
     let element = document.getElementById(elementId)
 
-    let value = element.value
-
     question.answersList.forEach(answer => {
         let borders = getIntervalsArray(answer.text)
         if (element.value >= borders[0] && element.value <= borders[1])
@@ -146,71 +142,11 @@ function BrowserPage(props) {
             else data = data.concat(getDataFromIntervals(element))
         });
 
-        //SendData(data, questionnaireCopy.id)
+        SendData(data, questionnaireCopy.id)
     
         dispatch({type: BROWSER_CLEAR})
 
         window.scrollTo(0, 0)
-    }
-
-    const SoftReloadItem = (question) => {
-        question.answersList.forEach(q => {
-
-            let elementId = q.id.string + ' ' + q.type
-            let element = null;
-            if (question.type != QuestionTypes.order)
-                element = document.getElementById(elementId)
-            else {
-                let parId = getParent(q.id)
-                let parString = parId.string + ' ' + q.type
-                element = document.getElementById(parString)
-            }
-
-            if (element != null || question.type === QuestionTypes.intervals) {
-                switch (question.type) {
-                    case QuestionTypes.radio_button:
-                    case QuestionTypes.check_box: {
-                        element.checked = false;
-                        break;
-                    }
-                    case QuestionTypes.text:
-                    case QuestionTypes.date:
-                    case QuestionTypes.time:
-                    case QuestionTypes.number:
-                    case QuestionTypes.rating: {
-                        element.value = null;
-                        break;
-                    }
-                    case QuestionTypes.order: {
-                        let index = 1;
-                        for (let i = 0; i < element.children.length; i++) {
-                            if (element.children[i].id === elementId) {
-                                //aaaaaaaaaaaaaaaaaaaaaa
-                                break;
-                            }
-                            index++
-                        }
-                        break;
-                    }
-                }
-            }
-
-            if (q.answersList.length !== 0) {
-                SoftReloadItem(q)
-            }
-        });
-    }
-
-    const SoftReloadPage = () => {
-        let questionnaireCopy = JSON.parse(JSON.stringify(props.questionnaire))
-
-        if (questionnaireCopy.questionList === undefined) {
-            questionnaireCopy.questionList = JSON.parse(questionnaireCopy.fields)
-        }
-
-        questionnaireCopy.questionList.forEach(element => {
-            SoftReloadItem(element)
-        });
     }
 
     return (

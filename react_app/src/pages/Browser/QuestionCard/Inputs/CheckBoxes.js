@@ -4,21 +4,33 @@ import { getPureIdString } from "../Actions";
 
 export function CheckBoxes(props) {
 
-    const [value, setValue] = useState({})
+    const array = () =>{
+        let a = []
+        for(let i = 0; i < props.question.answersList.length; i++){
+            a.push(false);
+        }
+        return a;
+    }
+
+    const [value, setValue] = useState(array)
 
     const handleRadioChange = (e) => {
-        let id =  getPureIdString(e.target.id)
-        setValue({...value, id:e.target.value})
-        console.log(value)
+        let id = getPureIdString(e.target.id)
+
+        let splt = id.split('.')
+        let index = splt[splt.length-1] - 1;
+
+        let copy = JSON.parse(JSON.stringify(value))
+
+        copy[index] = e.target.checked
+
+        setValue(copy)
     }
 
     useEffect(() => {
         if (props.clear) {
-            setValue(null)
+            setValue(array)
         }
-        else;
-
-        console.log('as')
     }, [props.clear])
 
     return (
@@ -36,7 +48,7 @@ export function CheckBoxes(props) {
                             {props.question.answersList.map((item, index) => (
                                 <FormControlLabel
                                     value={item.id.string}
-                                    control={<Checkbox id={item.id.string + ' ' + item.type} checked={value[item.id.string]}/>}
+                                    control={<Checkbox id={item.id.string + ' ' + item.type} checked={value[index]}/>}
                                     label={item.text}
                                     key={index} />
                             ))}
