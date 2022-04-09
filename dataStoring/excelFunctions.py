@@ -1,4 +1,5 @@
 from traceback import print_tb
+from constructor.models import Questionnaire
 from dataStoring.models import DataStorage
 from django_project.settings import MEDIA_ROOT
 import xlsxwriter
@@ -50,7 +51,7 @@ class ExcelFunctions():
 
         rowNumber = 1
 
-        for row in DataStorage.objects.get(id = qId):
+        for row in DataStorage.objects.filter(questionnaire = Questionnaire.objects.get(id = qId)):
             data = json.loads(row.data.replace('\'', '\"'))
             index = 0
             for info in data:
