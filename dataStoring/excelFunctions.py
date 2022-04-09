@@ -36,7 +36,7 @@ class ExcelFunctions():
         return array
 
     @staticmethod
-    def CreateExcel(fileName, questionnaireFields):
+    def CreateExcel(fileName, questionnaireFields, qId):
         filePath = MEDIA_ROOT+"/"+fileName+".xlsx"
         workbook = xlsxwriter.Workbook(filePath)
         worksheet = workbook.add_worksheet()
@@ -50,7 +50,7 @@ class ExcelFunctions():
 
         rowNumber = 1
 
-        for row in DataStorage.objects.all():
+        for row in DataStorage.objects.get(id = qId):
             data = json.loads(row.data.replace('\'', '\"'))
             index = 0
             for info in data:

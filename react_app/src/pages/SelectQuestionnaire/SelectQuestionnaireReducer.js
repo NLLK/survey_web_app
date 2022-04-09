@@ -1,7 +1,8 @@
 import {SET_QUESTIONNAIRES_CARDS} from './SelectQuestionnaireTypes'
 
 const initialState = {
-    questionnaires: []
+    questionnaires: [],
+    questionnaire: null
 };
 
 export const SelectQuestionnaireReducer = (state = initialState, action) => {

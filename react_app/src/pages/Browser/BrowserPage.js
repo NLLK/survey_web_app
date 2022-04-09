@@ -119,13 +119,13 @@ function BrowserPage(props) {
         if (params.id > -1) {
             getQuestionnaire(params.id)
         }
-    }, [dispatch, props.toogle])
+    }, [props.toogle])
 
     const getQuestionnaire = async (id) => {
-        const qInfo = await GetQuestionnaireById(params.id)//Questionnaire.test()//await GetQuestionnaireById(setQuestionnaireInfo, id)
+        const qInfo = await GetQuestionnaireById(id)//Questionnaire.test()//await GetQuestionnaireById(setQuestionnaireInfo, id)
 
         dispatch({ type: BROWSER_SET_QUESTIONNAIRE, payload: qInfo })
-    }
+    }   
 
     const CollectData = () => {
         let data = []

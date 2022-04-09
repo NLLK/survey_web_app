@@ -20,6 +20,7 @@ class GetQuestionnaire(APIView):
     permission_classes = [AllowAny]  # IsAuthenticated
 
     def post(self, request, format=None):
+        print(request.data)
         objects = Questionnaire.objects.get(id=request.data['id'])
         serializer = QuestionnaireSerializer(objects)
         content = serializer.data

@@ -62,7 +62,7 @@ export default function QuestionnaireCard(props) {
     };
 
     const handleEditAction = () => {
-        navigate('selectQuestionnaire/edit/' + props.cardInfo.id)
+        navigate('/constructor/selectQuestionnaire/edit/' + props.cardInfo.id)
     }
 
     const handleExportButtonClick = () => {

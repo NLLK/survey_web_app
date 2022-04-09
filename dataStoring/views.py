@@ -37,7 +37,7 @@ class DownloadExcel(APIView):
         qId = request.query_params['id']
         questionnaire = Questionnaire.objects.get(id = qId)
         fileName = ExcelFunctions.RemoveSpecialSymbols(questionnaire.name+'('+str(questionnaire.id)+')')
-        fileName = ExcelFunctions.CreateExcel(fileName, questionnaire.fields)
+        fileName = ExcelFunctions.CreateExcel(fileName, questionnaire.fields, questionnaire.id)
 
         response = FileResponse(open(fileName, 'rb'))
         return response

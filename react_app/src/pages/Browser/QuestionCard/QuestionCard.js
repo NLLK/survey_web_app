@@ -104,7 +104,6 @@ function QuestionCard(props) {
 
 const mapStateToProps = (state) => {
     return {
-        storage: state.browser.storage,
         clear: state.browser.clear
     }
 }

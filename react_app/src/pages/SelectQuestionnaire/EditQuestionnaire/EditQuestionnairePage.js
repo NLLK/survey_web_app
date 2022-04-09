@@ -12,13 +12,13 @@ import { BLANK_MENU } from "../../Common/SideBar/SideBarList";
 
 import "../../Common/styles.css";
 import SideBarHandler from "../../Common/SideBar/SideBarHandler";
-import { GetQuestionnaireById} from "../QuestionnaireActions";
+import { GetQuestionnaireById } from "../QuestionnaireActions";
 import { Questionnaire } from "../../Constructor/Models/Models";
+import { connect, useDispatch } from "react-redux";
 
-export default function EditQuestionnairePage() {
+export default function EditQuestionnairePage(props) {
     let params = useParams();
     const navigate = useNavigate()
-
 
     const [nameError, setNameError] = useState(false)
     const [nameHelperText, setNameHelperText] = useState(false)
@@ -26,12 +26,20 @@ export default function EditQuestionnairePage() {
     const [commentHelperText, setCommentHelperText] = useState("")
 
     let qInfoDefault = new Questionnaire()
+    qInfoDefault.name = ""
+    qInfoDefault.comment = ""
 
     const [qInfo, setQInfo] = useState(qInfoDefault)
 
     useEffect(() => {
-        GetQuestionnaireById(setQInfo, params.id)
-    }, [params])
+        console.log('rerender')
+        getQuestionnaire(params.id)
+    }, [params.questionnaire])
+
+    const getQuestionnaire = async (id) => {
+        const qInfo = await GetQuestionnaireById(id)
+        setQInfo(qInfo)
+    }
 
     const editQuestionnaire = () => {
         console.log("editing questionnaire...", params.id)
@@ -100,46 +108,46 @@ export default function EditQuestionnairePage() {
             <UserPermissionsWrapper permission={2} />
             <SideBarHandler page_name="Создать анкету" menu_type={BLANK_MENU} />
             <div className="center">
+                    <Stack direction="column" justifyContent="center" spacing={2}>
+                        <h1>Редактирование анкеты: </h1>
+                        <TextField
+                            id="name"
+                            label="Название анкеты: "
+                            type="text"
 
-                <Stack direction="column" justifyContent="center" spacing={2}>
-                    <h1>Редактирование анкеты: </h1>
-                    <TextField
-                        id="name"
-                        label="Название анкеты: "
-                        type="text"
+                            value={qInfo.name}
+                            onChange={handleChange}
+                            error={nameError}
+                            helperText={nameHelperText === "" ? "" : nameHelperText}
+                        />
+                        <TextField
+                            id="comment"
+                            label="Описание: "
+                            multiline
+                            error={commentError}
+                            helperText={commentHelperText === "" ? "" : commentHelperText}
+                            value={qInfo.comment}
+                            onChange={handleChange}
+                        />
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            spacing={2}
+                        >
+                            <Button
+                                variant="outlined"
+                                style={buttonStyle}
+                                onClick={() => { navigate(-1) }}
+                            >Отмена</Button>
+                            <Button
+                                variant="contained"
+                                style={buttonStyle}
+                                onClick={editQuestionnaire}
+                            >Изменить</Button>
+                        </Stack>
+                    </Stack> 
 
-                        value={qInfo.name}
-                        onChange={handleChange}
-                        error={nameError}
-                        helperText={nameHelperText === "" ? "" : nameHelperText}
-                    />
-                    <TextField
-                        id="comment"
-                        label="Описание: "
-                        multiline
-                        error={commentError}
-                        helperText={commentHelperText === "" ? "" : commentHelperText}
-                        value={qInfo.comment}
-                        onChange={handleChange}
-                    />
-                    <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        spacing={2}
-                    >
-                        <Button
-                            variant="outlined"
-                            style={buttonStyle}
-                            onClick={() => { navigate(-1) }}
-                        >Отмена</Button>
-                        <Button
-                            variant="contained"
-                            style={buttonStyle}
-                            onClick={editQuestionnaire}
-                        >Изменить</Button>
-                    </Stack>
-                </Stack>
             </div>
         </>
     );
