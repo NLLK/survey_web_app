@@ -31,7 +31,6 @@ class ExcelFunctions():
         array = []
 
         for question in fields:  # foreach question in questionnaire
-            print(question['text'])
             array.extend(ExcelFunctions.getCollumnNamesFromQuestion(question))
 
         return array
