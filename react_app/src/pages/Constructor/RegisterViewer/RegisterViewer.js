@@ -43,7 +43,6 @@ function RegisterViewer(props) {
 function RenderQuestion(question, showAddButtons) {
 
     const isAdditional = () => {
-        console.log(question.type)
         if (question.type === QuestionTypes.radio_button ||
             question.type === QuestionTypes.check_box ||
             question.type === QuestionTypes.intervals ||

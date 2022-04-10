@@ -39,7 +39,7 @@ function AnswerEditor(props) {
 
         switch (id) {
             case "text_field":
-                if (!regInfo.isQuestion){
+                if (!regInfo.isQuestion) {
                     if (regInfo.type === QuestionTypes.rating) {
                         if (!value.match(/(-?[0-9]+):([0-9]+)/)) {
                             setTextFieldHelper("Не подходит к шаблону \"число:число\" ")
@@ -48,7 +48,7 @@ function AnswerEditor(props) {
                     else if (regInfo.type === QuestionTypes.intervals)
                         if (!value.match(/(-?[0-9]+)..([0-9]+)/))
                             setTextFieldHelper("Не подходит к шаблону \"число..число\" ")
-                    else setTextFieldHelper("")
+                        else setTextFieldHelper("")
                 }
 
                 setRegInfo(prevState => ({
@@ -132,14 +132,20 @@ function AnswerEditor(props) {
 
             let thisRootReg = getRootQuestion(props.register.id)
 
+            let from = Number(thisRootReg.string)
+            let questionList
             if (!props.questionnaire.questionList) {
-                props.questionnaire.questionList = JSON.parse(props.questionnaire.fields)
+                questionList = JSON.parse(props.questionnaire.fields)
+            }
+            else {
+                questionList = props.questionnaire.questionList
             }
 
-            props.questionnaire.questionList.forEach(element => {
+            for (let i = from; i < questionList.length; i++) {
+                let element = questionList[i]
                 if (element.id.string !== thisRootReg.string)
                     list.push(element.id.string)
-            });
+            }
         }
 
         return list
@@ -157,8 +163,8 @@ function AnswerEditor(props) {
                                 type="text"
                                 value={regInfo.text}
                                 onChange={handleChange}
-                                error = {textFieldHelper === "" ? false : true}
-                                helperText = {textFieldHelper}
+                                error={textFieldHelper === "" ? false : true}
+                                helperText={textFieldHelper}
                                 multiline
                                 fullWidth
                             />

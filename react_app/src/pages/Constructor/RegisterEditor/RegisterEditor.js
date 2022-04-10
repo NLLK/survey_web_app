@@ -12,6 +12,7 @@ import { TemplateTypes } from "../Templates/TemplateTypes"
 import { addRegisterWithTemplate } from "../Templates/TemplateActions"
 import { CONSTRUCTOR_DELETE_QUESTION } from '../Reducer/ConstructorReducerTypes';
 import {toogle} from "../../Common/Utils"
+import { QuestionTypes } from '../Models/Models';
 function RegisterEditor(props) {
 
     //const register = useSelector(state => state.constructor.register)
@@ -29,8 +30,6 @@ function RegisterEditor(props) {
         setAnchorEl(event.currentTarget);
     };
     const handleTemplateButtons = (e) => {
-        console.log(e.target.id)
-
         switch (e.target.id) {
             case "template_button_yes_no":
                 addRegisterWithTemplate(TemplateTypes.yes_no, dispatch)
@@ -46,6 +45,28 @@ function RegisterEditor(props) {
 
         setAnchorEl(null);
     };
+
+    const isAdditional = () => {
+        const question = props.register
+        if (question.type === QuestionTypes.radio_button ||
+            question.type === QuestionTypes.check_box ||
+            question.type === QuestionTypes.intervals ||
+            question.type === QuestionTypes.order)
+            return false
+        else if (question.answersList.length < 1)
+            return false
+        return true
+    }
+
+    const canAddRegisters = () =>{
+        const question = props.register
+        if (question.type === QuestionTypes.radio_button) 
+            return true
+        else if (question.id.array.length > 1)
+            return false
+        return true
+
+    }
 
     return (
         <>
@@ -70,9 +91,9 @@ function RegisterEditor(props) {
                                 }
                             </div>
 
-                            <div style={{ marginTop: props.register.answersList.length === 0 ? "0px" : "40px" }}>
+                            {canAddRegisters() ? <div style={{ marginTop: props.register.answersList.length === 0 ? "0px" : "40px" }}>
                                 <EditorButton parentRegister={JSON.stringify(props.register)} type={ButtonTypes.add}>
-                                    *Добавить*
+                                    *Добавить {isAdditional() ? "доп.":""}*
                                 </EditorButton>
                                 <Button
                                     id="basic-button"
@@ -120,6 +141,8 @@ function RegisterEditor(props) {
                                     </MenuItem>
                                 </Menu>
                             </div>
+                            : <></>}
+                            
                         </div>
                         <div>
                             <Button
