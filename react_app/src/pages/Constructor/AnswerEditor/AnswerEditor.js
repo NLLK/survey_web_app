@@ -28,6 +28,8 @@ function AnswerEditor(props) {
 
     const [regInfo, setRegInfo] = React.useState(new Question())
 
+    const [textFieldHelper, setTextFieldHelper] = React.useState("")
+
     React.useEffect(() => {
         setRegInfo(props.register)
     }, [props])
@@ -37,22 +39,52 @@ function AnswerEditor(props) {
 
         switch (id) {
             case "text_field":
+                if (!regInfo.isQuestion){
+                    if (regInfo.type === QuestionTypes.rating) {
+                        if (!value.match(/(-?[0-9]+):([0-9]+)/)) {
+                            setTextFieldHelper("Не подходит к шаблону \"число:число\" ")
+                        }
+                    }
+                    else if (regInfo.type === QuestionTypes.intervals)
+                        if (!value.match(/(-?[0-9]+)..([0-9]+)/))
+                            setTextFieldHelper("Не подходит к шаблону \"число..число\" ")
+                    else setTextFieldHelper("")
+                }
+
                 setRegInfo(prevState => ({
                     ...prevState,
                     text: value
                 }));
+                dispatch({
+                    type: CONSTRUCTOR_MODIFY_QUESTIONNAIRE, payload: {
+                        ...regInfo,
+                        text: value
+                    }
+                })
                 break;
             case "subText_field":
                 setRegInfo(prevState => ({
                     ...prevState,
                     subText: value
                 }));
+                dispatch({
+                    type: CONSTRUCTOR_MODIFY_QUESTIONNAIRE, payload: {
+                        ...regInfo,
+                        subText: value
+                    }
+                })
                 break;
             case "is_additionalQ_checkbox":
                 setRegInfo(prevState => ({
                     ...prevState,
                     isAdditionalQuestion: e.target.checked
                 }));
+                dispatch({
+                    type: CONSTRUCTOR_MODIFY_QUESTIONNAIRE, payload: {
+                        ...regInfo,
+                        isAdditionalQuestion: e.target.checked
+                    }
+                })
                 break;
             default:
                 console.log(e)
@@ -60,11 +92,19 @@ function AnswerEditor(props) {
         }
         if (id.includes("redirect_autocomplete")) {
             console.log(e.target.textContent)
-                setRegInfo(prevState => ({
-                    ...prevState,
+            setRegInfo(prevState => ({
+                ...prevState,
+                redirectTo: e.target.textContent !== DEFAULT_TEXT ? getQuestionIdByString(e.target.textContent) : new QuestionId()
+            }));
+            dispatch({
+                type: CONSTRUCTOR_MODIFY_QUESTIONNAIRE, payload: {
+                    ...regInfo,
                     redirectTo: e.target.textContent !== DEFAULT_TEXT ? getQuestionIdByString(e.target.textContent) : new QuestionId()
-                }));
+                }
+            })
+
         }
+
     }
     const handleChangeTypeSelect = e => {
         const { id, value } = e.target;
@@ -72,6 +112,12 @@ function AnswerEditor(props) {
             ...prevState,
             type: value
         }));
+        dispatch({
+            type: CONSTRUCTOR_MODIFY_QUESTIONNAIRE, payload: {
+                ...regInfo,
+                type: value
+            }
+        })
     }
 
     const divStyle = { style: { position: "relative", width: "100%", flex: "0 0 48%", maxWidth: "48%" } }
@@ -111,31 +157,35 @@ function AnswerEditor(props) {
                                 type="text"
                                 value={regInfo.text}
                                 onChange={handleChange}
+                                error = {textFieldHelper === "" ? false : true}
+                                helperText = {textFieldHelper}
                                 multiline
                                 fullWidth
                             />
                             {
-                                (regInfo.haveSubquestion
-                                    ? <TextField
-                                        id="subText_field"
-                                        label="Текст подвопроса: "
-                                        type="text"
-                                        value={regInfo.subText}
-                                        onChange={handleChange}
-                                        multiline
-                                        fullWidth
-                                        style={textFieldStyle}
-                                    /> : 
-                                    <>
-                                        <Button variant = "contained" 
-                                        sx={{marginTop: "15px", width: "-webkit-fill-available", height: "56px"}}
-                                        onClick={()=>{
-                                            dispatch({type: CONSTRUCTOR_ADD_SUB_QUESTION})
-                                        }}
-                                        >
-                                            Добавить подвопрос
-                                        </Button>
-                                    </>)
+                                (regInfo.type === QuestionTypes.radio_button
+                                    ? (regInfo.haveSubquestion ?
+                                        <TextField
+                                            id="subText_field"
+                                            label="Текст подвопроса: "
+                                            type="text"
+                                            value={regInfo.subText}
+                                            onChange={handleChange}
+                                            multiline
+                                            fullWidth
+                                            style={textFieldStyle}
+                                        /> :
+                                        <>
+                                            <Button variant="contained"
+                                                sx={{ marginTop: "15px", width: "-webkit-fill-available", height: "56px" }}
+                                                onClick={() => {
+                                                    dispatch({ type: CONSTRUCTOR_ADD_SUB_QUESTION })
+                                                }}
+                                            >
+                                                Добавить подвопрос
+                                            </Button>
+                                        </>) : <></>)
+
                             }
 
                         </div>
@@ -149,7 +199,7 @@ function AnswerEditor(props) {
                                         id="type_select"
                                         value={regInfo.type}
                                         label="Тип регистра"
-                                        disabled={regInfo.isQuestion ? false : true}
+                                        disabled={regInfo.isQuestion || regInfo.isAdditionalQuestion ? false : true}
                                         onChange={handleChangeTypeSelect}
                                     >
                                         <MenuItem value={QuestionTypes.text}>
@@ -222,7 +272,7 @@ function AnswerEditor(props) {
                                         : <></>
                                 }
                                 {
-                                    !isIdParent(regInfo.id) ?
+                                    regInfo.type === QuestionTypes.radio_button && !isIdParent(regInfo.id) ?
                                         <Autocomplete
                                             sx={{ marginTop: "15px" }}
                                             disablePortal
@@ -232,7 +282,7 @@ function AnswerEditor(props) {
                                             renderInput={(params) => <TextField {...params} label="Переход к ..." />}
                                             noOptionsText="Не найдено"
                                             onChange={handleChange}
-                                            isOptionEqualToValue = {(option, value)=>{
+                                            isOptionEqualToValue={(option, value) => {
                                                 return true;
                                             }}
                                         /> : <></>

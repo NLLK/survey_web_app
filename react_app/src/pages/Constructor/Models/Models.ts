@@ -71,7 +71,7 @@ export class QuestionId {
 
 	whoIsParent(): QuestionId {
 
-		if (this.array.length <= 1){
+		if (this.array.length <= 1) {
 			let newQId = new QuestionId()
 			newQId.setWithString("-1");
 			return newQId
@@ -96,8 +96,8 @@ export class QuestionId {
 		return root
 	}
 
-	getLastElement(): number{
-		return this.array[this.array.length-1]
+	getLastElement(): number {
+		return this.array[this.array.length - 1]
 	}
 
 	static getArrayByString(string: string): Array<number> {
@@ -172,6 +172,24 @@ export class Questionnaire {
 
 				newQ.id = new QuestionId();
 				newQ.id.setForNewQuestion(qId, currentQuestionList[index].answersList.length + 1)
+
+
+				let flag = true;
+
+				if (parentQ.type === QuestionTypes.radio_button ||
+					parentQ.type === QuestionTypes.check_box ||
+					parentQ.type === QuestionTypes.intervals ||
+					parentQ.type === QuestionTypes.order)
+					flag = false
+				else if (parentQ.answersList.length < 1)
+					flag = false
+
+				if (flag) {
+					newQ.isAdditionalQuestion = true;
+					newQ.answerToQuestion()
+					newQ.addAnswer("*Введите текст*")
+				}
+
 				currentQuestionList[index].answersList.push(newQ);
 
 				parentQ.answerToQuestion()
@@ -310,17 +328,17 @@ export class Questionnaire {
 
 	renameRoot(questionList: Question[], qId: QuestionId): Question[] {
 		for (let index: number = qId.array[0] - 1; index < questionList.length; index++) {
-			
+
 			let rootId = new QuestionId()
 			let newArrray = new Array<number>();
-			newArrray.push(index+1);
+			newArrray.push(index + 1);
 			rootId.setWithArray(newArrray)
 			questionList[index].id = rootId;
 
-			if (questionList[index].answersList.length !== 0){
+			if (questionList[index].answersList.length !== 0) {
 				this.renameChildren(questionList[index].answersList, rootId)
 			}
-			
+
 		}
 
 		return questionList;
@@ -338,7 +356,7 @@ export class Questionnaire {
 			parId.setWithString(newId.string)
 			question.id = parId
 
-			if (question.answersList.length !== 0){
+			if (question.answersList.length !== 0) {
 				this.renameChildren(question.answersList, parId)
 			}
 

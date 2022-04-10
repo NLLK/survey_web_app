@@ -42,6 +42,7 @@ export default function ConstructorButtonBase({ parentRegister, type, children, 
 
     const onClick = () => {
         let parentReg: Question;
+        console.log('here')
         switch (type) {
             case ButtonTypes.add: {
                 parentReg = Object.assign(new Question(), JSON.parse(parentRegister));
