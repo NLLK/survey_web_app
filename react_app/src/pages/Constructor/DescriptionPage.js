@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 import SideBarHandler from "../Common/SideBar/SideBarHandler";
 import { BLANK_MENU } from "../Common/SideBar/SideBarList"
@@ -16,18 +16,11 @@ import { GetQuestionnaireById} from "../SelectQuestionnaire/QuestionnaireActions
 import { Questionnaire } from "./Models/Models";
 
 
-export default function DescriptionPage(props) {
-
-    const working_on_id = useSelector(state => state.constructor.working_on_id)
-
-    let qInfoDefault = new Questionnaire()
-
-    const [questionnaire, setQuestionnaire] = useState(qInfoDefault)
-
+function DescriptionPage(props) {
+    
     useEffect(() => {
-        console.log(working_on_id)
-        GetQuestionnaireById(setQuestionnaire, working_on_id)
-    }, [working_on_id])
+
+    }, [])
 
     const paperStyle = { width: "75%", padding: "20px" }
 
@@ -35,7 +28,8 @@ export default function DescriptionPage(props) {
         <>
             <UserPermissionsWrapper permission={2} />
             <SideBarHandler menu_type={BLANK_MENU} page_name={"Описание анкеты"} />
-            <div>
+            {
+                props.questionnaire ? <div>
                 <Paper className="center" elevation={3} style={{ width: "50%", padding: "20px", paddingBlockStart: "50px", paddingBlockEnd: "50px" }}>
                     <Stack
                         direction="column"
@@ -48,7 +42,7 @@ export default function DescriptionPage(props) {
                                 Наименование:
                             </Typography>
                             <Typography>
-                                {questionnaire.name}
+                                {props.questionnaire.name}
                             </Typography>
                         </Paper>
 
@@ -57,7 +51,7 @@ export default function DescriptionPage(props) {
                                 Описание:
                             </Typography>
                             <Typography>
-                                {questionnaire.comment}
+                                {props.questionnaire.comment}
                             </Typography>
                         </Paper>
                         <Accordion style={{ width: "75%", padding: "15px" }}>
@@ -71,14 +65,23 @@ export default function DescriptionPage(props) {
                             <AccordionDetails>
                             <div style={{ scrollBehavior: "smooth", overflowY: "scroll", maxHeight: "300px" }}>
                                 <Typography>
-                                    {questionnaire.fields}
+                                    {props.questionnaire.fields}
                                 </Typography>
                             </div>
                             </AccordionDetails>
                         </Accordion>
                     </Stack>
                 </Paper>
-            </div>
+            </div> : <></>
+            }
+            
         </>
     )
 }
+const mapStateToProps = (state) => {
+    return {
+        questionnaire: state.constructor.questionnaire,
+    }
+}
+
+export default connect(mapStateToProps)(DescriptionPage)

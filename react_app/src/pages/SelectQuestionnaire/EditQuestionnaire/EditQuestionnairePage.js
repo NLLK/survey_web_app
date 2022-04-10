@@ -32,9 +32,8 @@ export default function EditQuestionnairePage(props) {
     const [qInfo, setQInfo] = useState(qInfoDefault)
 
     useEffect(() => {
-        console.log('rerender')
         getQuestionnaire(params.id)
-    }, [params.questionnaire])
+    }, [params])
 
     const getQuestionnaire = async (id) => {
         const qInfo = await GetQuestionnaireById(id)
