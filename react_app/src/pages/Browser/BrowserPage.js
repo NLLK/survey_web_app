@@ -122,10 +122,10 @@ function BrowserPage(props) {
     }, [props.toogle])
 
     const getQuestionnaire = async (id) => {
-        const qInfo = await GetQuestionnaireById(id)//Questionnaire.test()//await GetQuestionnaireById(setQuestionnaireInfo, id)
-
+        const qInfo = await GetQuestionnaireById(id)
+        console.log('aaa', qInfo)
         dispatch({ type: BROWSER_SET_QUESTIONNAIRE, payload: qInfo })
-    }   
+    }
 
     const CollectData = () => {
         let data = []
@@ -143,8 +143,8 @@ function BrowserPage(props) {
         });
 
         SendData(data, questionnaireCopy.id)
-    
-        dispatch({type: BROWSER_CLEAR})
+
+        dispatch({ type: BROWSER_CLEAR })
 
         window.scrollTo(0, 0)
     }
@@ -152,33 +152,38 @@ function BrowserPage(props) {
     return (
         <div style={{ backgroundColor: "rgb(210 210 210 / 58%)" }}>
             {/* <UserPermissionsWrapper permission={1} /> */}
-            <SideBarHandler page_name={"Анкетирование: " + (props.questionnaire ? props.questionnaire.name : "")} menu_type={BLANK_MENU} />
             {
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        padding: "20px",
-                        width: "700px",
-                        marginLeft: "auto",
-                        marginRight: "auto"
-                    }}>
-                        {
-                            props.questionnaire && props.questionnaire.questionList !== undefined ?
-                                props.questionnaire.questionList.map((rootQuestion, index) =>
-                                    <div key={index} style={{ margin: "10px", width: "-webkit-fill-available" }}>
-                                        <QuestionCard question={rootQuestion} reset={false}/>
-                                    </div>
-                                ) : <></>
+                props.questionnaire ? (<>
+                    <SideBarHandler page_name={"Анкетирование: " + (props.questionnaire ? props.questionnaire.name : "")} menu_type={BLANK_MENU} />
+                    {
+                        props.questionnaire.fields !== '{}' ?
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                padding: "20px",
+                                width: "700px",
+                                marginLeft: "auto",
+                                marginRight: "auto"
+                            }}>
+                                {
+                                    props.questionnaire.questionList !== undefined || props.questionnaire.questionList !== {}?
+                                        props.questionnaire.questionList.map((rootQuestion, index) =>
+                                            <div key={index} style={{ margin: "10px", width: "-webkit-fill-available" }}>
+                                                <QuestionCard question={rootQuestion} reset={false} />
+                                            </div>
+                                        ) : <></>
 
-                        }
-                        <div style={{ alignSelf: "end", margin: "10px", marginTop: "25px" }}>
-                            <Button variant="contained" onClick={CollectData}>Сохранить</Button>
-                        </div>
-                    </div>
-                    
+                                }
+                                <div style={{ alignSelf: "end", margin: "10px", marginTop: "25px" }}>
+                                    <Button variant="contained" onClick={CollectData}>Сохранить</Button>
+                                </div>
+                            </div>
+                            : <></>
+                    }
+                </>)
+                    : <></>
             }
-
         </div>
     );
 }

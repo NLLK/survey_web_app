@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export default function TextInput(props) {
@@ -18,6 +18,7 @@ export default function TextInput(props) {
 
     return (
         <div style={{paddingTop: "15px", paddingLeft: "10px", paddingRight: "10px"}}>
+            <Typography variant="caption">{props.question.answersList[0].text}</Typography>
             <TextField
                 id={props.question.answersList[0].id.string+' '+props.question.type}
                 value={value}
