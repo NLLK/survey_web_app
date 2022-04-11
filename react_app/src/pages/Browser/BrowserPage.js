@@ -108,6 +108,23 @@ function SendData(data, questionnaireId) {
 
 }
 
+function CollectDataFunction(questionnaire){
+    let data = []
+
+    let questionnaireCopy = JSON.parse(JSON.stringify(questionnaire))
+
+    if (questionnaireCopy.questionList === undefined) {
+        questionnaireCopy.questionList = JSON.parse(questionnaireCopy.fields)
+    }
+
+    questionnaireCopy.questionList.forEach(element => {
+        if (element.type !== QuestionTypes.intervals)
+            data = data.concat(getData(element))
+        else data = data.concat(getDataFromIntervals(element))
+    });
+    return data
+}
+
 function BrowserPage(props) {
     let params = useParams();
     const dispatch = useDispatch()
@@ -123,26 +140,12 @@ function BrowserPage(props) {
 
     const getQuestionnaire = async (id) => {
         const qInfo = await GetQuestionnaireById(id)
-        console.log('aaa', qInfo)
         dispatch({ type: BROWSER_SET_QUESTIONNAIRE, payload: qInfo })
     }
 
     const CollectData = () => {
-        let data = []
-
-        let questionnaireCopy = JSON.parse(JSON.stringify(props.questionnaire))
-
-        if (questionnaireCopy.questionList === undefined) {
-            questionnaireCopy.questionList = JSON.parse(questionnaireCopy.fields)
-        }
-
-        questionnaireCopy.questionList.forEach(element => {
-            if (element.type !== QuestionTypes.intervals)
-                data = data.concat(getData(element))
-            else data = data.concat(getDataFromIntervals(element))
-        });
-
-        SendData(data, questionnaireCopy.id)
+        let data = CollectDataFunction(props.questionnaire)
+        SendData(data, props.questionnaire.id)
 
         dispatch({ type: BROWSER_CLEAR })
 
@@ -169,7 +172,7 @@ function BrowserPage(props) {
                                 {
                                     props.questionnaire.questionList !== undefined || props.questionnaire.questionList !== {}?
                                         props.questionnaire.questionList.map((rootQuestion, index) =>
-                                            <div key={index} style={{ margin: "10px", width: "-webkit-fill-available" }}>
+                                            <div key={index} style={{ margin: "10px", width: "-webkit-fill-available"}}>
                                                 <QuestionCard question={rootQuestion} reset={false} />
                                             </div>
                                         ) : <></>

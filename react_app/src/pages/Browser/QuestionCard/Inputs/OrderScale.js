@@ -3,6 +3,7 @@ import { Component, useState } from "react"
 
 import ReactDragListView from "react-drag-listview"
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import QuestionCard from "../QuestionCard";
 
 export default class OrderScale extends Component {
     constructor(props) {
@@ -22,8 +23,8 @@ export default class OrderScale extends Component {
             data
         };
     }
-    componentDidUpdate(props){
-        if (this.props.clear){
+    componentDidUpdate(props) {
+        if (this.props.clear) {
             const data = [];
 
             props.question.answersList.forEach(element => {
@@ -67,6 +68,11 @@ export default class OrderScale extends Component {
                         ))}
                     </List>
                 </ReactDragListView>
+                {
+                    this.props.question.answersList.map((item, index) => (
+                        index !== 0 && item.isAdditionalQuestion ? <div style={{ marginTop: "20px" }}><QuestionCard question={item} key={index} clear={this.props.clear} /></div> : <></>
+                    ))
+                }
             </>
         );
     }

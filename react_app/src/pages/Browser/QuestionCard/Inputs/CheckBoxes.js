@@ -1,12 +1,13 @@
 import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getPureIdString } from "../Actions";
+import QuestionCard from "../QuestionCard";
 
 export function CheckBoxes(props) {
 
-    const array = () =>{
+    const array = () => {
         let a = []
-        for(let i = 0; i < props.question.answersList.length; i++){
+        for (let i = 0; i < props.question.answersList.length; i++) {
             a.push(false);
         }
         return a;
@@ -18,7 +19,7 @@ export function CheckBoxes(props) {
         let id = getPureIdString(e.target.id)
 
         let splt = id.split('.')
-        let index = splt[splt.length-1] - 1;
+        let index = splt[splt.length - 1] - 1;
 
         let copy = JSON.parse(JSON.stringify(value))
 
@@ -48,12 +49,17 @@ export function CheckBoxes(props) {
                             {props.question.answersList.map((item, index) => (
                                 <FormControlLabel
                                     value={item.id.string}
-                                    control={<Checkbox id={item.id.string + ' ' + item.type} checked={value[index]}/>}
+                                    control={<Checkbox id={item.id.string + ' ' + item.type} checked={value[index]} />}
                                     label={item.text}
                                     key={index} />
                             ))}
                         </FormGroup>
                     </FormControl>
+                    {
+                        props.question.answersList.map((item, index) => (
+                            index !== 0 && item.isAdditionalQuestion ? <div style={{ marginTop: "20px" }}><QuestionCard question={item} key={index} clear={props.clear} /></div> : <></>
+                        ))
+                    }
                 </>
             ) : (
                 <>

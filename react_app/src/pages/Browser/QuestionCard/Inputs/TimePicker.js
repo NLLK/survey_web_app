@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import QuestionCard from "../QuestionCard";
 
 export default function TimePicker(props) {
 
@@ -9,9 +10,8 @@ export default function TimePicker(props) {
         setValue(event.target.value)
     }
 
-    useEffect(()=>{
-        if (props.clear)
-        {
+    useEffect(() => {
+        if (props.clear) {
             setValue("")
         }
     }, [props.clear])
@@ -19,7 +19,7 @@ export default function TimePicker(props) {
     return (
         <div style={{ paddingTop: "15px", paddingLeft: "10px", paddingRight: "10px" }}>
             <TextField
-                id={props.question.answersList[0].id.string+' '+props.question.type}
+                id={props.question.answersList[0].id.string + ' ' + props.question.type}
                 label="Введитe время"
                 type="time"
                 fullWidth
@@ -29,5 +29,10 @@ export default function TimePicker(props) {
                     shrink: true,
                 }}
             />
+            {
+                props.question.answersList.map((item, index) => (
+                    index !== 0 && item.isAdditionalQuestion ? <div style={{ marginTop: "20px" }}><QuestionCard question={item} key={index} clear={props.clear} /></div> : <></>
+                ))
+            }
         </div >)
 }

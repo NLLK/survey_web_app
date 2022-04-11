@@ -20,21 +20,21 @@ const TypeSwitch = (question, clear) => {
         // case QuestionTypes.radio_button:
         //     return <RadioButtons question={question} />
         case QuestionTypes.text:
-            return <TextInput question={question} clear={clear}/>
+            return <TextInput question={question} clear={clear} />
         case QuestionTypes.check_box:
-            return <CheckBoxes question={question} clear={clear}/>
+            return <CheckBoxes question={question} clear={clear} />
         case QuestionTypes.date:
-            return <DatePicker question={question} clear={clear}/>
+            return <DatePicker question={question} clear={clear} />
         case QuestionTypes.time:
-            return <TimePicker question={question} clear={clear}/>
+            return <TimePicker question={question} clear={clear} />
         case QuestionTypes.order:
-            return <OrderScale question={question} clear={clear}/>
+            return <OrderScale question={question} clear={clear} />
         case QuestionTypes.intervals:
-            return <NumberInput question={question} clear={clear}/>
+            return <NumberInput question={question} clear={clear} />
         case QuestionTypes.number:
-            return <NumberInput question={question} clear={clear}/>
+            return <NumberInput question={question} clear={clear} />
         case QuestionTypes.rating:
-            return <RatingInput question={question} clear={clear}/>
+            return <RatingInput question={question} clear={clear} />
         default: return <p>Ошибка!</p>
     }
 
@@ -59,7 +59,7 @@ function QuestionCard(props) {
     }
 
     useEffect(() => {
-        if (props.clear){
+        if (props.clear) {
             setValue(null)
             setAdditionalCard("")
             dispatch({ type: BROWSER_CLEARED })
@@ -68,8 +68,8 @@ function QuestionCard(props) {
 
     return (
 
-        <Paper sx={{ padding: "20px" }}>
-            <Typography>{props.question.id.string}. {props.question.haveSubquestion ? props.question.subText : props.question.text}</Typography>
+        <Paper sx={{ padding: "20px" }} key={props.question.id.string + "paper"}>
+            <Typography>{props.question.id.string}. {props.question.text} {props.question.subText !== "" ? (" - " + props.question.subText) : ""}</Typography>
             <div>
                 {
                     props.question.type !== QuestionTypes.radio_button ?
@@ -84,17 +84,29 @@ function QuestionCard(props) {
                                     onChange={handleRadioChange}
                                 >
                                     {props.question.answersList.map((item, index) => (
-                                        <FormControlLabel
-                                            value={item.id.string}
-                                            control={
-                                                <Radio id={item.id.string + ' ' + item.type} />
-                                            }
-                                            label={item.text}
-                                            key={index} />
+                                        !item.isAdditionalQuestion ?
+                                            <FormControlLabel
+                                                value={item.id.string}
+                                                control={
+                                                    <Radio id={item.id.string + ' ' + item.type} />
+                                                }
+                                                label={item.text}
+                                                key={index} />
+                                            : <></>
                                     ))}
+
                                 </RadioGroup>
                             </FormControl>
                             {additionalCard ? <QuestionCard question={findRegisterInRegister(props.question, additionalCard)} /> : <></>}
+                            {props.question.answersList.map((item, index) => (
+                                item.isAdditionalQuestion ?
+                                    <div style={{ marginTop: "20px" }}>
+                                        <QuestionCard question={item} key={index} />
+                                    </div>
+
+
+                                    : <></>
+                            ))}
                         </>
                 }
             </div>

@@ -1,5 +1,6 @@
 import { Rating, Slider, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import QuestionCard from "../QuestionCard";
 
 const SEPARATOR_SYMBOL = ':'
 
@@ -16,9 +17,8 @@ export default function RatingInput(props) {
         setValue(event.target.value)
     }
 
-    useEffect(()=>{
-        if (props.clear)
-        {
+    useEffect(() => {
+        if (props.clear) {
             setValue(mid)
         }
     }, [props.clear])
@@ -46,7 +46,7 @@ export default function RatingInput(props) {
                 }}
                 aria-label="Always visible"
                 //defaultValue={mid}
-                value = {value}
+                value={value}
                 min={min}
                 max={max}
                 step={1}
@@ -54,5 +54,10 @@ export default function RatingInput(props) {
                 valueLabelDisplay="on"
                 onChange={handleChange}
             />
+            {
+                props.question.answersList.map((item, index) => (
+                    index !== 0 && item.isAdditionalQuestion ? <div style={{ marginTop: "20px" }}><QuestionCard question={item} key={index} clear={props.clear} /> </div>: <></>
+                ))
+            }
         </>)
 }

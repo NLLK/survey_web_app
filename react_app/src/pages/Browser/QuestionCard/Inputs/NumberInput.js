@@ -1,7 +1,8 @@
 import { TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { QuestionTypes } from "../../../Constructor/Models/Models";
-import {getIntervalsArray} from "../Actions"
+import { getIntervalsArray } from "../Actions"
+import QuestionCard from "../QuestionCard";
 
 
 export default function NumberInput(props) {
@@ -15,14 +16,14 @@ export default function NumberInput(props) {
 
     if (props.question.type === QuestionTypes.intervals) {
 
-        startFrom = getIntervalsArray(props.question.answersList[0].text)[0] 
-        endTo = getIntervalsArray(props.question.answersList[props.question.answersList.length - 1].text)[1] 
+        startFrom = getIntervalsArray(props.question.answersList[0].text)[0]
+        endTo = getIntervalsArray(props.question.answersList[props.question.answersList.length - 1].text)[1]
     }
 
     const handleChange = (e) => {
         const { id, value } = e.target;
 
-        if (props.question.type === QuestionTypes.intervals){
+        if (props.question.type === QuestionTypes.intervals) {
             if (value < startFrom || value > endTo) setError(true)
             else setError(false);
         }
@@ -30,9 +31,8 @@ export default function NumberInput(props) {
         setValue(value);
     }
 
-    useEffect(()=>{
-        if (props.clear)
-        {
+    useEffect(() => {
+        if (props.clear) {
             setValue(startFrom)
         }
     }, [props.clear])
@@ -51,6 +51,11 @@ export default function NumberInput(props) {
                     helperText={error ? "Число не находится в заданном диапазоне!" : ""}
                     id={props.question.id.string + ' ' + props.question.type}
                     fullWidth />
+                {
+                    props.question.answersList.map((item, index) => (
+                        index !== 0 && item.isAdditionalQuestion ? <QuestionCard question={item} key={index} clear={props.clear} /> : <></>
+                    ))
+                }
             </>
             :
 
@@ -63,6 +68,11 @@ export default function NumberInput(props) {
                     onChange={handleChange}
                     value={value}
                     fullWidth />
+                {
+                    props.question.answersList.map((item, index) => (
+                        index !== 0 && item.isAdditionalQuestion ? <div style={{ marginTop: "20px" }}><QuestionCard question={item} key={index} clear={props.clear} /></div> : <></>
+                    ))
+                }
             </>
 
 
