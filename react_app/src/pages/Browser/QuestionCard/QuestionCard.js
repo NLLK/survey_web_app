@@ -4,7 +4,6 @@ import { QuestionTypes } from "../../Constructor/Models/Models"
 import { CheckBoxes } from "./Inputs/CheckBoxes"
 import DatePicker from "./Inputs/DatePicker"
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material"
-import { RadioButtons } from "./Inputs/RadioButtons"
 import TextInput from "./Inputs/TextInput"
 import TimePicker from "./Inputs/TimePicker"
 import OrderScale from "./Inputs/OrderScale"
@@ -13,8 +12,7 @@ import RatingInput from "./Inputs/RatingInput"
 import { useEffect, useState } from "react"
 import { getPureIdString, findRegisterInRegister } from "./Actions"
 
-import { FindRegisterById } from "../../Constructor/Reducer/ConstructorActions"
-import { BROWSER_CLEAR, BROWSER_CLEARED, BROWSER_SET_INFO } from "../Reducer/BrowserReducerTypes"
+import { BROWSER_CLEARED } from "../Reducer/BrowserReducerTypes"
 const TypeSwitch = (question, clear) => {
     switch (question.type) {
         // case QuestionTypes.radio_button:
@@ -101,6 +99,13 @@ function QuestionCard(props) {
                             {props.question.answersList.map((item, index) => (
                                 item.isAdditionalQuestion ?
                                     <div style={{ marginTop: "20px" }}>
+                                        <hr
+                                            style={{
+                                                color: "#000000",
+                                                backgroundColor: "#000000",
+                                                height: 4
+                                            }}
+                                        />
                                         <QuestionCard question={item} key={index} />
                                     </div>
 
