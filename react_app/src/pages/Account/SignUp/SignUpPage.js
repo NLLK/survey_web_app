@@ -21,7 +21,6 @@ function SignUpPage() {
             password: document.getElementById("password_field").value,
             last_name: document.getElementById("last_name_field").value,
             first_name: document.getElementById("first_name_field").value,
-            personnel_id: document.getElementById("personnel_id_field").value
         };
 
         //let response = signUp(userData,"/account/login", navigate)
@@ -86,12 +85,12 @@ function SignUpPage() {
                     variant="standard"
                     type="text"
                 />
-                <TextField
+                {/* <TextField
                     id="personnel_id_field"
                     label="Личный номер ???(не обязательно)"
                     variant="standard"
                     type="text"
-                />
+                /> */}
                 <ButtonEnter action={onSignUpClick}>
                     <Button variant="contained" onClick={onSignUpClick}>Регистрация</Button>
                 </ButtonEnter>

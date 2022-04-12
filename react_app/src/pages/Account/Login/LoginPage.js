@@ -78,7 +78,7 @@ function LoginPage() {
                 <h1>Вход в аккаунт:</h1>
                 <TextField
                     id="username_field"
-                    label="Имя пользователя / ИН"
+                    label="Имя пользователя"
                     variant="standard"
                     type="text"
                     error={loginError}

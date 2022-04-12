@@ -19,7 +19,7 @@ function RegisterViewer(props) {
         let fields = JSON.parse(props.qFields)
 
         fields.forEach(rootQuestion => {
-            returnPage.push(RenderQuestion(rootQuestion, props.showAddButtons))
+            returnPage.push(RenderQuestion(rootQuestion, props.showAddButtons, props.register ? props.register.id.string : ""))
         });
     }
 
@@ -40,7 +40,7 @@ function RegisterViewer(props) {
     )
 }
 
-function RenderQuestion(question, showAddButtons) {
+function RenderQuestion(question, showAddButtons, registerId) {
 
     const isAdditional = () => {
         if (question.type === QuestionTypes.radio_button ||
@@ -55,7 +55,11 @@ function RenderQuestion(question, showAddButtons) {
 
     return (
         <div style={{ position: "relative", display: "flex", flexDirection: 'column' }} key={question.id.string + "r"}>
-            <ViewerButton key={question.id.string} parentRegister={JSON.stringify(question)} type={ButtonTypes.content}>
+            <ViewerButton
+                key={question.id.string}
+                parentRegister={JSON.stringify(question)}
+                type={ButtonTypes.content}
+                colorIt={question.id.string === registerId}>
                 {question.id.string}
             </ViewerButton>
 
@@ -65,11 +69,15 @@ function RenderQuestion(question, showAddButtons) {
                         {
                             question.answersList.map((item, index) => (
                                 !item.isQuestion ?
-                                    <ViewerButton key={item.id.string} parentRegister={JSON.stringify(item)} type={ButtonTypes.content}>
+                                    <ViewerButton
+                                        key={item.id.string}
+                                        parentRegister={JSON.stringify(item)}
+                                        type={ButtonTypes.content}
+                                        colorIt={item.id.string === registerId}>
                                         {item.id.string}
                                     </ViewerButton>
                                     :
-                                    RenderQuestion(item, showAddButtons)
+                                    RenderQuestion(item, showAddButtons, registerId)
                             ))
                         }
                         {showAddButtons ?
@@ -88,7 +96,8 @@ function RenderQuestion(question, showAddButtons) {
 const mapStateToProps = (state) => {
     return {
         qFields: state.constructor.questionnaire.fields,
-        showAddButtons: state.constructor.showAddButtons
+        showAddButtons: state.constructor.showAddButtons,
+        register: state.constructor.register
     }
 }
 
