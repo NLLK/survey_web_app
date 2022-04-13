@@ -1,4 +1,4 @@
-import { Paper, Typography } from "@mui/material"
+import { Button, Paper, Typography } from "@mui/material"
 import { connect, useDispatch } from "react-redux"
 import { QuestionTypes } from "../../Constructor/Models/Models"
 import { CheckBoxes } from "./Inputs/CheckBoxes"
@@ -43,6 +43,7 @@ function QuestionCard(props) {
     const dispatch = useDispatch()
 
     const [additionalCard, setAdditionalCard] = useState("")
+    const [redirect, setRedirect] = useState("")
 
     const [value, setValue] = useState(null)
 
@@ -53,6 +54,12 @@ function QuestionCard(props) {
             setAdditionalCard(idString)
         }
         else setAdditionalCard("")
+
+        if (currentReg.redirectTo.string !== null) {
+            setRedirect(currentReg.redirectTo.string)
+        }
+        else setRedirect("")
+
         setValue(e.target.value)
     }
 
@@ -60,6 +67,7 @@ function QuestionCard(props) {
         if (props.clear) {
             setValue(null)
             setAdditionalCard("")
+            setRedirect("")
             dispatch({ type: BROWSER_CLEARED })
         }
     }, [props.clear])
@@ -83,19 +91,38 @@ function QuestionCard(props) {
                                 >
                                     {props.question.answersList.map((item, index) => (
                                         !item.isAdditionalQuestion ?
-                                            <FormControlLabel
-                                                value={item.id.string}
-                                                control={
-                                                    <Radio id={item.id.string + ' ' + item.type} />
-                                                }
-                                                label={item.text}
-                                                key={index} />
+                                            <>
+                                                <FormControlLabel
+                                                    value={item.id.string}
+                                                    control={
+                                                        <Radio id={item.id.string + ' ' + item.type} />
+                                                    }
+                                                    label={item.text}
+                                                    key={index} sx={{ display: "inline" }} />
+                                            </>
                                             : <></>
                                     ))}
 
                                 </RadioGroup>
                             </FormControl>
                             {additionalCard ? <QuestionCard question={findRegisterInRegister(props.question, additionalCard)} /> : <></>}
+                            {
+                                redirect ?
+                                    <Paper sx={{ padding: "20px" }}>
+                                        <Button
+                                            onClick={() => {
+                                                document.getElementById(redirect+"mainDiv").scrollIntoView({block: "start", margin: "100px"})
+                                                window.scrollBy({
+                                                    top: -75,
+                                                    left: 0,
+                                                  });
+                                             }}
+                                        >
+                                            Перейти к вопросу {redirect}
+                                        </Button>
+                                    </Paper>
+                                    : <></>
+                            }
                             {props.question.answersList.map((item, index) => (
                                 item.isAdditionalQuestion ?
                                     <div style={{ marginTop: "20px" }}>

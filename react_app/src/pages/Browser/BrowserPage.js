@@ -1,11 +1,11 @@
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux"
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SideBarHandler from "../Common/SideBar/SideBarHandler";
 import { BLANK_MENU } from "../Common/SideBar/SideBarList";
 import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
-import { Questionnaire, QuestionTypes } from "../Constructor/Models/Models";
+import { QuestionTypes } from "../Constructor/Models/Models";
 import { GetQuestionnaireById } from "../SelectQuestionnaire/QuestionnaireActions";
 import QuestionCard from "./QuestionCard/QuestionCard";
 import { BROWSER_CLEAR, BROWSER_SET_QUESTIONNAIRE } from "./Reducer/BrowserReducerTypes"
@@ -108,7 +108,7 @@ function SendData(data, questionnaireId) {
 
 }
 
-function CollectDataFunction(questionnaire){
+function CollectDataFunction(questionnaire) {
     let data = []
 
     let questionnaireCopy = JSON.parse(JSON.stringify(questionnaire))
@@ -128,9 +128,6 @@ function CollectDataFunction(questionnaire){
 function BrowserPage(props) {
     let params = useParams();
     const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    const [refreshHandle, setRefreshHandle] = useState({})
 
     useEffect(() => {
         if (params.id > -1) {
@@ -154,26 +151,32 @@ function BrowserPage(props) {
 
     return (
         <div style={{ backgroundColor: "rgb(210 210 210 / 58%)" }}>
+            <SideBarHandler page_name={"Анкетирование: " + (props.questionnaire ? props.questionnaire.name : "")} menu_type={BLANK_MENU} />
             {/* <UserPermissionsWrapper permission={1} /> */}
             {
                 props.questionnaire ? (<>
-                    <SideBarHandler page_name={"Анкетирование: " + (props.questionnaire ? props.questionnaire.name : "")} menu_type={BLANK_MENU} />
                     {
                         props.questionnaire.fields !== '{}' ?
-                            <div style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                padding: "20px",
-                                width: "700px",
-                                marginLeft: "auto",
-                                marginRight: "auto"
-                            }}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    padding: "20px",
+                                    width: "750px",
+                                    marginLeft: "auto",
+                                    marginRight: "auto"
+
+                                }}>
                                 {
-                                    props.questionnaire.questionList !== undefined || props.questionnaire.questionList !== {}?
+                                    props.questionnaire.questionList !== undefined || props.questionnaire.questionList !== {} ?
                                         props.questionnaire.questionList.map((rootQuestion, index) =>
-                                            <div key={index} style={{ margin: "10px", width: "-webkit-fill-available"}}>
-                                                <QuestionCard question={rootQuestion} reset={false} />
+                                            <div
+                                                key={index}
+                                                id={rootQuestion.id.string + "mainDiv"}
+                                                style={{ margin: "10px", width: "-webkit-fill-available" }}
+                                            >
+                                                <QuestionCard question={rootQuestion}/>
                                             </div>
                                         ) : <></>
 
