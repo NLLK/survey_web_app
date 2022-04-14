@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Fab, ListItemIcon, Menu, MenuItem } from '@mui/material';
+import { Fab, ListItemIcon, Menu, MenuItem, TextField } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,7 +13,7 @@ import SideBarHandler from "../Common/SideBar/SideBarHandler";
 import UserPermissionsWrapper from "../Common/UserPermissionsWrapper";
 import { GetQuestionnaireById, QuestionnaireTemplate } from "../SelectQuestionnaire/QuestionnaireActions";
 
-import { CONSTRUCTOR_SET_QUESTIONNAIRE, CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS } from "./Reducer/ConstructorReducerTypes";
+import { CONSTRUCTOR_EDIT_INTRO, CONSTRUCTOR_SET_QUESTIONNAIRE, CONSTRUCTOR_TOOGLE_SHOW_ADD_BUTTONS } from "./Reducer/ConstructorReducerTypes";
 
 import { Questionnaire } from "./Models/Models";
 
@@ -28,25 +28,20 @@ export default function ConstructorPage(props) {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
+	const [intro, setIntro] = useState("")
+
 	const questionnaire = useSelector(state => state.constructor.questionnaire)
 	const showAddButtons = useSelector(state => state.constructor.showAddButtons)
 
 	useEffect(() => {
-		let id = -1;
-		if (params.id === undefined && props.id === undefined)
-			navigate('/')//TODO: add error page
-		else if (params.id !== undefined) {
-			id = params.id
-		}
-		else {
-			id = props.id
-		}
+		let id = params.id
 
 		if (id > -1) {
 			getQuestionnaire(id)
 		}
+		console.log('aaa')
 
-	}, [navigate, params, props])
+	}, [params, props])
 
 	const getQuestionnaire = async (id) => {
 		const qInfo = await GetQuestionnaireById(id)
@@ -79,12 +74,24 @@ export default function ConstructorPage(props) {
 			{/* <UserPermissionsWrapper permission={2} /> */}
 			{
 				questionnaire ? <>
-					<Notifier/>
+					<Notifier />
 					<SideBarHandler page_name={"Конструктор анкет: " + questionnaire.name} width={300} menu_type={CONSTRUCTOR_MENU} />
 					<div className="constructor">
 						<div className="c-left-part">
 							<div className="c-registerViewer" style={{ overflow: "auto" }} onContextMenu={handleContextMenu}>
 								<div >
+									<TextField
+										label="Вступление: "
+										minRows={2}
+										multiline
+										value={intro}
+										onChange={(e)=>{ 
+											setIntro(e.target.value)
+											dispatch({type: CONSTRUCTOR_EDIT_INTRO, payload: intro})
+										}}
+										sx={{ marginBottom: "15px", marginTop: "10px", width: "50%" }}>
+										
+									</TextField>
 									<RegisterViewer>
 
 									</RegisterViewer>

@@ -20,7 +20,6 @@ class GetQuestionnaire(APIView):
     permission_classes = [AllowAny]  # IsAuthenticated
 
     def post(self, request, format=None):
-        print(request.data)
         objects = Questionnaire.objects.get(id=request.data['id'])
         serializer = QuestionnaireSerializer(objects)
         content = serializer.data
@@ -61,6 +60,7 @@ class EditQuestionnaire(APIView):
             record.name = serializer.validated_data['name']
             record.comment = serializer.validated_data['comment']
             record.fields = serializer.validated_data['fields']
+            record.introduction = serializer.validated_data['introduction']
 
             record.save()
             return Response(status=status.HTTP_202_ACCEPTED)

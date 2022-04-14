@@ -24,6 +24,7 @@ class QuestionnaireEditSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=150)
     comment = serializers.CharField(max_length=300, allow_blank=True)
     fields = serializers.CharField(required=False, default="{}")
+    introduction = serializers.CharField()
     class Meta:
         model = Questionnaire
-        fields = ('id', 'name', 'comment', 'fields')
+        fields = ('id', 'name', 'comment', 'fields','introduction')
