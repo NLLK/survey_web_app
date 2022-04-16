@@ -40,12 +40,12 @@ export default function ConstructorPage(props) {
 			getQuestionnaire(id)
 		}
 		console.log('aaa')
-
 	}, [params, props])
 
 	const getQuestionnaire = async (id) => {
 		const qInfo = await GetQuestionnaireById(id)
 		dispatch({ type: CONSTRUCTOR_SET_QUESTIONNAIRE, payload: qInfo })
+		setIntro(qInfo.introduction)
 	}
 
 
@@ -86,6 +86,7 @@ export default function ConstructorPage(props) {
 										multiline
 										value={intro}
 										onChange={(e)=>{ 
+											console.log('a')
 											setIntro(e.target.value)
 											dispatch({type: CONSTRUCTOR_EDIT_INTRO, payload: intro})
 										}}

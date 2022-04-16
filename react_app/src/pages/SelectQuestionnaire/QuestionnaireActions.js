@@ -19,6 +19,7 @@ export const GetQuestionnaireById = async (qId) => {
             q.name = dataR.name
             q.comment = dataR.comment
             q.fields = dataR.fields
+            q.introduction = dataR.introduction
 
             console.log('got questionnaire', q)
         })

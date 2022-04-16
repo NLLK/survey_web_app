@@ -43,7 +43,7 @@ class ExcelFunctions():
         worksheet = workbook.add_worksheet()
 
         collumns = ExcelFunctions.getCollumnNamesFromQuestionnaire(questionnaireFields)
-
+        collumns.append('комментарий')
         index = 0
         for col in collumns:
             worksheet.write(0, index, col)

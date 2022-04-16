@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Paper, TextField, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux"
 import { useParams } from "react-router-dom";
@@ -142,6 +142,9 @@ function BrowserPage(props) {
 
     const CollectData = () => {
         let data = CollectDataFunction(props.questionnaire)
+
+        data.push(dataObject('comment', document.getElementById("additionalCommentTextField").value))
+
         SendData(data, props.questionnaire.id)
 
         dispatch({ type: BROWSER_CLEAR })
@@ -168,6 +171,19 @@ function BrowserPage(props) {
                                     marginRight: "auto"
 
                                 }}>
+                                <Paper
+                                    style={{
+                                        margin: "10px",
+                                        padding: "20px",
+                                        width: "-webkit-fill-available"
+                                    }}>
+                                    <Typography>
+                                        Вступление:
+                                    </Typography>
+                                    <Typography>
+                                        {props.questionnaire.introduction}
+                                    </Typography>
+                                </Paper>
                                 {
                                     props.questionnaire.questionList !== undefined || props.questionnaire.questionList !== {} ?
                                         props.questionnaire.questionList.map((rootQuestion, index) =>
@@ -176,11 +192,25 @@ function BrowserPage(props) {
                                                 id={rootQuestion.id.string + "mainDiv"}
                                                 style={{ margin: "10px", width: "-webkit-fill-available" }}
                                             >
-                                                <QuestionCard question={rootQuestion}/>
+                                                <QuestionCard question={rootQuestion} />
                                             </div>
                                         ) : <></>
 
                                 }
+                                <Paper
+                                    style={{
+                                        margin: "10px",
+                                        padding: "20px",
+                                        width: "-webkit-fill-available"
+                                    }}>
+                                    <TextField label={"Дополнительный комментарий:"}
+                                        fullWidth
+                                        multiline
+                                        minRows={2}
+                                        id={"additionalCommentTextField"}
+                                    />
+
+                                </Paper>
                                 <div style={{ alignSelf: "end", margin: "10px", marginTop: "25px" }}>
                                     <Button variant="contained" onClick={CollectData}>Сохранить</Button>
                                 </div>

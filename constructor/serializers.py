@@ -1,4 +1,6 @@
+from email.policy import default
 from django.core.validators import MaxValueValidator, MinValueValidator
+from pkg_resources import require
 from rest_framework import serializers
 from.models import Questionnaire
 
@@ -8,6 +10,7 @@ class QuestionnaireSerializer(serializers.ModelSerializer):
     comment = serializers.CharField(max_length=300, allow_blank=True)
     fields = serializers.CharField(required=False, default="{}")
     hidden = serializers.IntegerField(required = False, default = 0)
+    introduction = serializers.CharField(required = False, default = "")
     class Meta:
         model = Questionnaire
         fields = "__all__"

@@ -16,11 +16,10 @@ class Questionnaire(models.Model):
     fields = models.TextField()
     createdDate = models.DateField(editable=False)
     lastEdited = models.DateTimeField()
-    hidden = models.PositiveSmallIntegerField(validators=[RegexValidator(regex = "[01]")])
+    hidden = models.PositiveSmallIntegerField(validators=[RegexValidator(regex = "[01]")], default=0)
 
     introduction = models.TextField(blank=True)
     editing = models.PositiveSmallIntegerField(validators=[RegexValidator(regex = "[01]")])
-    userComment = models.TextField(blank=True)
 
     def save(self, *args, **kwargs):
         if not self.id:

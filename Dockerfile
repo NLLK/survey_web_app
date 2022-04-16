@@ -4,3 +4,4 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /django_project
 RUN pip install django djangorestframework
 COPY . ./code
+#надо создать папку media 
