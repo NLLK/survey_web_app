@@ -48,10 +48,10 @@ class CreateQuestionnaire(APIView):
 
 
 class EditQuestionnaire(APIView):
-    permission_classes = [AllowAny]#IsAuthenticated
+    permission_classes = [AllowAny]  # IsAuthenticated
 
     def post(self, request, format=None):
-        serializer = QuestionnaireEditSerializer(data=request.data) #full
+        serializer = QuestionnaireEditSerializer(data=request.data)  # full
 
         if (serializer.is_valid()):
             id = serializer.validated_data['id']
@@ -73,4 +73,17 @@ class DeleteQuestionnaire(APIView):
 
     def post(self, request, format=None):
         Questionnaire.objects.filter(id=request.data['id']).delete()
+        return Response(status.HTTP_200_OK)
+
+
+class ToogleQuestionnaire(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        questionnaire = Questionnaire.objects.get(id=request.data['id'])
+        if questionnaire.hidden == 0:
+            questionnaire.hidden = 1
+        else:
+            questionnaire.hidden = 0
+        questionnaire.save()
         return Response(status.HTTP_200_OK)

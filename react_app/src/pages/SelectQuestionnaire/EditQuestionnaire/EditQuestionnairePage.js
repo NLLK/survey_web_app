@@ -16,6 +16,8 @@ import { GetQuestionnaireById } from "../QuestionnaireActions";
 import { Questionnaire } from "../../Constructor/Models/Models";
 import { connect, useDispatch } from "react-redux";
 
+import { toogle } from "../../Common/Utils";
+
 export default function EditQuestionnairePage(props) {
     let params = useParams();
     const navigate = useNavigate()
@@ -30,6 +32,7 @@ export default function EditQuestionnairePage(props) {
     qInfoDefault.comment = ""
 
     const [qInfo, setQInfo] = useState(qInfoDefault)
+    const [hidden, setHidden] = useState(0)
 
     useEffect(() => {
         getQuestionnaire(params.id)
@@ -38,6 +41,7 @@ export default function EditQuestionnairePage(props) {
     const getQuestionnaire = async (id) => {
         const qInfo = await GetQuestionnaireById(id)
         setQInfo(qInfo)
+        setHidden(qInfo.hidden)
     }
 
     const editQuestionnaire = () => {
@@ -77,6 +81,16 @@ export default function EditQuestionnairePage(props) {
             });
     }
 
+    const toogleQuestionnaire = (e) => {
+        let data = {
+            id: qInfo.id
+        }
+        axios.post("/api/constructor/toogleQuestionnaire/", data)
+            .then(()=>{
+                hidden === 0 ? setHidden(1) : setHidden(0)
+            })
+    }
+
     const buttonStyle = {
         marginRight: '5px'
     }
@@ -107,45 +121,51 @@ export default function EditQuestionnairePage(props) {
             <UserPermissionsWrapper permission={2} />
             <SideBarHandler page_name="Создать анкету" menu_type={BLANK_MENU} />
             <div className="center">
-                    <Stack direction="column" justifyContent="center" spacing={2}>
-                        <h1>Редактирование анкеты: </h1>
-                        <TextField
-                            id="name"
-                            label="Название анкеты: "
-                            type="text"
+                <Stack direction="column" justifyContent="center" spacing={2}>
+                    <h1>Редактирование анкеты: </h1>
+                    <TextField
+                        id="name"
+                        label="Название анкеты: "
+                        type="text"
 
-                            value={qInfo.name}
-                            onChange={handleChange}
-                            error={nameError}
-                            helperText={nameHelperText === "" ? "" : nameHelperText}
-                        />
-                        <TextField
-                            id="comment"
-                            label="Описание: "
-                            multiline
-                            error={commentError}
-                            helperText={commentHelperText === "" ? "" : commentHelperText}
-                            value={qInfo.comment}
-                            onChange={handleChange}
-                        />
-                        <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            spacing={2}
+                        value={qInfo.name}
+                        onChange={handleChange}
+                        error={nameError}
+                        helperText={nameHelperText === "" ? "" : nameHelperText}
+                    />
+                    <TextField
+                        id="comment"
+                        label="Описание: "
+                        multiline
+                        error={commentError}
+                        helperText={commentHelperText === "" ? "" : commentHelperText}
+                        value={qInfo.comment}
+                        onChange={handleChange}
+                    />
+                    <Button
+                        variant="outlined"
+                        onClick={toogleQuestionnaire}
                         >
-                            <Button
-                                variant="outlined"
-                                style={buttonStyle}
-                                onClick={() => { navigate(-1) }}
-                            >Отмена</Button>
-                            <Button
-                                variant="contained"
-                                style={buttonStyle}
-                                onClick={editQuestionnaire}
-                            >Изменить</Button>
-                        </Stack>
-                    </Stack> 
+                        {hidden === 0 ? "Скрыть" : "Отобразить"} анкету
+                    </Button>
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2}
+                    >
+                        <Button
+                            variant="outlined"
+                            style={buttonStyle}
+                            onClick={() => { navigate(-1) }}
+                        >Отмена</Button>
+                        <Button
+                            variant="contained"
+                            style={buttonStyle}
+                            onClick={editQuestionnaire}
+                        >Изменить</Button>
+                    </Stack>
+                </Stack>
 
             </div>
         </>
