@@ -1,1 +1,1 @@
-Figma Design is here: https://www.figma.com/file/zy6Rssv24yhtTMzBijoR8z/MarketingApp
+It's a single-page Web app developed for local company and used as my diploma work. Written with React JS as front-end side and Django as back-end side. It's my first big experience with Web applications.
